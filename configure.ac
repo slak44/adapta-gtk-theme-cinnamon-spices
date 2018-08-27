@@ -35,7 +35,7 @@ ADAPTA_OPTION([OPENBOX],      [openbox],      [Openbox],           [disable])
 ADAPTA_OPTION([CHROME_LEGACY],[chrome_legacy],[Chrome(ium)-legacy],[disable])
 ADAPTA_OPTION([PLANK],        [plank],        [Plank],             [disable])
 ADAPTA_OPTION([TELEGRAM],     [telegram],     [Telegram],          [disable])
-DAPTA_OPTION([TWEETDECK],    [tweetdeck],    [Tweetdeck-Colordeck], [disable])
+ADAPTA_OPTION([TWEETDECK],    [tweetdeck],    [Tweetdeck-Colordeck], [disable])
 
 PKG_PROG_PKG_CONFIG
 AS_IF([test -z "$PKG_CONFIG"], [AC_MSG_ERROR(['pkg-config' not found.])])
