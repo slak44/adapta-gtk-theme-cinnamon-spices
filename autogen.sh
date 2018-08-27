@@ -19,5 +19,6 @@ if test -z "${NOCONFIGURE}"; then
                       --disable-chrome-legacy \
                       --disable-plank \
                       --disable-telegram \
+                      --disable-tweetdeck \
                       "$@"
 fi

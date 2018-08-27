@@ -20,6 +20,7 @@
 
 $font-family: Roboto, Noto Sans, Sans-Serif;
 $font-family-for-pass-char: Noto Sans, Sans-Serif;
+$font-family-for-ornament: Sans-Serif;
 
 stage {
   @include fontscaling($ref_size);
@@ -152,12 +153,22 @@ StScrollBar {
   height: 16px;
   color: $accent_color;
   -slider-height: 2px;
-  -slider-background-color: $outline_fill_color; // background of the trough
-  -slider-border-color: transparent; // trough border color
+  -slider-background-color: $outline_fill_color;  // background of the trough
+  -slider-border-color: transparent;              // trough border color
   -slider-active-background-color: $accent_color; // active trough fill
-  -slider-active-border-color: transparent; // active trough border
+  -slider-active-border-color: transparent;       // active trough border
   -slider-border-width: 0;
   -slider-handle-radius: 8px;
+  // barlevels are for >= 3.29.90
+  -barlevel-height: 2px;
+  -barlevel-background-color: $outline_fill_color;
+  -barlevel-border-color: transparent;
+  -barlevel-active-background-color: $accent_color;
+  -barlevel-active-border-color: transparent;
+  -barlevel-overdrive-color: $destructive_color;
+  -barlevel-overdrive-border-color: transparent;
+  -barlevel-overdrive-separator-width: 2px;
+  -barlevel-border-width: 0;
 }
 
 
@@ -766,10 +777,14 @@ $extra_spacing: 2.5px;
   &-icon { icon-size: 16px; }
 
   &-ornament {
-    width: 1.2em;
+    @include fontscaling($ref_size * 1.1);
+    width: 1.1em; // protect the region
     height: 0; // trick for minimum separator-menu-item height
+    padding-top: 1.3px; // not need to scale
     color: $selected_bg_color;
     text-align: right;
+    font-family: $font-family-for-ornament;
+    font-weight: 700;
   }
 }
 
@@ -859,6 +874,17 @@ $extra_spacing: 2.5px;
   .level-bar {
     border-radius: 0;
     background-color: $success_color;
+  }
+
+  .level { // >= 3.29.90
+    -barlevel-height: 3px;
+    // FIXME: above 'background-color' property rendered correct trough
+    // colour already, so keep -background-color style-property transparent
+    -barlevel-background-color: transparent;
+    -barlevel-active-background-color: $success_color;
+    -barlevel-overdrive-color: $destructive_color;
+    -barlevel-overdrive-separator-width: 3px;
+    -barlevel-border-width: 0;
   }
 }
 
@@ -1050,6 +1076,9 @@ $extra_spacing: 2.5px;
   transition-timing-function: $slope_slow;
   transition-duration: $duration_long;
 
+  // NEEDS_REVIEW
+  // font-feature-settings: "tnum"; // >= 3.29
+
   &:overview,
   &.unlock-screen,
   &.login-screen,
@@ -1180,7 +1209,9 @@ $extra_spacing: 2.5px;
   .panel-status-indicators-box,
   .panel-status-menu-box { spacing: 0; }
 
-  .screencast-indicator { color: $error_color; }
+  .screencast-indicator { color: $destructive_color; }
+
+  .remote-access-indicator { color: $warning_color; } // > 3.29.4
 
   &.solid { // solid-mode of TopBar
     background-color: $panel_bg_color; // fill whole area
@@ -1391,6 +1422,10 @@ $extra_spacing: 2.5px;
   border-radius: 100px;
   text-align: center;
   transition-duration: $duration_short;
+
+  // NEEDS_REVIEW
+  // font-feature-settings: "tnum"; // >= 3.29
+
   &:hover,
   &:focus { background-color: $semi_fill_color; }
   &:active,
@@ -1563,7 +1598,7 @@ $extra_spacing: 2.5px;
 
     &:hover,
     &:focus {
-      background-color: mix($accent_color, $base_color, 13%); // use opaque
+      background-color: mix($fg_color, $base_color, 13%); // use opaque
       color: $fg_color;
 
       .message-icon-bin > StIcon,
@@ -1576,7 +1611,7 @@ $extra_spacing: 2.5px;
       }
     }
     &:active {
-      background-color: mix($accent_color, $base_color, 25%);
+      background-color: mix($fg_color, $base_color, 25%);
       color: $fg_color;
 
       .message-icon-bin > StIcon,
@@ -1727,8 +1762,11 @@ $extra_spacing: 2.5px;
     url("resource:///org/gnome/shell/theme/process-working.svg"));
   padding: if($eta == false, 0 10px, 0 6px);
 
-  // only LR padding
-  StLabel { padding: if($eta == false, 0 4px, 0 2px); }
+  // LR padding and make more gap between label and spinner
+  StLabel {
+    &:ltr { padding: if($eta == false, 0 10px 0 3px, 0 6px 0 2px); }
+    &:rtl { padding: if($eta == false, 0 3px 0 10px, 0 2px 0 6px); }
+  }
 
   .label-shadow { color: transparent; }
 }
@@ -1744,6 +1782,7 @@ $extra_spacing: 2.5px;
   border-radius: 100px;
   border: none;
   color: $secondary_accent_label_color;
+  -st-icon-style: symbolic; // >= 3.29.90
   &:hover,
   &:focus {
     padding: if($eta == false, 16px, 10px);
@@ -1925,12 +1964,18 @@ $extra_spacing: 2.5px;
 }
 
 .window-caption { // hovered tooltips
+  max-width: 75em; // set horizontal limit for damned looong web page titles
   padding: if($eta == false, 0.6em 1.2em 0.7em, 0.4em 0.9em 0.5em);
   border-radius: 100px;
   border-top: 1px solid $borders_highlight;
   color: $osd_fg_color;
   background-color: $panel_bg_color;
   box-shadow: $z-depth-3;
+  // FIXME: Still label width computing is quite weird in Wayland session
+  // (brings unwatened larger L/R padding than we set) though, at least
+  // we should align StLabel in the center of finalized widget width
+  // as possible as we can...
+  text-align: center; // enforce label centering for Wayland session
 }
 
 // Search entry
@@ -2311,7 +2356,8 @@ $provider_details_width: 120px;
 
     &:checked .overview-icon,
     &:checked:hover .overview-icon {
-      background-color: $hidden_fill_color;
+      background-color: shellopacity($osd_indicator_color, 0.12);
+      color: $osd_indicator_color;
       box-shadow: $empty_shadow;
       transition-duration: 0s;
     }
@@ -2326,38 +2372,10 @@ $provider_details_width: 120px;
 }
 
 .show-apps {
-  .show-apps-icon {
-    border: none;
-    background-image:
-      if($gdm == false,
-      url("assets/show-apps.svg"),
-      url("resource:///org/gnome/shell/theme/assets/show-apps.svg"));
-    background-size: contain;
-    color: transparent;
-    transition-duration: 0s; // unset transitions
-    -st-background-image-shadow: $z-depth-1;
-  }
+  .show-apps-icon { border: none; }
 
-  &:hover .show-apps-icon,
-  &:active .show-apps-icon,
-  &:focus .show-apps-icon {
-    color: transparent;
-    background-image:
-      if($gdm == false,
-      url("assets/show-apps-hover.svg"),
-      url("resource:///org/gnome/shell/theme/assets/show-apps-hover.svg"));
-    transition-duration: 0s;
-    -st-background-image-shadow: $z-depth-1;
-  }
-  &:checked .show-apps-icon {
-    color: transparent;
-    background-image:
-      if($gdm == false,
-      url("assets/show-apps-checked.svg"),
-      url("resource:///org/gnome/shell/theme/assets/show-apps-checked.svg"));
-    transition-duration: 0s;
-    -st-background-image-shadow: $z-depth-2;
-  }
+  &:checked .show-apps-icon,
+  &:checked:hover .show-apps-icon { color: $osd_indicator_color; }
 }
 
 // Collections
@@ -2723,23 +2741,24 @@ $provider_details_width: 120px;
 // On-screen Keyboard
 #keyboard { background-color: $panel_tertiary_fill_color; }
 
-.key-container { // NEEDS_REVIEW: upcoming
-  padding: 4px;
-  spacing: 4px;
+.key-container { // current
+  // no need to set variant specific spacing
+  padding: $ref_size * 0.3;
+  spacing: $ref_size * 0.3;
 }
 
 .keyboard {
-  // -layout and -row will become legacy
-  &-layout {
-    spacing: if($eta == false, 12px, 8px);
-    padding: if($eta == false, 12px, 8px);
+  &-layout { // legacy
+    spacing: $ref_size * 0.3;
+    padding: $ref_size * 0.3;
   }
 
-  &-row { spacing: if($eta == false, 12px, 8px); }
+  &-row { spacing: $ref_size * 0.3; } // legacy
 
   &-key {
-    min-height: 2em;
-    min-width: 2em;
+    min-height: $ref_size * 2;
+    min-width: $ref_size * 2;
+    padding: 0;
     border-radius: 2px;
     border: none;
     background-color: $osd_bg_color;
@@ -2747,7 +2766,7 @@ $provider_details_width: 120px;
     box-shadow: $empty_shadow;
     text-shadow: none;
     icon-shadow: none;
-    font-size: 13px * 2; // use unscalable unit
+    font-size: $ref_size * 2; // use unscalable unit
     font-weight: 700;
     transition-timing-function: $slope_medium;
     &:focus,
@@ -2770,7 +2789,7 @@ $provider_details_width: 120px;
 
     &.default-key {
       background-color: mix($osd_bg_color, $panel_bg_color, 75%);
-      background-size: 13px * 2;
+      background-size: $ref_size * 2;
       color: $osd_secondary_fg_color;
       &:focus,
       &:hover,
@@ -2876,7 +2895,7 @@ $provider_details_width: 120px;
     -arrow-border-color: transparent;
     -arrow-base: 0;
     -arrow-rise: 0;
-    -boxpointer-gap: if($eta == false, 12px, 8px);
+    -boxpointer-gap: $ref_size * 0.3;
     background-color: $suggested_color;
     color: $selected_fg_color;
     box-shadow: $z-depth-2;
@@ -2887,7 +2906,7 @@ $provider_details_width: 120px;
 .word-suggestions { // NEEDS_REVIEW: upcoming
   @include fontscaling($ref_size * 1.3);
   min-height: 1.6em;
-  spacing: if($eta == false, 12px, 8px);
+  spacing: $ref_size * 0.3;
   font-weight: 500;
 }
 
@@ -3061,8 +3080,8 @@ $provider_details_width: 120px;
   font-weight: 700;
   text-align: left;
 
-  &:ltr { padding-left: 1.5em; }
-  &:rtl { padding-right: 1.5em; }
+  &:ltr { padding-left: 1em; }
+  &:rtl { padding-right: 1em; }
 }
 
 .login-dialog {
@@ -3085,11 +3104,14 @@ $provider_details_width: 120px;
   &-not-listed-button {
     // this class seems almost meaningless
     margin: 12px 0 0;
+
+    &:ltr { margin-right: 4px; }
+    &:rtl { margin-left: 4px; }
   }
 
   &-not-listed-label {
     @include fontscaling($ref_size * 0.9);
-    padding: 4px 4px 5px;
+    padding: 4px 0 5px;
     border-radius: 2px;
     color: $inverted_secondary_accent_label_color;
     font-weight: 500;
@@ -3113,7 +3135,6 @@ $provider_details_width: 120px;
 
   &-user-list {
     width: 23em;
-    padding: 4px;
     spacing: 12px;
 
     &:expanded .login-dialog-user-list-item {
@@ -3160,8 +3181,9 @@ $provider_details_width: 120px;
     border-radius: 2px;
     transition-duration: $duration_short;
 
-    &:ltr { padding-right: 1em; }
-    &:rtl { padding-left: 1em; }
+    // exclude timed-login-indicator
+    &:ltr .user-widget { padding-right: 1em; }
+    &:rtl .user-widget { padding-left: 1em; }
 
     .login-dialog-username, // actual label colour
     .user-widget-label { color: $osd_secondary_fg_color; }
@@ -3201,13 +3223,13 @@ $provider_details_width: 120px;
     }
 
     .login-dialog-timed-login-indicator {
-      height: 2px;
-      margin: 2px 0 0 0;
-      background-color: $osd_fg_color;
+      height: 4px;
+      margin: 4px 0 0 0;
+      background-color: $secondary_accent_color;
     }
 
     &:focus .login-dialog-timed-login-indicator {
-      background-color: $osd_fg_color;
+      background-color: $accent_color;
     }
   }
 }
@@ -3272,6 +3294,9 @@ $provider_details_width: 120px;
     padding-bottom: 1.5em;
     color: $osd_fg_color;
     text-align: center;
+
+    // NEEDS_REVIEW
+    // font-feature-settings: "tnum"; // >= 3.29
 
     &-time {
       @include fontscaling($ref_size * 8.4);

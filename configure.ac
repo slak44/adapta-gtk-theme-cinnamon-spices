@@ -1,5 +1,5 @@
 m4_define([adapta_major_version], [3])
-m4_define([adapta_minor_version], [93])
+m4_define([adapta_minor_version], [94])
 m4_define([adapta_micro_version], [0])
 m4_define([adapta_version], [adapta_major_version.adapta_minor_version.adapta_micro_version])
 m4_define([adapta_git_url], [https://github.com/adapta-project/adapta-gtk-theme])
@@ -35,6 +35,7 @@ ADAPTA_OPTION([OPENBOX],      [openbox],      [Openbox],           [disable])
 ADAPTA_OPTION([CHROME_LEGACY],[chrome_legacy],[Chrome(ium)-legacy],[disable])
 ADAPTA_OPTION([PLANK],        [plank],        [Plank],             [disable])
 ADAPTA_OPTION([TELEGRAM],     [telegram],     [Telegram],          [disable])
+DAPTA_OPTION([TWEETDECK],    [tweetdeck],    [Tweetdeck-Colordeck], [disable])
 
 PKG_PROG_PKG_CONFIG
 AS_IF([test -z "$PKG_CONFIG"], [AC_MSG_ERROR(['pkg-config' not found.])])
@@ -106,9 +107,11 @@ AC_MSG_RESULT([
         | Supported Gtk+ Version
         -----------------------------------------------------------
 
+         Gtk+ 2.0:               always
          Gtk+ 3.18:              $ENABLE_GTK_LEGACY
          Gtk+ 3.20:              always
          Gtk+ 3.22:              always
+         Gtk+ 3.24:              always
          Gtk+ 4.0:               $ENABLE_GTK_NEXT
 
         -----------------------------------------------------------
@@ -131,6 +134,7 @@ AC_MSG_RESULT([
          Chrome(ium)-legacy:     $ENABLE_CHROME_LEGACY
          Plank:                  $ENABLE_PLANK
          Telegram:               $ENABLE_TELEGRAM
+         Tweetdeck-Colordeck:    $ENABLE_TWEETDECK
 
         ===========================================================
                              =>> run 'make' and 'sudo make install'

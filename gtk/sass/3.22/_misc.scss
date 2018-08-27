@@ -42,20 +42,29 @@ panel-toplevel > grid.horizontal > widget > widget {
 }
 
 .gnome-panel-menu-bar,
-panel-applet > menubar,
+gp-applet > menubar,
 #clock-applet-button { @extend %gnome_panel_menubar; }
 
 .gnome-panel-menu-bar > menuitem,
-panel-applet menubar > menuitem {
+gp-applet menubar > menuitem {
   @extend %gnome_panel_menuitem;
+
+  .vertical & { padding: rem(4px, $sw: 1.0) 0; }
+
+  @each $_layout, $_line in (top, 0 2px),
+                            (left, 2px 0),
+                            (right, -2px 0) {
+    .#{$_layout} & {
+      &:hover { box-shadow: inset #{$_line} $selected_bg_color; }
+    }
+  }
 }
 
-wnck-tasklist > button.toggle,
 #tasklist-button,
 #clock-applet-button,
 #showdesktop-button {
   @extend %button_flat_normal;
-  padding: 0px rem(4px, $sw: 1.0);
+  padding: 0 rem(4px, $sw: 1.0);
   border: none;
   border-radius: 0;
   color: $inverted_fg_color;
@@ -66,15 +75,25 @@ wnck-tasklist > button.toggle,
     box-shadow: inset 0 -2px $outline_track_color;
   }
   &:checked,
-  &:hover:checked,
-  &:disabled:checked { // 'checked' = 'active'
+  &:hover:checked {
     color: $selected_fg_color;
     background-color: transparent;
     box-shadow: inset 0 -2px $selected_bg_color;
   }
+
+  .vertical & { padding: rem(4px, $sw: 1.0) 0; }
+
+  @each $_layout, $_line in (top, 0 2px),
+                            (left, 2px 0),
+                            (right, -2px 0) {
+    .#{$_layout} & {
+      &:hover { box-shadow: inset #{$_line} $outline_track_color; }
+      &:checked,
+      &:hover:checked { box-shadow: inset #{$_line} $selected_bg_color; }
+    }
+  }
 }
 
-wnck-tasklist > button.toggle,
 #tasklist-button {
   &,
   label { font-weight: 400; }
@@ -96,10 +115,7 @@ wnck-pager {
   }
 }
 
-na-tray-applet {
-  -NaTrayApplet-icon-padding: 0 2;
-  -NaTrayApplet-icon-size: 24;
-}
+na-tray-applet { -NaTrayApplet-icon-padding: 2px; }
 
 gp-arrow-button {
   min-width: rem(20px);
@@ -266,7 +282,27 @@ list.tweak-group-startup {
           }
         }
       }
+
+      // raised 'plus' button
+      > button { margin: 0 rem(8px) 8px; } // prevent truncated drop-shadow
     }
+  }
+}
+
+headerbar.titlebar.tweak-titlebar {
+  &-left,
+  &-right {
+    // re-define bottom margin
+    > .title { margin: 0 0 rem(1.3px, $sw: 1.0); }
+  }
+}
+
+dialog.background.csd > box.dialog-vbox.vertical {
+  > searchbar + scrolledwindow > viewport.frame > list {
+    // FIXME: who needed hard-coded 5px outer margins
+    // causing weird pitch black band?
+    border: 1px solid $solid_light_borders_color; // use opaque
+    box-shadow: 0 0 0 5px $bg_color;
   }
 }
 
@@ -294,17 +330,16 @@ list.tweak-group-startup {
   &:not(.solid) {
     border: none;
     border-style: solid;
-    border-width: 10px;
-    border-radius: 2px;
+    border-width: 11px;
     @if $variant == light {
       border-image: -gtk-scaled(url("assets/osd-shadow.png"),
                                 url("assets/osd-shadow@2.png"))
-                    10 / 10px stretch;
+                    11 / 11px stretch;
     }
     @else {
       border-image: -gtk-scaled(url("assets/osd-shadow-dark.png"),
                                 url("assets/osd-shadow-dark@2.png"))
-                    10 / 10px stretch;
+                    11 / 11px stretch;
     }
   }
 
@@ -357,17 +392,16 @@ list.tweak-group-startup {
   &:not(.solid) {
     border: none;
     border-style: solid;
-    border-width: 10px;
-    border-radius: 2px;
+    border-width: 11px;
     @if $variant == light {
       border-image: -gtk-scaled(url("assets/osd-shadow.png"),
                                 url("assets/osd-shadow@2.png"))
-                    10 / 10px stretch;
+                    11 / 11px stretch;
     }
     @else {
       border-image: -gtk-scaled(url("assets/osd-shadow-dark.png"),
                                 url("assets/osd-shadow-dark@2.png"))
-                    10 / 10px stretch;
+                    11 / 11px stretch;
     }
   }
 
@@ -486,6 +520,17 @@ list.tweak-group-startup {
     padding-bottom: 0;
   }
 
+  > headerbar.titlebar { // radial-progress widget
+    revealer > button.popup.toggle > widget { color: $accent_color; }
+  }
+
+  $child_gap: if($ref_weight < 1.0, 4px, 6px);
+  $container_padding: $child_gap ($child_gap * 1.5);
+  $label_margin: ($child_gap / 2) (-$child_gap * 1.5) 0;
+  $label_padding: if($ref_weight < 1.0,
+                  ($child_gap - 1px) $child_gap $child_gap,
+                  ($child_gap - 3px) $child_gap ($child_gap - 2px));
+
   flowboxchild { // experimental 'new view' mode
     margin: unset; // unset spacing first
     padding: unset;
@@ -494,22 +539,22 @@ list.tweak-group-startup {
 
     * { transition-duration: 0s; } // unset child transitions
 
-    > widget box.icon {
+    box.icon {
       &-item-background {
+        padding: $container_padding;
         border: 0 none transparent;
 
-        > label {
-          padding: if($ref_weight < 1.0, 2px 4px 3px, 3px 6px 4px);
+        label {
+          margin: $label_margin;
+          padding: $label_padding;
           border-radius: 2px;
           background-color: transparent;
         }
       }
 
       &-background { // use solid black backgrounds
-        // gap between images and labels
-        margin: if($ref_weight < 1.0, 3px 0, 4px 0);
         border: 0 none transparent;
-        border-radius: 0;
+        border-radius: 2px;
         background-color: black;
       }
     }
@@ -517,14 +562,15 @@ list.tweak-group-startup {
     &:selected {
       background-color: transparent; // unset selection colour
 
-      > widget box.icon {
-        &-item-background > label {
+      box.icon {
+        &-item-background label {
           background-color: $selected_bg_color;
           color: $selected_fg_color;
         }
 
         // tone up image node
-        &-background > image { -gtk-icon-effect: highlight; }
+        &-background image,
+        &-item-background image { -gtk-icon-effect: highlight; }
       }
     }
   }
@@ -806,7 +852,7 @@ stack#conversation_viewer {
 
       &:not(.geary-expanded) { // retracted headers
         grid.geary-headers.vertical {
-          label { @extend .dim-label; } // tone down
+          label { @extend %dim_label; } // tone down
         }
       }
 
@@ -1784,9 +1830,7 @@ popover {
 
 greeter > box.vertical > stack { // draw fake-shadows
   > box.vertical > stack > box.vertical > scrolledwindow,
-  > stack > createprojectwidget > scrolledwindow,
-  > stack > gitclonewidget > overlay > box.vertical,
-  > stack > flatpakclonewidget > overlay > box.vertical {
+  createprojectwidget > scrolledwindow {
     background-image: if($variant == light, $fake-shadow-light,
                                             $fake-shadow-dark);
   }
@@ -2312,6 +2356,11 @@ terminal-window {
     color: $inverted_fg_color;
   }
 
+  vte-terminal,
+  notebook { // unset unneeded transitions
+    transition-duration: 0s;
+  }
+
   notebook > header.top { // show drop-shadows
     @extend %ssd_notebook_shadow;
   }
@@ -2325,6 +2374,37 @@ terminal-window {
         background-color: gtkopacity($inverted_secondary_fg_color, 0.55);
       }
       &:active { background-color: $inverted_fg_color; }
+    }
+  }
+}
+
+window.background:not(.csd) { // preferences window (>= 3.28)
+  box.horizontal > frame > scrolledwindow > viewport.frame > list {
+    > row.activatable {
+      padding: 0; // unset padding;
+
+      > box.horizontal > label { // indentations
+        &:dir(ltr) { margin-left: rem(13.3px, $sw: 1.0); }
+        &:dir(rtl) { margin-right: rem(13.3px, $sw: 1.0); }
+      }
+
+      > box.horizontal > stack > button.popup.toggle {
+        min-width: $icon_size;
+        min-height: $icon_size;
+        padding: rem(6.7px);
+        border-radius: 100px;
+        -gtk-outline-radius: 100px;
+      }
+    }
+
+    > box.horizontal {
+      label { color: $tertiary_fg_color; } // titles
+
+      > stack > button.image-button {
+        min-width: $icon_size;
+        min-height: $icon_size;
+        padding: rem(6.7px);
+      }
     }
   }
 }
@@ -2625,7 +2705,7 @@ window.background > box.vertical {
   }
 
   paned.horizontal > widget > notebook.switcher-visible { // side-pane styling
-   widget > scrolledwindow {
+    widget > scrolledwindow {
       background-color: $secondary_dark_color;
 
       treeview.view {
@@ -2994,6 +3074,11 @@ flowbox > flowboxchild > button.recipe.tile.view {
   margin: if($ref_weight < 1.0, 6px, 8px);
 }
 
+// Note box
+box.note > label { font-weight: 700; } // title
+
+label.content.note { color: $fixed_fg_color; } // enforce dark label colour
+
 
 // /***************
 //  * Gnome-Usage *
@@ -3073,6 +3158,92 @@ box.speedometer {
 
   &-content-area { // cover up meter troughs with selection colour
     box-shadow: 0 0 0 4px gtkopacity($selected_bg_color, 0.2);
+  }
+}
+
+
+// /*********
+//  * Glade *
+//  *********/
+
+GladeWindow {
+  headerbar#headerbar.titlebar {
+    button#recent-button.popup.toggle { // down-arrow button
+      min-width: $icon_size;
+      border-radius: 2px;
+      -gtk-outline-radius: 2px;
+    }
+  }
+
+  box.horizontal scrolledwindow.frame + button.image-button {
+    border-radius: 2px;
+    -gtk-outline-radius: 2px;
+  }
+}
+
+
+// /********
+//  * GHex *
+//  ********/
+
+menubar#MainMenu + box.vertical > widget, // main window
+menubar#MainMenu + widget { // 'Add view' window(s)
+  > widget {
+    &:not(.view) { // left-most pane
+      background-image: none;
+      color: $tertiary_fg_color;
+      transition: unset;
+    }
+
+    &.view {
+      background-image: none;
+      transition: unset;
+    }
+  }
+}
+
+// a focused cell
+menubar#MainMenu + box.vertical > widget > widget.view.header,
+menubar#MainMenu + widget >  widget.view:first-child {
+  &:selected {
+    // do not use transparency
+    background-color: mix($base_color, $selected_bg_color, 87%);
+    color: $selected_bg_color;
+  }
+}
+
+
+// /***************
+//  * Gnome Boxes *
+//  ***************/
+
+%child_styling {
+  border-radius: 0;
+  &:hover { box-shadow: inset 0 0 0 9999px $track_color; }
+  &:first-child { border-radius: 2px 2px 0 0; }
+  &:last-child { border-radius: 0 0 2px 2px; }
+  &:not(:first-child):not(:only-child) { margin-top: -1px; }
+}
+
+window.background > overlay > stack.content-bg {
+  &,
+  stack box.content-bg { background-image: image($bg_color); }
+}
+
+// parent container of button nodes
+box.boxes-menu.vertical > box.vertical { background-color: $base_color; }
+
+// child elements
+row.boxes-menu-row { @extend %child_styling; }
+
+button.boxes-menu-row {
+  @extend %child_styling;
+  font-weight: 700;
+  &:not(:disabled):not(:hover) { box-shadow: none; }
+
+  box.boxes-menu.vertical > & {
+    margin-bottom: -1px;
+    border-radius: 2px 2px 0 0;
   }
 }
 

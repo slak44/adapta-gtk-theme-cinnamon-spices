@@ -199,6 +199,9 @@
 //  * Dash to Dock Extension *
 //  **************************/
 
+$hard_coded_alpha: 0.2;
+$alpha_override: 0.54 - $hard_coded_alpha;
+
 #dashtodockContainer {
   background: transparent;
 
@@ -208,7 +211,6 @@
   &.extended:overview #dash {
     padding: 0;
     border: none;
-    box-shadow: $empty_shadow;
     transition-duration: $duration_long;
   }
 
@@ -216,21 +218,50 @@
                             (bottom, 2px 2px 0 0),
                             (left, 0 2px 2px 0),
                             (right, 2px 0 0 2px) {
-    &.#{$_dock} #dash {
-      border-radius: #{$_radius};
-      background-color: $panel_fill_color;
+    &.#{$_dock} #dash,
+    &.#{$_dock}:overview #dash { border-radius: #{$_radius}; }
+
+    &.#{$_dock}.extended #dash,
+    &.#{$_dock}.extended:overview #dash { border-radius: 0; }
+  }
+
+  #dash { // default-mode
+    background-color: $panel_bg_color;
+    box-shadow: $empty_shadow;
+  }
+
+  &.opaque #dash { // solid-mode
+    background-color: $panel_bg_color;
+    // FIXME: enforce opaque background
+    box-shadow: inset 0 0 0 9999px $panel_bg_color;
+  }
+
+  &.transparent #dash { // translucent-mode
+    background-color: $panel_hidden_fill_color; // does not work
+    // FIXME: add lacked alpha via box-shadow property
+    box-shadow: inset 0 0 0 9999px shellopacity($panel_bg_color,
+                                                $alpha_override);
+  }
+
+  &:overview #dash { // overview-mode #1
+    background-color: $osd_semi_fill_color;
+    box-shadow: $empty_shadow;
+  }
+
+  &.opaque:overview,
+  &.transparent:overview { // overview-mode #2
+    #dash {
+      background-color: $panel_hidden_fill_color;
+      box-shadow: inset 0 0 0 9999px $osd_semi_fill_color;
     }
-    &.#{$_dock}:overview #dash {
-      border-radius: #{$_radius};
-      background-color: $osd_semi_fill_color;
-    }
-    &.#{$_dock}.extended #dash {
-      border-radius: 0;
-      background-color: $panel_fill_color;
-    }
-    &.#{$_dock}.extended:overview #dash {
-      border-radius: 0;
-      background-color: $osd_semi_fill_color;
+  }
+
+  &.extended:overview, // overview-mode #3
+  &.opaque.extended:overview,
+  &.transparent.extended:overview {
+    #dash {
+      background-color: $panel_hidden_fill_color;
+      box-shadow: $empty_shadow;
     }
   }
 
@@ -265,65 +296,31 @@
     box-shadow: $z-depth-2;
   }
 
-  .number-overlay { // colours are picked from their stylesheet.css only
-    // background-color: $accent_semi_fill_color;
-    // color: $inverted_accent_label_color;
-  }
-
-  .notification-badge { // Ubuntu-Dock specific?
-    background-color: $suggested_color;
+  .number-overlay {
+    background-color: $osd_bg_color;
     color: $selected_fg_color;
   }
 
-  // Ubuntu-Dock?
-  &.opaque { background-color: $panel_fill_color; }
-
-  &.transparent {
-    background-color: $panel_hidden_fill_color;
-    transition-timing-function: $slope_slow;
-    transition-duration: $duration_long;
+  .notification-badge {
+    background-color: $suggested_color;
+    color: $selected_fg_color;
   }
 }
 
-// running-dot styling
-@if $gdm == false {
-  @each $_dock, $_dot, $_inv in (top, -top, -top),
-                                (bottom, -bottom, -bottom),
-                                (left, -left, -right),
-                                (right, -right, -left) {
-    #dashtodockContainer.#{$_dock},
-    #dashtodockContainer.extended.#{$_dock} {
-      @each $_num in 1, 2, 3, 4 {
-        &:ltr {
-          .dash-item-container > StWidget.running#{$_num} {
-            background-image: url("assets/dot/running#{$_num}#{$_dot}.svg");
-            &.focused {
-              background-image:
-                url("assets/dot/running#{$_num}#{$_dot}-focused.svg");
-            }
-          }
-        }
-        &:rtl {
-          .dash-item-container > StWidget.running#{$_num} {
-            background-image: url("assets/dot/running#{$_num}#{$_inv}.svg");
-            &.focused {
-              background-image:
-                url("assets/dot/running#{$_num}#{$_inv}-focused.svg");
-            }
-          }
-        }
+@each $_dock in top, bottom, left, right {
+  #dashtodockContainer.#{$_dock},
+  #dashtodockContainer.extended.#{$_dock} {
+    .dash-item-container > StWidget.focused { // fill whole focused backgrounds
+      .overview-icon {
+        border-radius: 0;
+        background-color: $osd_semi_fill_color;
+      }
+
+      &:hover .overview-icon {
+        border-radius: 0;
+        background-color: $osd_fill_color;
       }
     }
-  }
-}
-
-#workspacestodockContainer {
-  &,
-  &:overview,
-  &.fullheight:overview {
-    background-color: $panel_hidden_fill_color;
-
-    .workspace-thumbnails { background-color: transparent; }
   }
 }
 
@@ -384,47 +381,8 @@
       }
     }
 
-    .show-apps {
-      .show-apps-icon {
-        min-height: 24px;
-        background-image:
-          if($gdm == false,
-          url("assets/show-apps-panel.svg"),
-          url("resource:///org/gnome/shell/theme/assets/show-apps-panel.svg"));
-        background-size: 32px 32px;
-        // FIXME: G-S can't recognize position property
-        // and may be aligned center automatically?
-        // background-position: center center;
-        transition-duration: 0s;
-      }
-
-      &:hover .show-apps-icon,
-      &:active .show-apps-icon,
-      &:focus .show-apps-icon {
-        background-image:
-          if($gdm == false,
-          url("assets/show-apps-panel-hover.svg"),
-          url("resource:///org/gnome/shell/theme/assets/show-apps-panel-hover.svg"));
-      }
-
-      &:checked .show-apps-icon {
-        background-image:
-          if($gdm == false,
-          url("assets/show-apps-panel-hover.svg"),
-          url("resource:///org/gnome/shell/theme/assets/show-apps-panel-hover.svg"));
-      }
-    }
-
-    &.solid {
-      .show-apps {
-        .show-apps-icon {
-          background-image:
-            if($gdm == false,
-            url("assets/show-apps-panel.svg"),
-            url("resource:///org/gnome/shell/theme/assets/show-apps-panel.svg"));
-        }
-      }
-    }
+    .show-apps:checked .show-apps-icon, // override indicator colour
+    .show-apps:checked:hover .show-apps-icon { color: $selected_fg_color; }
   }
 }
 

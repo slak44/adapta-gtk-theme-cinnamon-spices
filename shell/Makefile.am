@@ -46,47 +46,9 @@ shell_asset_file = \
 	$(shelldir)/assets/media-control-active.svg \
 	$(shelldir)/assets/media-control-hover.svg \
 	$(shelldir)/assets/more-results.svg \
-	$(shelldir)/assets/show-apps-checked.svg \
-	$(shelldir)/assets/show-apps-hover.svg \
-	$(shelldir)/assets/show-apps-panel-hover.svg \
-	$(shelldir)/assets/show-apps-panel.svg \
-	$(shelldir)/assets/show-apps.svg \
 	$(shelldir)/assets/window-close-active.svg \
 	$(shelldir)/assets/window-close-hover.svg \
 	$(shelldir)/assets/window-close.svg
-shell_asset_dot_file = \
-	$(shelldir)/assets/dot/running1-bottom-focused.svg \
-	$(shelldir)/assets/dot/running1-bottom.svg \
-	$(shelldir)/assets/dot/running1-left-focused.svg \
-	$(shelldir)/assets/dot/running1-left.svg \
-	$(shelldir)/assets/dot/running1-right-focused.svg \
-	$(shelldir)/assets/dot/running1-right.svg \
-	$(shelldir)/assets/dot/running1-top-focused.svg \
-	$(shelldir)/assets/dot/running1-top.svg \
-	$(shelldir)/assets/dot/running2-bottom-focused.svg \
-	$(shelldir)/assets/dot/running2-bottom.svg \
-	$(shelldir)/assets/dot/running2-left-focused.svg \
-	$(shelldir)/assets/dot/running2-left.svg \
-	$(shelldir)/assets/dot/running2-right-focused.svg \
-	$(shelldir)/assets/dot/running2-right.svg \
-	$(shelldir)/assets/dot/running2-top-focused.svg \
-	$(shelldir)/assets/dot/running2-top.svg \
-	$(shelldir)/assets/dot/running3-bottom-focused.svg \
-	$(shelldir)/assets/dot/running3-bottom.svg \
-	$(shelldir)/assets/dot/running3-left-focused.svg \
-	$(shelldir)/assets/dot/running3-left.svg \
-	$(shelldir)/assets/dot/running3-right-focused.svg \
-	$(shelldir)/assets/dot/running3-right.svg \
-	$(shelldir)/assets/dot/running3-top-focused.svg \
-	$(shelldir)/assets/dot/running3-top.svg \
-	$(shelldir)/assets/dot/running4-bottom-focused.svg \
-	$(shelldir)/assets/dot/running4-bottom.svg \
-	$(shelldir)/assets/dot/running4-left-focused.svg \
-	$(shelldir)/assets/dot/running4-left.svg \
-	$(shelldir)/assets/dot/running4-right-focused.svg \
-	$(shelldir)/assets/dot/running4-right.svg \
-	$(shelldir)/assets/dot/running4-top-focused.svg \
-	$(shelldir)/assets/dot/running4-top.svg
 shell_extension_windowlist_file = \
 	$(shelldir)/extensions/window-list/classic.css \
 	$(shelldir)/extensions/window-list/stylesheet.css \
@@ -155,11 +117,6 @@ shell_nokto_asset_file = \
 	$(shellnoktodir)/assets/media-control-active.svg \
 	$(shellnoktodir)/assets/media-control-hover.svg \
 	$(shellnoktodir)/assets/more-results.svg \
-	$(shellnoktodir)/assets/show-apps-checked.svg \
-	$(shellnoktodir)/assets/show-apps-hover.svg \
-	$(shellnoktodir)/assets/show-apps-panel-hover.svg \
-	$(shellnoktodir)/assets/show-apps-panel.svg \
-	$(shellnoktodir)/assets/show-apps.svg \
 	$(shellnoktodir)/assets/window-close-active.svg \
 	$(shellnoktodir)/assets/window-close-hover.svg \
 	$(shellnoktodir)/assets/window-close.svg
@@ -204,11 +161,6 @@ shelleta_asset_file = \
 	$(shelletadir)/assets/media-control-active.svg \
 	$(shelletadir)/assets/media-control-hover.svg \
 	$(shelletadir)/assets/more-results.svg \
-	$(shelletadir)/assets/show-apps-checked.svg \
-	$(shelletadir)/assets/show-apps-hover.svg \
-	$(shelletadir)/assets/show-apps-panel-hover.svg \
-	$(shelletadir)/assets/show-apps-panel.svg \
-	$(shelletadir)/assets/show-apps.svg \
 	$(shelletadir)/assets/window-close-active.svg \
 	$(shelletadir)/assets/window-close-hover.svg \
 	$(shelletadir)/assets/window-close.svg
@@ -253,11 +205,6 @@ shell_nokto_eta_asset_file = \
 	$(shellnoktoetadir)/assets/media-control-active.svg \
 	$(shellnoktoetadir)/assets/media-control-hover.svg \
 	$(shellnoktoetadir)/assets/more-results.svg \
-	$(shellnoktoetadir)/assets/show-apps-checked.svg \
-	$(shellnoktoetadir)/assets/show-apps-hover.svg \
-	$(shellnoktoetadir)/assets/show-apps-panel-hover.svg \
-	$(shellnoktoetadir)/assets/show-apps-panel.svg \
-	$(shellnoktoetadir)/assets/show-apps.svg \
 	$(shellnoktoetadir)/assets/window-close-active.svg \
 	$(shellnoktoetadir)/assets/window-close-hover.svg \
 	$(shellnoktoetadir)/assets/window-close.svg
@@ -362,47 +309,46 @@ sassc_option = -M -t compact
 all:
 if ENABLE_GNOME
 	$(MKDIR_P) $(srcdir)/gnome-shell/assets
-	$(MKDIR_P) $(srcdir)/gnome-shell/assets/dot
 	$(MKDIR_P) $(srcdir)/gnome-shell/extensions/workspaces-to-dock/assets
 	$(MKDIR_P) $(srcdir)/gnome-shell-nokto/assets
-	$(MKDIR_P) $(srcdir)/gnome-shell-nokto/assets/dot
 	$(MKDIR_P) $(srcdir)/gnome-shell-eta/assets
-	$(MKDIR_P) $(srcdir)/gnome-shell-eta/assets/dot
 	$(MKDIR_P) $(srcdir)/gnome-shell-eta/extensions/workspaces-to-dock/assets
 	$(MKDIR_P) $(srcdir)/gnome-shell-nokto-eta/assets
-	$(MKDIR_P) $(srcdir)/gnome-shell-nokto-eta/assets/dot
 
-	cd $(srcdir)/sass && $(SASSC) $(sassc_option) \
-		gnome-shell/$(GNOME_SCSS_VERSION)/gnome-shell.scss ../gnome-shell/gnome-shell.css
-	cd $(srcdir)/sass && $(SASSC) $(sassc_option) \
-		gnome-shell/$(GNOME_SCSS_VERSION)/gnome-shell-dark.scss ../gnome-shell-nokto/gnome-shell.css
-	cd $(srcdir)/sass && $(SASSC) $(sassc_option) \
-		gnome-shell/$(GNOME_SCSS_VERSION)/gnome-shell-eta.scss ../gnome-shell-eta/gnome-shell.css
-	cd $(srcdir)/sass && $(SASSC) $(sassc_option) \
+	cd $(srcdir)/sass && \
+		$(SASSC) $(sassc_option) \
+		gnome-shell/$(GNOME_SCSS_VERSION)/gnome-shell.scss ../gnome-shell/gnome-shell.css && \
+		$(SASSC) $(sassc_option) \
+		gnome-shell/$(GNOME_SCSS_VERSION)/gnome-shell-dark.scss ../gnome-shell-nokto/gnome-shell.css && \
+		$(SASSC) $(sassc_option) \
+		gnome-shell/$(GNOME_SCSS_VERSION)/gnome-shell-eta.scss ../gnome-shell-eta/gnome-shell.css && \
+		$(SASSC) $(sassc_option) \
 		gnome-shell/$(GNOME_SCSS_VERSION)/gnome-shell-dark-eta.scss ../gnome-shell-nokto-eta/gnome-shell.css
 if GNOME_IS_326_OR_NEWER
-	cd $(srcdir)/sass && $(SASSC) $(sassc_option) \
-		gnome-shell/$(GNOME_SCSS_VERSION)/gdm3.scss ../gnome-shell/gdm3-Adapta.css
-	cd $(srcdir)/sass && $(SASSC) $(sassc_option) \
-		gnome-shell/$(GNOME_SCSS_VERSION)/gdm3-dark.scss ../gnome-shell-nokto/gdm3-Adapta-Nokto.css
-	cd $(srcdir)/sass && $(SASSC) $(sassc_option) \
-		gnome-shell/$(GNOME_SCSS_VERSION)/gdm3-eta.scss ../gnome-shell-eta/gdm3-Adapta-Eta.css
-	cd $(srcdir)/sass && $(SASSC) $(sassc_option) \
+	cd $(srcdir)/sass && \
+		$(SASSC) $(sassc_option) \
+		gnome-shell/$(GNOME_SCSS_VERSION)/gdm3.scss ../gnome-shell/gdm3-Adapta.css && \
+		$(SASSC) $(sassc_option) \
+		gnome-shell/$(GNOME_SCSS_VERSION)/gdm3-dark.scss ../gnome-shell-nokto/gdm3-Adapta-Nokto.css && \
+		$(SASSC) $(sassc_option) \
+		gnome-shell/$(GNOME_SCSS_VERSION)/gdm3-eta.scss ../gnome-shell-eta/gdm3-Adapta-Eta.css && \
+		$(SASSC) $(sassc_option) \
 		gnome-shell/$(GNOME_SCSS_VERSION)/gdm3-dark-eta.scss ../gnome-shell-nokto-eta/gdm3-Adapta-Nokto-Eta.css
 endif
-	cd $(srcdir)/sass && $(SASSC) $(sassc_option) \
-		gnome-shell/$(GNOME_SCSS_VERSION)/pad-osd.scss ../gnome-shell/pad-osd.css
-	cd $(srcdir)/sass && $(SASSC) $(sassc_option) \
-		gnome-shell/$(GNOME_SCSS_VERSION)/pad-osd.scss ../gnome-shell-nokto/pad-osd.css
-	cd $(srcdir)/sass && $(SASSC) $(sassc_option) \
-		gnome-shell/$(GNOME_SCSS_VERSION)/pad-osd.scss ../gnome-shell-eta/pad-osd.css
-	cd $(srcdir)/sass && $(SASSC) $(sassc_option) \
-		gnome-shell/$(GNOME_SCSS_VERSION)/pad-osd.scss ../gnome-shell-nokto-eta/pad-osd.css
-	cd $(srcdir)/sass && $(SASSC) $(sassc_option) \
-		gnome-shell/$(GNOME_SCSS_VERSION)/stylesheet.scss ../gnome-shell/extensions/window-list/stylesheet.css
-	cd $(srcdir)/sass && $(SASSC) $(sassc_option) \
-		gnome-shell/$(GNOME_SCSS_VERSION)/classic.scss ../gnome-shell/extensions/window-list/classic.css
-	cd $(srcdir)/sass && $(SASSC) $(sassc_option) \
+	cd $(srcdir)/sass && \
+		$(SASSC) $(sassc_option) \
+		gnome-shell/$(GNOME_SCSS_VERSION)/pad-osd.scss ../gnome-shell/pad-osd.css && \
+		$(SASSC) $(sassc_option) \
+		gnome-shell/$(GNOME_SCSS_VERSION)/pad-osd.scss ../gnome-shell-nokto/pad-osd.css && \
+		$(SASSC) $(sassc_option) \
+		gnome-shell/$(GNOME_SCSS_VERSION)/pad-osd.scss ../gnome-shell-eta/pad-osd.css && \
+		$(SASSC) $(sassc_option) \
+		gnome-shell/$(GNOME_SCSS_VERSION)/pad-osd.scss ../gnome-shell-nokto-eta/pad-osd.css && \
+		$(SASSC) $(sassc_option) \
+		gnome-shell/$(GNOME_SCSS_VERSION)/stylesheet.scss ../gnome-shell/extensions/window-list/stylesheet.css && \
+		$(SASSC) $(sassc_option) \
+		gnome-shell/$(GNOME_SCSS_VERSION)/classic.scss ../gnome-shell/extensions/window-list/classic.css && \
+		$(SASSC) $(sassc_option) \
 		gnome-shell/$(GNOME_SCSS_VERSION)/workspaces-to-dock.scss ../gnome-shell/extensions/workspaces-to-dock/workspaces-to-dock.css
 
 	cd $(srcdir)/asset && ./clone-assets-gnome-shell.sh
@@ -421,10 +367,9 @@ if ENABLE_CINNAMON
 	$(MKDIR_P) $(srcdir)/cinnamon
 	$(MKDIR_P) $(srcdir)/cinnamon-nokto
 
-	cd $(srcdir)/sass && $(SASSC) $(sassc_option) \
-		cinnamon/cinnamon.scss ../cinnamon/cinnamon.css
-	cd $(srcdir)/sass && $(SASSC) $(sassc_option) \
-		cinnamon/cinnamon-dark.scss ../cinnamon-nokto/cinnamon.css
+	cd $(srcdir)/sass && \
+		$(SASSC) $(sassc_option) cinnamon/cinnamon.scss ../cinnamon/cinnamon.css && \
+		$(SASSC) $(sassc_option) cinnamon/cinnamon-dark.scss ../cinnamon-nokto/cinnamon.css
 
 	$(MKDIR_P) $(srcdir)/cinnamon/assets
 	$(MKDIR_P) $(srcdir)/cinnamon/assets/checkbox
@@ -438,8 +383,9 @@ if ENABLE_CINNAMON
 	$(MKDIR_P) $(srcdir)/cinnamon-nokto/assets/misc
 	$(MKDIR_P) $(srcdir)/cinnamon-nokto/assets/panel
 	$(MKDIR_P) $(srcdir)/cinnamon-nokto/assets/switch
-	cd $(srcdir)/asset && ./clone-assets-cinnamon.sh
-	cd $(srcdir)/asset && ./render-assets-cinnamon-thumb.sh
+	cd $(srcdir)/asset && \
+		./clone-assets-cinnamon.sh && \
+		./render-assets-cinnamon-thumb.sh
 endif
 
 if ENABLE_XFCE
@@ -454,7 +400,6 @@ install-data-local:
 if ENABLE_GNOME
 	$(MKDIR_P) $(adaptadir)/gnome-shell
 	$(MKDIR_P) $(adaptadir)/gnome-shell/assets
-	$(MKDIR_P) $(adaptadir)/gnome-shell/assets/dot
 	$(MKDIR_P) $(adaptadir)/gnome-shell/extensions
 	$(MKDIR_P) $(adaptadir)/gnome-shell/extensions/window-list
 	$(MKDIR_P) $(adaptadir)/gnome-shell/extensions/workspaces-to-dock
@@ -462,7 +407,6 @@ if ENABLE_GNOME
 	cp -Rv $(shell_file) $(adaptadir)/gnome-shell
 	cp -Rv $(shell_pad_osd_file) $(adaptadir)/gnome-shell
 	cp -Rv $(shell_asset_file) $(adaptadir)/gnome-shell/assets
-	cp -Rv $(shell_asset_dot_file) $(adaptadir)/gnome-shell/assets/dot
 	cp -Rv $(shell_extension_windowlist_file) \
 		$(adaptadir)/gnome-shell/extensions/window-list
 	cp -Rv $(shell_extension_workspace_file) \
@@ -475,7 +419,6 @@ endif
 
 	$(MKDIR_P) $(noktodir)/gnome-shell
 	$(MKDIR_P) $(noktodir)/gnome-shell/assets
-	$(MKDIR_P) $(noktodir)/gnome-shell/assets/dot
 	$(MKDIR_P) $(noktodir)/gnome-shell/extensions
 	$(MKDIR_P) $(noktodir)/gnome-shell/extensions/window-list
 	$(MKDIR_P) $(noktodir)/gnome-shell/extensions/workspaces-to-dock
@@ -483,7 +426,6 @@ endif
 	cp -Rv $(shell_nokto_file) $(noktodir)/gnome-shell
 	cp -Rv $(shell_pad_osd_file) $(noktodir)/gnome-shell
 	cp -Rv $(shell_nokto_asset_file) $(noktodir)/gnome-shell/assets
-	cp -Rv $(shell_asset_dot_file) $(noktodir)/gnome-shell/assets/dot
 	cp -Rv $(shell_extension_windowlist_file) \
 		$(noktodir)/gnome-shell/extensions/window-list
 	cp -Rv $(shell_extension_workspace_file) \
@@ -496,7 +438,6 @@ endif
 
 	$(MKDIR_P) $(adaptaetadir)/gnome-shell
 	$(MKDIR_P) $(adaptaetadir)/gnome-shell/assets
-	$(MKDIR_P) $(adaptaetadir)/gnome-shell/assets/dot
 	$(MKDIR_P) $(adaptaetadir)/gnome-shell/extensions
 	$(MKDIR_P) $(adaptaetadir)/gnome-shell/extensions/window-list
 	$(MKDIR_P) $(adaptaetadir)/gnome-shell/extensions/workspaces-to-dock
@@ -504,7 +445,6 @@ endif
 	cp -Rv $(shelleta_file) $(adaptaetadir)/gnome-shell
 	cp -Rv $(shell_pad_osd_file) $(adaptaetadir)/gnome-shell
 	cp -Rv $(shelleta_asset_file) $(adaptaetadir)/gnome-shell/assets
-	cp -Rv $(shell_asset_dot_file) $(adaptaetadir)/gnome-shell/assets/dot
 	cp -Rv $(shell_extension_windowlist_file) \
 		$(adaptaetadir)/gnome-shell/extensions/window-list
 	cp -Rv $(shell_extension_workspace_file) \
@@ -517,7 +457,6 @@ endif
 
 	$(MKDIR_P) $(noktoetadir)/gnome-shell
 	$(MKDIR_P) $(noktoetadir)/gnome-shell/assets
-	$(MKDIR_P) $(noktoetadir)/gnome-shell/assets/dot
 	$(MKDIR_P) $(noktoetadir)/gnome-shell/extensions
 	$(MKDIR_P) $(noktoetadir)/gnome-shell/extensions/window-list
 	$(MKDIR_P) $(noktoetadir)/gnome-shell/extensions/workspaces-to-dock
@@ -525,7 +464,6 @@ endif
 	cp -Rv $(shell_nokto_eta_file) $(noktoetadir)/gnome-shell
 	cp -Rv $(shell_pad_osd_file) $(noktoetadir)/gnome-shell
 	cp -Rv $(shell_nokto_eta_asset_file) $(noktoetadir)/gnome-shell/assets
-	cp -Rv $(shell_asset_dot_file) $(noktoetadir)/gnome-shell/assets/dot
 	cp -Rv $(shell_extension_windowlist_file) \
 		$(noktoetadir)/gnome-shell/extensions/window-list
 	cp -Rv $(shell_extension_workspace_file) \
@@ -638,21 +576,17 @@ CLEANFILES += \
 	$(srcdir)/gnome-shell/*.svg \
 	$(srcdir)/gnome-shell/*.png \
 	$(srcdir)/gnome-shell/assets/*.svg \
-	$(srcdir)/gnome-shell/assets/dot/*.svg \
 	$(srcdir)/gnome-shell/extensions/workspaces-to-dock/assets/*.svg \
 	$(srcdir)/gnome-shell-eta/extensions/workspaces-to-dock/assets/*.svg \
 	$(srcdir)/gnome-shell-eta/*.svg \
 	$(srcdir)/gnome-shell-eta/*.png \
 	$(srcdir)/gnome-shell-eta/assets/*.svg \
-	$(srcdir)/gnome-shell-eta/assets/dot/*.svg \
 	$(srcdir)/gnome-shell-nokto/*.svg \
 	$(srcdir)/gnome-shell-nokto/*.png \
 	$(srcdir)/gnome-shell-nokto/assets/*.svg \
-	$(srcdir)/gnome-shell-nokto/assets/dot/*.svg \
 	$(srcdir)/gnome-shell-nokto-eta/*.svg \
 	$(srcdir)/gnome-shell-nokto-eta/*.png \
 	$(srcdir)/gnome-shell-nokto-eta/assets/*.svg \
-	$(srcdir)/gnome-shell-nokto-eta/assets/dot/*.svg \
 	$(srcdir)/asset/assets-gnome-shell/common/checkbox-hover.svg \
 	$(srcdir)/asset/assets-gnome-shell/common/checkbox.svg \
 	$(srcdir)/asset/assets-gnome-shell/common/corner-ripple-ltr.svg \
@@ -670,7 +604,6 @@ CLEANFILES += \
 	$(srcdir)/asset/assets-gnome-shell/common/window-close.svg \
 	$(srcdir)/asset/assets-gnome-shell/common/window-close-active.svg \
 	$(srcdir)/asset/assets-gnome-shell/common/window-close-hover.svg \
-	$(srcdir)/asset/assets-gnome-shell/dot/*.svg \
 	$(srcdir)/asset/assets-gnome-shell/workspaces-to-dock/*.svg
 if GNOME_IS_326_OR_NEWER
 CLEANFILES += \

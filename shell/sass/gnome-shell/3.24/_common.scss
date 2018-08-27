@@ -19,6 +19,7 @@
 }
 
 $font-family: Noto Sans, Sans-Serif;
+$font-family-for-ornament: Sans-Serif;
 
 stage {
   @include fontscaling($ref_size);
@@ -713,10 +714,14 @@ $extra_spacing: 2.5px;
   &-icon { icon-size: 16px; }
 
   &-ornament {
-    width: 1.2em;
+    @include fontscaling($ref_size * 1.1);
+    width: 1.1em; // protect the region
     height: 0; // trick for minimum separator-menu-item height
+    padding-top: 1.3px; // not need to scale
     color: $selected_bg_color;
     text-align: right;
+    font-family: $font-family-for-ornament;
+    font-weight: 700;
   }
 }
 
@@ -1100,7 +1105,7 @@ $extra_spacing: 2.5px;
   .panel-status-indicators-box,
   .panel-status-menu-box { spacing: 0; }
 
-  .screencast-indicator { color: $error_color; }
+  .screencast-indicator { color: $destructive_color; }
 }
 
 
@@ -1603,8 +1608,11 @@ $extra_spacing: 2.5px;
   spinner-image: url("process-working.svg");
   padding: if($eta == false, 0 10px, 0 6px);
 
-  // only LR padding
-  StLabel { padding: if($eta == false, 0 4px, 0 2px); }
+  // LR padding and make more gap between label and spinner
+  StLabel {
+    &:ltr { padding: if($eta == false, 0 10px 0 3px, 0 6px 0 2px); }
+    &:rtl { padding: if($eta == false, 0 3px 0 10px, 0 2px 0 6px); }
+  }
 
   .label-shadow { color: transparent; }
 }
@@ -2138,7 +2146,8 @@ $provider_icon_size: 32px;
 
     &:checked .overview-icon,
     &:checked:hover .overview-icon {
-      background-color: $hidden_fill_color;
+      background-color: shellopacity($osd_indicator_color, 0.12);
+      color: $osd_indicator_color;
       box-shadow: $empty_shadow;
       transition-duration: 0s;
     }
@@ -2153,29 +2162,10 @@ $provider_icon_size: 32px;
 }
 
 .show-apps {
-  .show-apps-icon {
-    border: none;
-    background-image: url("assets/show-apps.svg");
-    background-size: contain;
-    color: transparent;
-    transition-duration: 0s; // unset transitions
-    -st-background-image-shadow: $z-depth-1;
-  }
+  .show-apps-icon { border: none; }
 
-  &:hover .show-apps-icon,
-  &:active .show-apps-icon,
-  &:focus .show-apps-icon {
-    color: transparent;
-    background-image: url("assets/show-apps-hover.svg");
-    transition-duration: 0s;
-    -st-background-image-shadow: $z-depth-1;
-  }
-  &:checked .show-apps-icon {
-    color: transparent;
-    background-image: url("assets/show-apps-checked.svg");
-    transition-duration: 0s;
-    -st-background-image-shadow: $z-depth-2;
-  }
+  &:checked .show-apps-icon,
+  &:checked:hover .show-apps-icon { color: $osd_indicator_color; }
 }
 
 // Collections
@@ -2589,17 +2579,17 @@ $legacy_icon_size: if($eta == false, 24px, 16px);
 #keyboard { background-color: shellopacity($panel_bg_color, 0.54); }
 
 .keyboard {
-  &-layout {
-    spacing: if($eta == false, 12px, 8px);
-    padding: if($eta == false, 12px, 8px);
+  &-layout { // no need to set variant specific spacing
+    spacing: $ref_size * 0.3;
+    padding: $ref_size * 0.3;
   }
 
-  &-row { spacing: if($eta == false, 12px, 8px); }
+  &-row { spacing: $ref_size * 0.3; }
 
   &-key {
-    @include fontscaling($ref_size * 2.0);
-    min-height: 2em;
-    min-width: 2em;
+    min-height: $ref_size * 2;
+    min-width: $ref_size * 2;
+    padding: 0;
     border-radius: 2px;
     border: none;
     background-color: $osd_bg_color;
@@ -2607,6 +2597,7 @@ $legacy_icon_size: if($eta == false, 24px, 16px);
     box-shadow: $empty_shadow;
     text-shadow: none;
     icon-shadow: none;
+    font-size: $ref_size * 2; // use unscalable unit
     font-weight: 700;
     transition-timing-function: $slope_slow;
     &:focus,
@@ -2637,7 +2628,7 @@ $legacy_icon_size: if($eta == false, 24px, 16px);
     -arrow-border-color: transparent;
     -arrow-base: 0;
     -arrow-rise: 0;
-    -boxpointer-gap: if($eta == false, 12px, 8px);
+    -boxpointer-gap: $ref_size * 0.3;
     background-color: $suggested_color;
     color: $selected_fg_color;
     box-shadow: $z-depth-2;
@@ -2826,11 +2817,14 @@ $legacy_icon_size: if($eta == false, 24px, 16px);
   &-not-listed-button {
     // this class seems almost meaningless
     margin: 12px 0 0;
+
+    &:ltr { margin-right: 4px; }
+    &:rtl { margin-left: 4px; }
   }
 
   &-not-listed-label {
     @include fontscaling($ref_size * 0.9);
-    padding: 4px 4px 5px;
+    padding: 4px 0 5px;
     border-radius: 2px;
     color: $inverted_secondary_accent_label_color;
     font-weight: 700;
@@ -2854,7 +2848,6 @@ $legacy_icon_size: if($eta == false, 24px, 16px);
 
   &-user-list {
     width: 23em;
-    padding: 4px;
     spacing: 12px;
 
     &:expanded .login-dialog-user-list-item {
@@ -2905,8 +2898,9 @@ $legacy_icon_size: if($eta == false, 24px, 16px);
     color: $osd_secondary_fg_color;
     transition-duration: $duration_short;
 
-    &:ltr { padding-right: 1em; }
-    &:rtl { padding-left: 1em; }
+    // exclude timed-login-indicator
+    &:ltr .user-widget { padding-right: 1em; }
+    &:rtl .user-widget { padding-left: 1em; }
 
     &:focus {
       color: $osd_fg_color;
@@ -2927,13 +2921,13 @@ $legacy_icon_size: if($eta == false, 24px, 16px);
     }
 
     .login-dialog-timed-login-indicator {
-      height: 2px;
-      margin: 2px 0 0 0;
-      background-color: $osd_fg_color;
+      height: 4px;
+      margin: 4px 0 0 0;
+      background-color: $secondary_accent_color;
     }
 
     &:focus .login-dialog-timed-login-indicator {
-      background-color: $osd_fg_color;
+      background-color: $accent_color;
     }
   }
 }
@@ -2948,8 +2942,8 @@ $legacy_icon_size: if($eta == false, 24px, 16px);
 }
 
 .user-widget-label {
-  &:ltr { padding-left: 1.5em; }
-  &:rtl { padding-right: 1.5em; }
+  &:ltr { padding-left: 1em; }
+  &:rtl { padding-right: 1em; }
 }
 
 .login-dialog-prompt {

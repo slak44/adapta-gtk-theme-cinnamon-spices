@@ -12,7 +12,6 @@ $asset_suffix: if($variant == dark, '-dark', '');
 $icon_size: 16px;
 $widget_size: 37.3px;
 $attention: 6px 6px;
-$scale: 80%;
 $separator_narrow: 1px 1px;
 $separator_wide: 1px 1px, 1px 1px;
 $titlebutton_small: if($ref_weight < 1.0, 20px, 28px);
@@ -61,6 +60,10 @@ $titlebutton_small: if($ref_weight < 1.0, 20px, 28px);
   // disable drop-shadows as default
   text-shadow: none;
   -gtk-icon-shadow: none;
+
+  // for a cursor-handle node
+  -GtkWidget-text-handle-width: 20;
+  -GtkWidget-text-handle-height: 25;
 }
 
 
@@ -237,9 +240,8 @@ label {
   }
 }
 
-.dim-label {
-  opacity: 0.55;
-}
+%dim_label,
+.dim-label { opacity: 0.55; }
 
 %osd, .osd { opacity: 0.9; }
 
@@ -576,8 +578,22 @@ button {
     &:disabled { opacity: 0; }
 
     .linked > & { // 'rotate CW/CCW' linked-buttons
-      &:hover,
-      &:active { background-color: gtkopacity($inverted_dark_color, 0.9); }
+      &.image-button {
+        &:not(:disabled) {
+          border: none;
+          background-color: gtkopacity($inverted_dark_color, 0.9);
+        }
+        &:first-child {
+          &:dir(ltr) { border-radius: 2px 0 0 2px; }
+          &:dir(rtl) { border-radius: 0 2px 2px 0; }
+        }
+        &:last-child {
+          &:dir(ltr) { border-radius: 0 2px 2px 0; }
+          &:dir(rtl) { border-radius: 2px 0 0 2px; }
+        }
+
+        image { padding: 0 rem(8px); }
+      }
     }
   }
 
@@ -1137,6 +1153,13 @@ buttonbox {
   &, &.dialog-action-area {
     &:not(.linked) button { @extend %action-area-button; }
   }
+
+  dialog.background & {
+    &.dialog-action-area.linked button {
+      @extend %action-area-button;
+      border: 0 none transparent;
+    }
+  }
 }
 
 %action-area-button {
@@ -1673,17 +1696,16 @@ toolbar {
   &.osd {
     padding: 3px;
     border-style: solid;
-    border-width: 9px;
-    border-radius: 2px;
+    border-width: 11px;
     @if $variant == light {
       border-image: -gtk-scaled(url("assets/osd-shadow.png"),
                                 url("assets/osd-shadow@2.png"))
-                    10 / 10px stretch;
+                    11 / 11px stretch;
     }
     @else {
       border-image: -gtk-scaled(url("assets/osd-shadow-dark.png"),
                                 url("assets/osd-shadow-dark@2.png"))
-                    10 / 10px stretch;
+                    11 / 11px stretch;
     }
     box-shadow: none;
     color: $inverted_fg_color;
@@ -2030,7 +2052,7 @@ headerbar {
   }
 
   .subtitle {
-    @extend .dim-label;
+    @extend %dim_label;
     padding: 0 rem(13.3px);
     color: $inverted_secondary_fg_color;
     font-size: if($ref_weight < 1.0, 80%, 90%);
@@ -2880,14 +2902,25 @@ treeview.view {
     }
   }
 
-  .separator {
-    &, &:hover { background-color: $borders_color; }
+  &.separator {
+    min-height: if($ref_weight < 1.0, 1px + 2px,
+                                      1px + (2px * 2));
+    color: $solid_light_borders_color;
   }
 
-  &.dnd {
+  &.sidebar { // for lollypop
+    background-color: $secondary_dark_color;
+    font-weight: 500;
+  }
+
+  &:drop(active) {
     border-style: solid none;
     border-width: 1px;
-    border-color: mix($fg_color, $selected_bg_color, 50%);
+    border-color: $drop_target_color;
+
+    &.after { border-top-style: none; }
+
+    &.before { border-bottom-style: none; }
   }
 
   &.expander {
@@ -2944,12 +2977,6 @@ treeview.view {
         color: $insensitive_fg_color;
       }
     }
-  }
-
-  &.separator {
-    min-width: 1px;
-    min-height: 1px;
-    background-color: $borders_color;
   }
 
   button.dnd,
@@ -4261,6 +4288,12 @@ check {
 //  * GtkScale *
 //  ************/
 
+$scale: 80%;
+$scale_slider_size: 20px;
+$scale_trough_size: 2px;
+$_marks_length: rem(6px, $sw: 1.0);
+$_marks_distance: rem(6px, $sw: 1.0);
+
 @keyframes scale_enlarge {
   from { background-size: $scale; }
   to { background-size: 100%; }
@@ -4305,11 +4338,6 @@ check {
   .osd & {
   }
 }
-
-$scale_slider_size: 20px;
-$scale_trough_size: 2px;
-$_marks_length: rem(6px, $sw: 1.0);
-$_marks_distance: rem(6px, $sw: 1.0);
 
 scale {
   // remove ugly outlines
@@ -4556,22 +4584,13 @@ scale { // scales for colour
   }
 }
 
-%scale_marks_above_horz {
-  margin: rem(-15px, $sw: 1.0) rem(-10px, $sw: 1.0)
-          rem(-10px, $sw: 1.0) rem(-10px, $sw: 1.0);
-}
-%scale_marks_below_horz {
-  margin: rem(-10px, $sw: 1.0) rem(-10px, $sw: 1.0)
-          rem(-15px, $sw: 1.0) rem(-10px, $sw: 1.0);
-}
-%scale_marks_above_vert {
-  margin: rem(-10px, $sw: 1.0) rem(-10px, $sw: 1.0)
-          rem(-10px, $sw: 1.0) rem(-15px, $sw: 1.0);
-}
-%scale_marks_below_vert {
-  margin: rem(-10px, $sw: 1.0) rem(-15px, $sw: 1.0)
-          rem(-10px, $sw: 1.0) rem(-10px, $sw: 1.0);
-}
+%scale_marks_above_horz { margin: -15px -10px -10px -10px; }
+
+%scale_marks_below_horz { margin: -10px -10px -15px -10px; }
+
+%scale_marks_above_vert { margin: -10px -10px -10px -15px; }
+
+%scale_marks_below_vert { margin: -10px -15px -10px -10px; }
 
 
 // /*****************
@@ -5147,6 +5166,8 @@ messagedialog {
   }
 
   expander {
+    label { color: $inverted_fg_color; }
+
     title {
       label,
       arrow {
@@ -5246,7 +5267,8 @@ filechooserbutton:drop(active) {
   }
 }
 
-.sidebar {
+// FIXME: exclude treeview node for lollypop's sidebar
+.sidebar:not(treeview) {
   border: none;
   color: $secondary_fg_color;
 
@@ -5636,16 +5658,27 @@ tooltip {
     // background-image property instead.
     background-color: gtkopacity($base_color, 0.001);
     background-image: image(gtkopacity($inverted_dark_color, 0.901));
+  }
+
+
+  &.csd { // asset-based drop-shadows
+    border-style: solid;
+    border-width: 11px;
+    // no need to specify the light-variant specific shadows
+    border-image: -gtk-scaled(url("assets/osd-shadow-dark.png"),
+                              url("assets/osd-shadow-dark@2.png"))
+                  11 / 11px stretch;
 
     // add inner padding (use non-scalable unit instead)
-    > box { padding: if($ref_weight < 1.0, 0 1px 1px, 1px 2px 2px); }
+    > box {
+      padding: 10px - 1px; // use symmetrical padding for border-images
+
+      label { padding: if($ref_weight < 1.0, 0px 1px 1px, 1px 2px 2px); }
+    }
   }
 
   label,
   image { color: $inverted_fg_color; } // default foregrounds
-
-  // use roundness only for CSDs
-  &.csd { border-radius: 2px; }
 }
 
 .tooltip:not(tooltip) {
@@ -5722,17 +5755,16 @@ colorswatch {
 colorchooser .popover.osd {
   padding: 3px;
   border-style: solid;
-  border-width: 9px;
-  border-radius: 2px;
+  border-width: 11px;
   @if $variant == light {
     border-image: -gtk-scaled(url("assets/osd-shadow.png"),
                               url("assets/osd-shadow@2.png"))
-                  10 / 10px stretch;
+                  11 / 11px stretch;
   }
   @else {
     border-image: -gtk-scaled(url("assets/osd-shadow-dark.png"),
                               url("assets/osd-shadow-dark@2.png"))
-                  10 / 10px stretch;
+                  11 / 11px stretch;
   }
   box-shadow: none;
   color: $inverted_fg_color;
@@ -5968,8 +6000,10 @@ decoration {
   }
 
   tooltip.csd & {
-    border-radius: 2px;
-    box-shadow: $z-depth-2;
+    // FIXME: drop-shadows via box-shadow property sometimes causes
+    // flickering on its reserved shadow-region, so unset all properties
+    // here and embed actual shadows onto tooltip node directly instead...
+    all: unset;
   }
 
   message-dialog.csd & {
@@ -6400,9 +6434,6 @@ cursor-handle {
 
   &.insertion-cursor:dir(ltr),
   &.insertion-cursor:dir(rtl) {
-    -GtkWidget-text-handle-width: 20;
-    -GtkWidget-text-handle-height: 25;
-
     $_url: 'assets/slider-horz-scale-has-marks-above#{$asset_suffix}';
     -gtk-icon-source: -gtk-scaled(url('#{$_url}.png'),
                                   url('#{$_url}@2.png'));
@@ -6464,11 +6495,20 @@ popover.touch-selection {
 //  * Emoji Picker *
 //  ****************/
 
-popover.emoji-picker {
-  scrolledwindow.view {
+popover.emoji {
+  &-picker scrolledwindow.view {
     margin-top: 2px;
     border: 1px solid $borders_color;
     background-image: none;
+  }
+
+  &-completion {
+    arrow {
+      border: none;
+      background: none;
+    }
+
+    contents row box { padding: 2px 10px; } // NEEDS_REVIEW
   }
 }
 
@@ -6489,13 +6529,13 @@ flowboxchild.emoji { // emoji tiled view
   }
 }
 
-button.emoji-section.text-button:not(.image-button) {
+popover.emoji-picker button.emoji-section.flat {
   min-height: rem($widget_size - 4px, $sw: 1.0);
   min-width: rem($widget_size - 4px, $sw: 1.0);
   margin: 2px 0 0;
   padding: 0;
-  border-radius: 100px;
-  -gtk-outline-radius: 100px;
+  border-radius: 2px;
+  -gtk-outline-radius: 2px;
 
   label {
     padding: 0; // unset padding

@@ -24,12 +24,12 @@ Adapta strongly depends on Material Design resources, especially its **fonts**.
 |:-----:|:-----:|:-----:|:-----:|
 |Gnome-Shell >= 3.26|**Roboto**|**NotoSans**|Sans-serif|
 |Gnome-Shell =< 3.24|**NotoSans**||Sans-serif|
-|Cinnamon           |**NotoSans**||Sans-serif|
+|Cinnamon           |**Roboto**||Sans-serif|
 
 > **Note:**
 >
 > * Roboto is very nice with Adapta, but in some locales, it causes Tofu.
-> * NotoSans may work well in vairous locales, but NotoSans lacks 500 (Medium) weight. So elements defined with 500 will be drawn with 400 automatically.
+> * NotoSans may work well in various locales, but NotoSans lacks 500 (Medium) weight. So elements defined with 500 will be drawn with 400 automatically.
 > * NotoSans CJK supports 500 weight.
 > * NotoSans is used as the 'password chars **U+25CF**' only in Gnome-Shell >= 3.26.
 
@@ -55,6 +55,7 @@ Variant Matrix
 |Gtk+ 2.24.x |<img src="https://github.com/adapta-project/adapta-github-resources/blob/master/images/check-on.png" align="center" />|<img src="https://github.com/adapta-project/adapta-github-resources/blob/master/images/check-on.png" align="center" />|<img src="https://github.com/adapta-project/adapta-github-resources/blob/master/images/check-on.png" align="center" />|<img src="https://github.com/adapta-project/adapta-github-resources/blob/master/images/check-on.png" align="center" />|
 |Gtk+ 3.20.x |<img src="https://github.com/adapta-project/adapta-github-resources/blob/master/images/check-on.png" align="center" />|<img src="https://github.com/adapta-project/adapta-github-resources/blob/master/images/check-on.png" align="center" />|<img src="https://github.com/adapta-project/adapta-github-resources/blob/master/images/check-on.png" align="center" />|<img src="https://github.com/adapta-project/adapta-github-resources/blob/master/images/check-on.png" align="center" />|
 |Gtk+ 3.22.x |<img src="https://github.com/adapta-project/adapta-github-resources/blob/master/images/check-on.png" align="center" />|<img src="https://github.com/adapta-project/adapta-github-resources/blob/master/images/check-on.png" align="center" />|<img src="https://github.com/adapta-project/adapta-github-resources/blob/master/images/check-on.png" align="center" />|<img src="https://github.com/adapta-project/adapta-github-resources/blob/master/images/check-on.png" align="center" />|
+|Gtk+ 3.24.x |<img src="https://github.com/adapta-project/adapta-github-resources/blob/master/images/check-on.png" align="center" />|<img src="https://github.com/adapta-project/adapta-github-resources/blob/master/images/check-on.png" align="center" />|<img src="https://github.com/adapta-project/adapta-github-resources/blob/master/images/check-on.png" align="center" />|<img src="https://github.com/adapta-project/adapta-github-resources/blob/master/images/check-on.png" align="center" />|
 |Mutter      |<img src="https://github.com/adapta-project/adapta-github-resources/blob/master/images/check-on.png" align="center" />|<img src="https://github.com/adapta-project/adapta-github-resources/blob/master/images/check-on.png" align="center" />|<img src="https://github.com/adapta-project/adapta-github-resources/blob/master/images/check-on.png" align="center" />|<img src="https://github.com/adapta-project/adapta-github-resources/blob/master/images/check-on.png" align="center" />|
 |Metacity    |<img src="https://github.com/adapta-project/adapta-github-resources/blob/master/images/check-on.png" align="center" />|<img src="https://github.com/adapta-project/adapta-github-resources/blob/master/images/check-on.png" align="center" />|<img src="https://github.com/adapta-project/adapta-github-resources/blob/master/images/check-on.png" align="center" />|<img src="https://github.com/adapta-project/adapta-github-resources/blob/master/images/check-on.png" align="center" />|
 |Muffin      |<img src="https://github.com/adapta-project/adapta-github-resources/blob/master/images/check-on.png" align="center" />|<img src="https://github.com/adapta-project/adapta-github-resources/blob/master/images/check-on.png" align="center" />|<img src="https://github.com/adapta-project/adapta-github-resources/blob/master/images/check-off.png" align="center" />|<img src="https://github.com/adapta-project/adapta-github-resources/blob/master/images/check-off.png" align="center" />|
@@ -67,7 +68,7 @@ Variant Matrix
 >   * **Nokto** is a dark variant.
 >   * **Eta** is a tiny Gtk+ 2.x/3.2x Gtk+ widget variant for saving space.
 >   * I suggest you use the Eta variants if your LCD resolution is lower than FHD (1080p). Eta draws widgets around -20% to -30% spacing.
->   * Metacity theming supports Eta variants (>= 3.20.x or 3.22.x).
+>   * Metacity theming supports Eta variants (>= 3.2x).
 
 Elements
 --------
@@ -75,7 +76,7 @@ Elements
 
 Required Components
 -------------------
-Adapta supports Gtk+ 3.22.x and 3.20.x
+Adapta supports Gtk+ 3.24.x, 3.22.x and 3.20.x
 
  ```
  * Gtk+-3.0             >= 3.20.0
@@ -88,12 +89,12 @@ Supported Desktop Environments
 ------------------------------
 
  ```
- * GNOME-Shell     >= 3.18.3
- * GNOME-Flashback >= 3.18.2
+ * GNOME-Shell     >= 3.20.0
+ * GNOME-Flashback >= 3.20
  * Budgie-Desktop  >= 10.4
- * Cinnamon        >= 2.8.6
+ * Cinnamon        >= 3.2.0
  * XFce4           >= 4.12.2
- * Mate            >= 1.14.0 (Gtk+ 3.2x only)
+ * Mate            >= 1.14.0
  * LXDE            >= 0.99.1 (Gtk+ 2.x only)
  ```
 
@@ -143,7 +144,6 @@ Installation from Git Source
  * inkscape                                  >= 0.91
  * libgdk-pixbuf2.0-dev (gdk-pixbuf2-devel)  >= 2.32.2
  * libglib2.0-dev (glib2-devel)              >= 2.48.0
- * libsass0 (libsass)                        >= 3.3
  * libxml2-utils (libxml2)
  * pkg-config (pkgconfig)
  * sassc                                     >= 3.3
@@ -214,13 +214,8 @@ Installation from Git Source
 6. To enable extra Gtk+ release support, pass these options:
 
  ```
- --enable-gtk_legacy    enable Gtk+ 3.18 support (type: bool)
  --enable-gtk_next      enable Gtk+ 4.0 support (type: bool)
  ```
-
- > **Note:**
- >
- >   * Development for Gtk+ 3.18.x theming is over. And Gtk+ 3.18 support will be dropped in April 26th 2018.
 
 7. To change the default 4 **Key-Colors**, pass these options:
 
@@ -261,10 +256,17 @@ Visual Studio Code (VS Code) Theme Support
 ------------------------------------------
  1. Linux-themes (Author: SolarLiner): [**Visual Studio Marketplace**](https://marketplace.visualstudio.com/items?itemName=SolarLiner.linux-themes)
 
- 2. Vscode-theme-adapted (Author: About-Code): [**Github**](https://github.com/about-code/vscode-theme-adapted)
+ 2. Vscode-theme-adapted (Author: About-Code): [**Visual Studio Marketplace**](https://marketplace.visualstudio.com/items?itemName=about-code.vscode-theme-adapted)
 
 Extra Browser Support
 ---------------------
+ To try our color samples for FirefoxColor test pilot, check these URLs:
+
+  1. [**Adapta**](https://color.firefox.com/?theme=XQAAAALUAAAAAAAAAABBKYhm849SCiazH1KEGccwS-xNVAWBvoBvsLDMFdiXwrZEjOV1NwO6XqPerXD8qZXG0Ve0ysSRDO_Fqq_1SFIUTSKR-LFqpoxVvvpw1Iq_PQcwWXZZeVXaSfmGGjCCdDkcOR3IcXyEWy-CbpLupG_UOE7d7U-IqXDfj3RCFFTYAW-cbj4Hku3mPIskyg-xRys_ul6HSl3J_IaFQA)
+
+  2. [**Adapta-Nokto**](https://color.firefox.com/?theme=XQAAAALUAAAAAAAAAABBKYhm849SCiazH1KEGccwS-xNVAVNrWV6_89xtxNWy3sM0X99YG7itotZ8sB9kkK0owJCyKXJNAryj9IJU_wtu72r-X3skC4prCeW-fnJweq-4xu9tLmeXj8UkSdZGnzwrWVCNr3bToa6Zufrkj2b7e0PqstuOnN1gdAzjKSHwEJvdQThz-ruhge78cW2PaG0mCwQPvE72cX8OQiA)
+
+
  To try legacy Chrome(ium) specific theming (`< 59.0.30xx`), pass this option:
 
  ```
@@ -328,6 +330,24 @@ Extra Telegram Support
  >   * Bundled noise-texture images are for *tiled* mode.
  >   * Telegram support is a W.I.P currently.
 
+Extra Tweetdeck Support
+-----------------------
+ To try "Colordeck for Tweetdeck" extension theming, pass this option:
+
+ ```
+ --enable-tweetdeck      enable Tweetdeck-colordeck support (type: bool)
+ ```
+
+ The installer installs `cdk` files into `Adapta*/tweetdeck` directories if Tweetdeck support is enabled.
+ Then open the file via Colordeck -> import > "Colors" -> Choose File.
+
+ > **Note:**
+ >
+ >   * [**Chrome Web Store**](https://chrome.google.com/webstore/detail/colordeck-for-tweetdeck/jgoilgghdiafcdpgaddhfnlnhjhiejjl)
+ >   * [**Firefox Add-ons**](https://addons.mozilla.org/en-US/firefox/addon/colordeck/)
+ >   * Light and dark variants are supported.
+ >   * Currently those files support "Colors" only, so enabling "Colors" checkbox is enough.
+
 Other Projects
 ------
 This is a list of community projects, related to Adapta:
@@ -343,7 +363,6 @@ TODO
 ----
 * Prepare for Meson build system (priority: high)
 * Prepare for x3 scaling (priority: mid or low)
-* Drop Gtk+ 3.18 support in April 26th 2018 (Xenial -> Bionic).
 
 Public License
 --------------

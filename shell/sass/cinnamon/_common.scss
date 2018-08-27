@@ -12,7 +12,7 @@
   transition-duration: 0.2s;
 }
 
-$font-family: Noto Sans, Sans-Serif;
+$font-family: Roboto, Sans-Serif;
 
 stage {
   @include fontscaling($ref_size);
@@ -587,8 +587,6 @@ $icon_size: 16px;
   // &-menu { -boxpointer-gap: 4px }
 }
 
-// #appMenu { spacing: 4px; }
-
 .system-status-icon {
   icon-size: $icon_size;
   margin: 0;
@@ -727,6 +725,11 @@ $ws_thumb_spacing: 32px;
   padding: 0.4em 1.75em;
   spacing-rows: 0;
   spacing-columns: 0;
+
+  // .calendar-background class allows the date applet calendar
+  // to be themed separately from other applet menus
+  &-background {
+  }
 
   &-month-label {
     @include fontscaling($ref_size * 0.8);
@@ -1178,16 +1181,15 @@ $ws_thumb_spacing: 32px;
 
 .keyboard {
   &-layout {
-    spacing: 12px;
-    padding: 12px;
+    spacing: $ref_size * 0.3;
+    padding: $ref_size * 0.3;
   }
 
-  &-row { spacing: 12px; }
+  &-row { spacing: $ref_size * 0.3; }
 
   &-key {
-    @include fontscaling($ref_size * 2.0);
-    min-height: 2em;
-    min-width: 2em;
+    min-height: $ref_size * 2;
+    min-width: $ref_size * 2;
     border-radius: 2px;
     border: none;
     background-color: $osd_bg_color;
@@ -1195,6 +1197,7 @@ $ws_thumb_spacing: 32px;
     box-shadow: $empty_shadow;
     text-shadow: none;
     icon-shadow: none;
+    font-size: $ref_size * 2; // use unscalable unit
     font-weight: 700;
     transition-timing-function: $slope_slow;
     &:focus,
@@ -1225,7 +1228,7 @@ $ws_thumb_spacing: 32px;
     -arrow-border-color: transparent;
     -arrow-base: 0;
     -arrow-rise: 0;
-    -boxpointer-gap: 12px;
+    -boxpointer-gap: $ref_size * 0.3;
     background-color: $suggested_color;
     color: $selected_fg_color;
     box-shadow: $z-depth-2;
@@ -1243,6 +1246,11 @@ $ws_thumb_spacing: 32px;
 //  ******************/
 
 .menu {
+  // menu-background class allows the menu applet to be themed separately
+  // from other applet menus
+  &-background {
+  }
+
   &-favorites-box {
     padding: 7px;
     border-radius: 0;
@@ -1449,20 +1457,17 @@ $ws_thumb_spacing: 32px;
 
 .window-list {
   &-box {
-    spacing: 2px;
+    spacing: 0;
 
     .panel-top,
-    .panel-bottom & { padding: 0 0 0 8px; }
+    .panel-bottom & {
+      &:ltr { padding: 0 0 0 8px; }
+      &:rtl { padding: 0 8px 0 0; }
+    }
 
     &.vertical { padding: 6px 0 0 0; }
 
     &:highlight { background-color: $accent_fill_color; }
-  }
-
-  &-item-label {
-    width: 15em;
-    min-width: 5px;
-    font-weight: 400;
   }
 
   &-item-box {
@@ -1502,18 +1507,29 @@ $ws_thumb_spacing: 32px;
       }
     }
 
+    StIcon,
+    StBin {
+      .panel-top &,
+      .panel-bottom & { padding: 0 (6px - 2px); }
+    }
+
+    &.vertical StIcon,
+    &.vertical StBin { padding: 0; }
+
+    StLabel {
+      font-weight: 400;
+
+      .panel-top &,
+      .panel-bottom & {
+        &:ltr { padding: 0 (6px - 2px) 0 0; }
+        &:rtl { padding: 0 0 0 (6px - 2px); }
+      }
+    }
+
     &:progress,
     .progress {
       background-gradient-start: $accent_fill_color;
       background-gradient-end: $accent_fill_color;
-    }
-
-    .panel-top &,
-    .panel-bottom & {
-      StLabel {
-        &:ltr { padding-left: 2px; }
-        &:rtl { padding-right: 2px; }
-      }
     }
   }
 
@@ -1555,12 +1571,12 @@ $ws_thumb_spacing: 32px;
   > StBoxLayout:first-child {
     padding: 0.4em (1.75em - 0.75em) 0.4em * 2;
 
-    StLabel { padding: 0 5px 1px; }
+    StLabel { padding: 0 0.4em 1px; }
 
     StButton:small {
       width: $icon_size;
       height: $icon_size;
-      padding: 1px 5px 0;
+      padding: 1px 0.4em 0;
 
       StIcon { icon-size: $icon_size; }
     }
@@ -1625,21 +1641,28 @@ $ws_thumb_spacing: 32px;
   .panel-bottom & {
     padding-left: 3px;
     padding-right: 3px;
+    // padding: 0 3px; // NEEDS_REVIEW
   }
 
   .panel-left &,
   .panel-right & {
     padding-top: 3px;
     padding-bottom: 3px;
+    // padding: 3px; // NEEDS_REVIEW
   }
 }
 
 .workspace-button { // numeric buttons
+  // in future, we will drop damned fixed width/height properties
   width: 20px;
   height: 10px;
+  // padding: 0 6px; // NEEDS_REVIEW
   color: $osd_fg_color;
   background-color: $hidden_fill_color;
   transition-duration: 0.2s;
+
+  // .vertical & { padding: 3px; } // NEEDS_REVIEW
+
   &:hover {
     color: $selected_fg_color;
 
@@ -2189,6 +2212,13 @@ $bottom_gap: 4px;
 
 .applet-box { // the parent container
   .window-list-item-box { // actual childs
+    .panel-top &,
+    .panel-bottom &,
+    .panel-left &,
+    .panel-right & {
+      StIcon, StBin { padding: 0; }
+    }
+
     @each $position, $_indicator in (top, 0 2px),
                                     (bottom, 0 -2px),
                                     (left, 2px 0),
@@ -2246,6 +2276,20 @@ StBin.menu {
       &:selected {
         background-color: mix($osd_bg_color, $accent_color, 75%);
       }
+
+      > StBoxLayout { // icon and title
+        &:ltr { margin: 6px 0 0 6px; }
+        &:rtl { margin: 6px 6px 0 0; }
+
+        StLabel { padding-bottom: 0.1em; }
+      }
+
+      > StButton { // close button
+        &:ltr { margin: 6px 6px 0 0; }
+        &:rtl { margin: 6px 0 0 6px; }
+      }
+
+      > StBin.thumbnail { margin: 6px; }
     }
   }
 }

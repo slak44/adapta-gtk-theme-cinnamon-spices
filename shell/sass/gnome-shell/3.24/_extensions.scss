@@ -218,7 +218,7 @@
                             (right, 2px 0 0 2px) {
     &.#{$_dock} #dash {
       border-radius: #{$_radius};
-      background-color: $panel_fill_color;
+      background-color: $panel_bg_color;
     }
     &.#{$_dock}:overview #dash {
       border-radius: #{$_radius};
@@ -226,7 +226,7 @@
     }
     &.#{$_dock}.extended #dash {
       border-radius: 0;
-      background-color: $panel_fill_color;
+      background-color: $panel_bg_color;
     }
     &.#{$_dock}.extended:overview #dash {
       border-radius: 0;
@@ -253,57 +253,43 @@
     > StWidget { background-size: contain; }
   }
 
-  .number-overlay { // colours are picked from their stylesheet.css only
+  .number-overlay,
+  .notification-badge {
     min-width: if($eta == false, 1.6em, 1.4em);
     min-height: if($eta == false, 1.6em, 1.4em);
     margin: 0; // unset margin/padding
     padding: 0;
     border-radius: 100px;
-    // background-color: $accent_semi_fill_color;
-    // color: $inverted_accent_label_color;
     font-weight: 700;
     text-align: center;
     box-shadow: $z-depth-2;
   }
-}
 
-// running-dot styling
-@each $_dock, $_dot, $_inv in (top, -top, -top),
-                              (bottom, -bottom, -bottom),
-                              (left, -left, -right),
-                              (right, -right, -left) {
-  #dashtodockContainer.#{$_dock},
-  #dashtodockContainer.extended.#{$_dock} {
-    @each $_num in 1, 2, 3, 4 {
-      &:ltr {
-        .dash-item-container > StWidget.running#{$_num} {
-          background-image: url("assets/dot/running#{$_num}#{$_dot}.svg");
-          &.focused {
-            background-image:
-              url("assets/dot/running#{$_num}#{$_dot}-focused.svg");
-          }
-        }
-      }
-      &:rtl {
-        .dash-item-container > StWidget.running#{$_num} {
-          background-image: url("assets/dot/running#{$_num}#{$_inv}.svg");
-          &.focused {
-            background-image:
-              url("assets/dot/running#{$_num}#{$_inv}-focused.svg");
-          }
-        }
-      }
-    }
+  .number-overlay {
+    background-color: $osd_bg_color;
+    color: $selected_fg_color;
+  }
+
+  .notification-badge {
+    background-color: $suggested_color;
+    color: $selected_fg_color;
   }
 }
 
-#workspacestodockContainer {
-  &,
-  &:overview,
-  &.fullheight:overview {
-    background-color: $panel_hidden_fill_color;
+@each $_dock in top, bottom, left, right {
+  #dashtodockContainer.#{$_dock},
+  #dashtodockContainer.extended.#{$_dock} {
+    .dash-item-container > StWidget.focused { // fill whole focused backgrounds
+      .overview-icon {
+        border-radius: 0;
+        background-color: $osd_semi_fill_color;
+      }
 
-    .workspace-thumbnails { background-color: transparent; }
+      &:hover .overview-icon {
+        border-radius: 0;
+        background-color: $osd_fill_color;
+      }
+    }
   }
 }
 
@@ -366,28 +352,8 @@
       }
     }
 
-    .show-apps {
-      .show-apps-icon {
-        min-height: 24px;
-        background-image: url("assets/show-apps-panel.svg");
-        background-size: 32px 32px;
-        // FIXME: G-S can't recognize position property
-        // and may be aligned center automatically?
-        // background-position: center center;
-        transition-duration: 0s;
-        -st-background-image-shadow: none;
-      }
-
-      &:hover .show-apps-icon,
-      &:active .show-apps-icon,
-      &:focus .show-apps-icon {
-        background-image: url("assets/show-apps-panel-hover.svg");
-      }
-
-      &:checked .show-apps-icon {
-        background-image: url("assets/show-apps-panel-hover.svg");
-      }
-    }
+    .show-apps:checked .show-apps-icon, // override indicator colour
+    .show-apps:checked:hover .show-apps-icon { color: $selected_fg_color; }
   }
 }
 

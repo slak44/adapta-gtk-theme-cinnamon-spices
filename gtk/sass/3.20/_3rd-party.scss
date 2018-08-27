@@ -118,6 +118,7 @@ $budgie_transition: opacity 0.2s $slope_medium,
 }
 
 // icon tasklist styling
+%icon_tasklist_droptarget,
 box.pinned { // drop-target
   &:drop(active) {
     border: none;
@@ -224,28 +225,27 @@ box.pinned { // drop-target
 // upcoming icon tasklist
 widget.icon-tasklist {
   > box:drop(active) { // drop-target
-    border: none;
-    border-radius: 0;
-    background-color: gtkopacity($drop_target_color, 0.2);
-    box-shadow: inset 0 0 0 1px $drop_target_color;
+    @extend %icon_tasklist_droptarget;
   }
 }
 
 box:not(.unpinned):not(.pinned) > revealer > button.flat.launcher {
-  background-image: none;
-  transition-duration: 0s; // unset transitions
-
-  widget.icon { opacity: 0.87; }
+  transition: opacity 0.2s $slope_medium,
+              background-color 0.4s $slope_slow,
+              background-image 0.4s $slope_slow,
+              box-shadow 0s $slope_slow; // exclude box-shadows
 
   &:hover,
-  &:active,
   &:checked,
-  &.running {
-    box-shadow: none; // unset before drawing indicators
-    widget.icon { opacity: 1.0; }
-  }
+  &.running { box-shadow: none; } // unset before drawing indicators
 
-  &:active { animation: none; } // disable ink reactions
+  &:active {
+    box-shadow: none;
+    transition: opacity 0.2s $slope_medium,
+                background-color 0.4s $slope_slow,
+                background-image 0s $slope_slow,
+                box-shadow 0s $slope_slow;
+  }
 }
 
 @each $position, $_line in (top, 0 3px),
@@ -690,9 +690,6 @@ window.budgie-popover:not(.csd) {
       &:checked { color: $destructive_color; }
       &:disabled { color: gtkopacity($destructive_color, 0.4); }
     }
-
-    // reduce height of scale node
-    scale { padding: rem(10px - 2px, $sw: 1.0); }
   }
 
   stackswitcher.linked > button.text-button.radio { // switcher buttons
@@ -734,6 +731,9 @@ window.budgie-popover:not(.csd) {
       }
     }
   }
+
+  // reduce height of scale node
+  scale { padding: rem(10px - 2px, $sw: 1.0); }
 }
 
 // MPRIS Applet
@@ -824,7 +824,7 @@ window.sound-popover.background box.horizontal {
 
   .view-header {
     label {
-      @extend .dim-label;
+      @extend %dim_label;
       font-size: 15px;
       font-weight: 400;
       &:dir(ltr) { padding-left: 4px; }
@@ -1265,9 +1265,7 @@ window.budgie-popover.workspace-popover {
 }
 
 // alt-tab apps switcher styling
-$min_child_width: 60px;
-$min_spacing: 6px;
-$max_childs: 8;
+$child_margin: 2px;
 
 window.budgie-switcher-window {
   border-radius: 2px;
@@ -1275,27 +1273,23 @@ window.budgie-switcher-window {
 
   // draw actual backgrounds and shadows
   .drop-shadow {
-    margin: 8px 8px 16px; // reserve area for shadows
+    margin: 16px 24px 32px; // reserve area for shadows
     border-radius: 2px;
     background-color: gtkopacity($inverted_dark_color, 0.9);
     box-shadow: $z-depth-4; // raise to level-4
 
     label.budgie-switcher-title { // bottom label for app titles
-      // default max_children_per_line = 8
-      // keep the minimum width defined by tabswitcher.ui
-      min-width: ($min_child_width + $min_spacing) * $max_childs
-                 + $min_spacing * ($max_childs - 1);
       // prepare for tall and dense fonts
       min-height: 13.3px * 2; // use non-scaling unit
-      color: $inverted_accent_label_color;
+      color: $inverted_fg_color;
       font-weight: 500;
-      &:dir(ltr) { padding: 0 0 0 6px; }
-      &:dir(rtl) { padding: 0 6px 0 0; }
+      &:dir(ltr) { padding: 0 0 0 ($child_margin * 2); }
+      &:dir(rtl) { padding: 0 ($child_margin * 2) 0 0; }
     }
   }
 
   flowboxchild { // icon-tiles
-    margin: $min_spacing / 2;
+    margin: $child_margin;
     border-radius: 2px;
     -gtk-outline-radius: 2px;
     color: $inverted_secondary_accent_label_color;
@@ -1520,6 +1514,69 @@ window.background.budgie-settings-window.csd {
   }
 }
 
+// pixel-saver(?) applet
+.budgie-panel box.titlebar {
+  border-radius: 0;
+  background: unset;
+
+  > widget > label { color: $inverted_fg_color; } // titles
+
+  > button.image-button.titlebutton {
+    min-width: $icon_size;
+    min-height: $icon_size;
+    padding: 0;
+    background: none;
+    color: $inverted_fg_color;
+
+    image {
+      border-radius: 100px;
+      background-size: $icon_size $icon_size;
+      background-position: center center;
+      background-repeat: no-repeat;
+      transition-duration: 0s;
+    }
+
+    &:hover,
+    &:active {
+      background: none;
+      color: $selected_fg_color;
+      animation: none;
+
+      image { -gtk-icon-shadow: none; }
+    }
+
+    &.close {
+      &:hover image { background-image: image($destructive_color); }
+
+      &:active image { background-image: image($selected_bg_color); }
+    }
+
+    &:not(.close) {
+      &:hover image {
+        background-image: image(gtkopacity($selected_fg_color, 0.12));
+      }
+
+      &:active image {
+        background-image: image(gtkopacity($selected_fg_color, 0.25));
+      }
+    }
+
+    // hide unneeded button images when Raven widget was shown
+    &:disabled image { opacity: 0; }
+  }
+
+  &.horizontal { // spacing
+    padding: 0 3px;
+
+    > widget > label {
+      &:dir(ltr) { padding-right: 3px; }
+      &:dir(rtl) { padding-left: 3px; }
+    }
+
+    > button.image-button.titlebutton { padding: 0 3px; }
+  }
+}
+
 
 // /*******************
 //  * Lightdm-Greeter *
@@ -1622,12 +1679,11 @@ window.background.budgie-settings-window.csd {
   #shutdown_dialog {
     padding: 0;
     border-style: solid;
-    border-width: 10px;
-    border-radius: 2px;
+    border-width: 11px;
     // no need to be variant-specific, share the same asset instead
     border-image: -gtk-scaled(url("assets/osd-shadow.png"),
                               url("assets/osd-shadow@2.png"))
-                  10 / 10px stretch;
+                  11 / 11px stretch;
     background-color: gtkopacity($inverted_dark_color, 0.9);
     color: $inverted_fg_color;
     box-shadow: none;
@@ -1842,212 +1898,6 @@ window.background.lightdm {
 }
 
 
-// /************
-//  * Corebird *
-//  ************/
-
-// use normal foreground colour
-stack button.profile-button {
-  &:checked { color: $fg_color; }
-}
-
-headerbar.titlebar box {
-  button.toggle.account-button { // left-most account-button
-    min-width: $icon_size;
-    min-height: $icon_size;
-    // it doesn't work
-    padding: rem(6.7px) rem(10.7px) rem(6.7px);
-    // revert to square button since we can't make perfect circle button
-    border-radius: 2px;
-    -gtk-outline-radius: 2px;
-
-    // it doesn't work
-    .avatar-round { border-color: transparent; }
-  }
-}
-
-box.topbar {
-  // FIXME: foreground-color is locked by style.css
-  border-bottom: 1px solid mix($inverted_bg_color, #000000, 87%);
-
-  > button.image-button.radio {
-    all: unset;
-
-    > image {
-      border-left: 1px solid $inverted_bg_color;
-      border-right: 1px solid $inverted_bg_color;
-      min-width: $icon_size * 1.5;
-      min-height: $icon_size * 1.5;
-      padding: rem(6.7px);
-      background-image: radial-gradient(circle farthest-corner at center,
-                                        gtkopacity($inverted_fg_color, 0.4) 25%,
-                                        transparent 0%);
-      background-repeat: no-repeat;
-      background-position: center center;
-      background-size: 0% 0%; // hide ripples in normal state
-      background-color: $inverted_bg_color;
-      transition: background-image 0s $slope_slow,
-                  background-size 0s $slope_medium,
-                  box-shadow 0.2s $slope_slow;
-    }
-
-    &:hover > image {
-      border-left-color: mix($inverted_fg_color, $inverted_bg_color, 12%);
-      border-right-color: mix($inverted_fg_color, $inverted_bg_color, 12%);
-      background-color: mix($inverted_fg_color, $inverted_bg_color, 12%);
-      box-shadow: inset 0 -2px gtkopacity($inverted_fg_color, 0.2);
-    }
-
-    &:checked > image {
-      border-left-color: mix($inverted_base_color, #000000, 87%);
-      border-right-color: mix($inverted_base_color, #000000, 87%);
-      background-image: radial-gradient(circle farthest-corner at center,
-                                        gtkopacity($inverted_fg_color, 0) 25%,
-                                        transparent 0%);
-      background-size: 100% * 4 100% * 4;
-      background-color: $inverted_base_color;
-      box-shadow: $tab-shadow-dark,
-                  inset 0 -2px $selected_bg_color;
-      transition: background-image 0.4s $slope_slow,
-                  background-size 0.4s $slope_medium;
-    }
-
-    &:checked:hover > image {
-      border-left-color: mix($inverted_base_color, #000000, 87%);
-      border-right-color: mix($inverted_base_color, #000000, 87%);
-      background-color: mix($inverted_fg_color, $inverted_base_color, 12%);
-      box-shadow: $tab-shadow-dark,
-                  inset 0 -2px $selected_bg_color;
-    }
-  }
-}
-
-list > row.activatable.tweet {
-  // speed-up scrolling
-  background-image: none;
-  &:hover { background-image: none; } // hide hovering effects
-
-  &,
-  widget.inline-media,
-  button.text-only-button {
-    transition: none;
-    &:active { animation: none; }
-
-    label { transition: none; }
-  }
-
-  // dim 'quotes' inside the tweets (labels only)
-  grid.horizontal.quote label {
-    opacity: 0.87;
-
-    &.dim-label { opacity: 0.4; }
-  }
-
-  // use asymmetrical separators
-  &:dir(ltr) {
-    border-image: linear-gradient(to right,
-                                  transparent 72px,
-                                  $borders_color 72px,
-                                  $borders_color)
-                                  0 0 1 / 0 0 1px;
-  }
-  &:dir(rtl) {
-    border-image: linear-gradient(to left,
-                                  transparent 72px,
-                                  $borders_color 72px,
-                                  $borders_color)
-                                  0 0 1 / 0 0 1px;
-  }
-
-  stack > box.vertical & { // stacking-mode
-    &:dir(ltr), &:dir(rtl) { // full-width border
-      border-image: image($solid_light_borders_color)
-                    0 0 1 / 0 0 1px;
-    }
-  }
-}
-
-scrolledwindow > viewport.frame > list {
-  > stack > box.vertical > button.text-button { // 'Retry' button
-    margin-bottom: rem(13.3px, $sw: 1.0);
-  }
-}
-
-// top-right 'close' button on attached images
-stack > grid.horizontal > widget {
-  > button.close-button.image-button {
-    // disabled box-shadow by hard-coded style.css
-    background-color: $destructive_color;
-    color: $secondary_selected_fg_color;
-    &:hover {
-      @extend %button_hover;
-      background-color: $destructive_color;
-      color: $selected_fg_color;
-    }
-    &:active {
-      @extend %button_active;
-      background-color: $selected_bg_color;
-      color: $selected_fg_color;
-    }
-    &:checked {
-      background-color: mix($selected_fg_color,
-                            $destructive_color, 20%);
-    }
-    &:disabled {
-      @include button(insensitive, transparent,
-                                   $insensitive_inverted_fg_color);
-    }
-  }
-}
-
-// popup window for media
-window.background:not(.csd):not(.solid-csd):not(.unity-csd) > frame {
-  > scrolledwindow {
-    > scrollbar { // always draw troughs
-      background-color: gtkopacity($base_color, 0.55);
-
-      &.overlay-indicator {
-        &:not(.dragging):not(.hovering) {
-          background-color: gtkopacity($base_color, 0.55);
-        }
-      }
-    }
-  }
-}
-
-window.background > popover.background > frame > list > row.activatable {
-  > grid.horizontal > button.flat.image-button {
-    // revive transitions
-    transition-property: opacity,
-                         border-color,
-                         border-image,
-                         background-color,
-                         background-image,
-                         box-shadow,
-                         icon-shadow;
-    transition-timing-function: $slope_slow;
-    transition-duration: 0.2s;
-  }
-}
-
-window.background:not(.csd):not(.solid-csd) > overlay {
-  > box.nobg.osd > revealer > button, // < 1.6
-  > revealer > button.osd {  // back/forward buttons
-    @extend button.osd.image-button;
-    min-width: $icon_size * 1.5;
-    min-height: $icon_size * 1.5;
-  }
-}
-
-// top-highlight
-replyindicator { background-image: image($accent_color); }
-
-// tweet details
-grid.tweet-info-grid.view { // raised material
-  box-shadow: $z-depth-2;
-}
-
-
 // /********
 //  * Nemo *
 //  ********/
@@ -2072,6 +1922,11 @@ grid.tweet-info-grid.view { // raised material
         @extend %selected_items;
       }
     }
+  }
+  
+  .nemo-inactive-pane .view {
+    background-color: $bg_color;
+    color: $insensitive_fg_color;
   }
 
   infobar.error { // Administrative privileges
@@ -2220,62 +2075,29 @@ grid.tweet-info-grid.view { // raised material
 //  * Lollypop *
 //  ************/
 
-window > headerbar > widget > box.horizontal {
-  > grid.horizontal > button.toggle.image-button {
-    min-width: $icon_size * 1.5;
-    min-height: $icon_size * 1.5;
-    padding: if($ref_weight < 1.0,
-             rem(($widget_size - $icon_size * 1.5 - 2px) / 2),
-             rem(($widget_size - $icon_size * 1.5) / 2));
-  }
-
-  > button.image-button {
-    min-width: $icon_size * 1.5;
-    min-height: $icon_size * 1.5;
-    margin: -2px 0;
-    padding: if($ref_weight < 1.0,
-             rem(($widget_size - $icon_size * 1.5 - 2px) / 2),
-             rem(($widget_size - $icon_size * 1.5) / 2));
-  }
-}
-
-// left-pane styling
-window.background > grid.vertical > stack > paned.horizontal > widget {
-  grid.vertical > scrolledwindow {
-    @extend %sidebar_template;
-
-    > treeview.view.sidebar {
-      background-color: transparent;
-      font-weight: 500;
-
-      // FIXME: hard-coded?
-      // separator { color: $borders_color; }
+// header grid?
+paned.horizontal > paned.horizontal stack grid.vertical > grid.horizontal {
+  button.image-button {
+    &, &.toggle {
+      border-radius: 2px;
+      -gtk-outline-radius: 2px;
     }
   }
 }
 
 // playlists styling
-window.background > grid.vertical > stack > paned.horizontal {
-  > paned.horizontal > grid grid > grid {
-    button.flat.image-button { // back to square button
-      &, &.toggle {
+row.trackrow {
+  &, &playing {
+    // lollypop can not understand outer marigns
+    button.image-button:not(.text-button),
+    .track-menu-button { // back to square button
+      &, &.toggle { // back to square button
+        margin: 0;
         border-radius: 2px;
         -gtk-outline-radius: 2px;
       }
     }
   }
-}
-
-row.trackrow {
-  &, &playing {
-    // lollypop can not understand outer marigns
-    button.image-button:not(.text-button) { margin: 0; }
-  }
-}
-
-.track-menu-button { // back to square button
-  border-radius: 2px;
-  -gtk-outline-radius: 2px;
 }
 
 // Track menu GtkPopover
@@ -2338,6 +2160,11 @@ window.background:not(.csd) > box.vertical {
       }
     }
   }
+}
+
+// add extra vertical margins for weird switch node allocation
+widget box.horizontal > widget + box.horizontal {
+  switch  { margin: rem(5.3px) 0; }
 }
 
 
@@ -2406,7 +2233,6 @@ window.background:not(.csd) > box.vertical {
     border-radius: 0;
     caret-color: inherit;
     font-family: monospace;
-    letter-spacing: rem(2px, $sw: 1.0);
     &:focus {
       @include entry(flat-focus, $c: $inverted_fg_color);
       caret-color: inherit;
@@ -2504,24 +2330,20 @@ window.background:not(.csd) > box.vertical {
 //  *********/
 
 .XfceHeading {
-  margin: 0;
-  padding: 0;
-  border-width: 0;
-  background-image: none;
+  border: 0 none transparent;
   background-color: $bg_color;
   color: $fg_color;
-  text-shadow: none;
 }
 
 .xfce4-panel {
-  &, // unset borders
-  frame > border { border: 0 none transparent; }
-
   background-color: $panel_bg_color;
   color: $inverted_fg_color;
   font-weight: 700;
   text-shadow: none;
   -gtk-icon-shadow: none;
+
+  &, // unset borders
+  frame > border { border: 0 none transparent; }
 
   // dashed outline indicator?
   // default -> 1px dashed #ff0000;
@@ -2579,6 +2401,29 @@ TopMenuAppMenuBar {
       box-shadow: inset 0 -2px $selected_bg_color;
       transition: none;
     }
+  }
+}
+
+
+// /**********
+//  * Thunar *
+//  **********/
+
+window.thunar {
+  toolbar#location-toolbar {
+    border-bottom: 1px solid $borders_color;
+
+    // FIXME: need to unset for weird allocation height
+    entry { min-height: 0; }
+  }
+
+  notebook {
+    // hide unneeded border
+    stack > scrolledwindow.frame.standard-view { border-top-width: 0; }
+
+    // an allocation height of label node affects to close button's
+    // image height (it's quite weird).
+    header.top tab.reorderable-page > box > label { min-height: 0; }
   }
 }
 
@@ -2813,47 +2658,73 @@ window.background:not(.solid-csd) > box.vertical {
   padding: if($ref_weight < 1.0, 0 4px, 0 7px);
 }
 
-$compact_tab_height: 28px;
+%browser_csd_titlebutton {
+  // define global titlebutton class sizing
+  margin: 0; // unset margins
+  padding: 0;
+  background-position: center center;
+  background-repeat: no-repeat;
+  color: transparent; // hide stock icons
 
-window#MozillaGtkWidget.background {
-  &,
-  decoration,
-  headerbar.titlebar { border-radius: 0; } // unset roundness
+  @each $_class, $_suffix1 in ('close', '-close'),
+                              ('minimize', '-minimize'),
+                              ('maximize', '-maximize') {
+    @each $_pseudo, $_suffix2 in ('', ''),
+                                 (':hover', '-active'),
+                                 (':active', '-active'),
+                                 (':backdrop', '-backdrop') {
+      &.#{$_class}#{$_pseudo} {
+        background-image:
+          -gtk-scaled(
+            url("assets/window#{$_suffix1}#{$_suffix2}.png"),
+            url("assets/window#{$_suffix1}#{$_suffix2}@2.png"));
+      }
+    }
+  }
+
+  &.close {
+    &:hover { background-color: $destructive_color; }
+    &:active { background-color: $selected_bg_color; }
+    &:backdrop:hover {
+      background-color: gtkopacity($destructive_color, 0.4);
+    }
+  }
+
+  &:not(.close) {
+    &:hover { background-color: gtkopacity($inverted_fg_color, 0.12); }
+    &:active { background-color: gtkopacity($inverted_fg_color, 0.25); }
+    &:backdrop:hover {
+      background-color: gtkopacity($inverted_fg_color, 0.12 * 0.4);
+    }
+  }
+}
+
+%browser_maxd_csd_titlebutton {
+  @each $_pseudo, $_suffix2 in ('', ''),
+                               (':hover', '-active'),
+                               (':active', '-active'),
+                               (':backdrop', '-backdrop') {
+    &#{$_pseudo} {
+      background-image:
+        -gtk-scaled(url("assets/window-unmaximize#{$_suffix2}.png"),
+                    url("assets/window-unmaximize#{$_suffix2}@2.png"));
+    }
+  }
 }
 
 #MozillaGtkWidget.background {
   headerbar.titlebar { // >= nightly 60.0a1(2018-02-02)
     // FIXME: no backdrop state, no maximized state, bullshit...
-
-    padding: if($ref_weight < 1.0, 0 3px, 2px 3px);
-    border-radius: 2px 2px 0 0;
-    border-top: 1px solid $top_edge_borders_color;
+    padding: 0 if($ref_weight < 1.0, (28px - $icon_size * 1.25) / 2,
+                                     (28px - $icon_size * 1.5) / 2);
 
     &.default-decoration button.titlebutton {
-      // compute proper T/B magins
-      margin: ($compact_tab_height - $titlebutton_small) / 2 0;
+      @extend %browser_csd_titlebutton;
+      min-width: if($ref_weight < 1.0, $icon_size * 1.25,
+                                       $icon_size * 1.5);
+      min-height: if($ref_weight < 1.0, $icon_size * 1.25,
+                                       $icon_size * 1.5);
     }
-  }
-
-  // blend with weird toolbar backgrounds
-  background-color: if($variant == light, $base_color, rgb(4, 18, 25));
-
-  // FIXME: resetting child elements background is not fully functional yet
-  // because WidgetStyleCache keeps holding initial background-color.
-  // the stem of this incorrect colouring seems to be caused by their
-  // gdk_rgba to ns_rgba conversion. I don't think theme's fault.
-  .background,
-  frame,
-  separator,
-  scrolledwindow { background-color: $bg_color; }
-
-  scrollbar { background-color: $base_color; }
-
-  *:not(menuitem):hover, // exclude menuitem node
-  *:focus,
-  *:active,
-  *:checked {
-    &, button { color: $fg_color; } // enforce opaque foregrounds
   }
 
   menubar > menuitem {
@@ -2886,22 +2757,18 @@ window#MozillaGtkWidget.background {
   }
 
   > widget {
+    // 'PageInfo' window's ViewGroup > radio?
+    > radiobutton,
+    > checkbutton {
+      &:focus { outline-width: 0; } // hide outlines
+    }
+
     border { border-color: $solid_light_borders_color; }
 
     separator { background-color: $solid_light_borders_color; }
 
-    // FIXME: this affected to popover widget as well,
-    // so we can not set $light_color to search-bar...
-    > scrolledwindow > textview {
-      background-color: $secondary_base_color;
-
-      text {
-        background-color: transparent;
-        color: $secondary_fg_color;
-        &:selected,
-        &:selected:focus,
-        selection { @extend %selected_items; }
-      }
+    > scrolledwindow > textview text {
+      &:selected { @extend %selected_items; }
     }
 
     > button {
@@ -2987,12 +2854,29 @@ PanelSeparator {
   color: $panel_separator_color;
 }
 
-MatePanelAppletFrameDBus {
-  border-style: solid;
-  border-color: $panel_separator_color;
+@each $layout, $size, $dir in (horizontal, 7px 14px, right),
+                              (vertical, 14px 7px, bottom) {
+  // a grip
+  PanelToplevel.#{$layout} MatePanelAppletFrameDBus {
+    background-image: linear-gradient(to #{$dir},
+                        transparent 2px,
+                        $panel_separator_color 2px,
+                        $panel_separator_color 3px,
+                        transparent 3px,
+                        transparent 4px,
+                        $panel_separator_color 4px,
+                        $panel_separator_color 5px,
+                        transparent 5px,
+                        transparent 7px);
+    background-repeat: no-repeat;
+    background-size: #{$size};
 
-  &:dir(ltr) { border-width: 0 0 0 2px; }
-  &:dir(rtl) { border-width: 0 2px 0 0; }
+    @if $layout == horizontal {
+      &:dir(ltr) { background-position: left center; }
+      &:dir(rtl) { background-position: right center; }
+    }
+    @else if $layout == vertical { background-position: center top; }
+  }
 }
 
 // 'hide' arrow buttons
@@ -3073,7 +2957,11 @@ PanelToplevel.mate-panel-menu-bar > grid.horizontal > button {
   }
 
   // vertical panel mode?
-  &.brisk-button-vertical { padding: 0; }
+  &.brisk-button-vertical {
+    padding: 0;
+    &:hover { box-shadow: inset 2px 0 $outline_track_color; }
+    &:checked { box-shadow: inset 2px 0 $selected_bg_color; }
+  }
 }
 
 .brisk-menu {
@@ -3626,6 +3514,8 @@ box#DesktopStatusBar {
 }
 
 widget > box#DesktopMainTable {
+  &:dir(ltr) { margin-right: rem(8px); } // gap between entry and buttons
+  &:dir(rtl) { margin-left: rem(8px); }
   // stop using circular animations
   // since we can not keep the perfect square allocations
   spinbutton > button {
@@ -3656,20 +3546,35 @@ widget > box#DesktopMainTable {
   }
 }
 
-#InkscapePanel box#PanelContents button {
-  &.toggle,
-  &.radio {
-    min-width: rem($icon_size * 2.5);
-    min-height: rem($icon_size * 2.5);
-    margin: 0;
-    padding: 0;
-    border-radius: 2px;
-    -gtk-outline-radius: 2px;
-    &:checked {
-     @include button(flat-checked);
-      border-image: none;
-      &:disabled { @include button(flat-checked-insensitive); }
+#InkscapePanel {
+  box#PanelContents,
+  box#PaintSelector {
+    button {
+      &.toggle,
+      &.radio {
+        min-width: rem($icon_size * 2.5);
+        min-height: rem($icon_size * 2.5);
+        margin: 0;
+        padding: 0;
+        border-radius: 2px;
+        -gtk-outline-radius: 2px;
+        &:checked {
+          @include button(flat-checked);
+          border-image: none;
+          &:disabled { @include button(flat-checked-insensitive); }
+        }
+      }
     }
+  }
+}
+
+box#InkSpinScale { // >= 0.92+
+  // cover up ugly stock style.css
+  border-image: image($bg_color) 2 / 2px;
+  box-shadow: inset 0 0 0 999px $bg_color;
+
+  trough {
+    &:not(:disabled) { background-color: gtkopacity($accent_color, 0.2); }
   }
 }
 
@@ -3691,15 +3596,28 @@ widget > box#DesktopMainTable {
         transition: none;
       }
     }
-  }
 
-  window#Emacs#{$_version} widget#emacs#{$_version} {
-    transition: none;
+    widget#emacs#{$_version} {
+      &, > widget { transition: none; }
 
-    > widget > scrollbar {
-      background-color: $bg_color;
+      > widget {
+        > scrollbar {
+          background-color: $base_color;
 
-      &, * { transition: none; }
+          // scrollbar node width '16px' is hard-coded?
+          &.vertical {
+            trough {
+              border-width: 0 1px 0;
+              border-style: solid;
+              border-color: $solid_light_borders_color;
+            }
+
+            slider { min-width: 16px - (1px * 2); }
+          }
+
+          &, * { transition: none; }
+        }
+      }
     }
   }
 }
@@ -3891,6 +3809,9 @@ window.background.chromium {
   color: if($variant == light, $secondary_fg_color, $fg_color);
 
   headerbar.titlebar {
+    // foregrounds for inactive tabs and new-tab button in Refresh-mode
+    color: mix($inverted_fg_color, $inverted_dark_color, 54%); // >= 69.0.3497
+
     button.toggle { // account-button (> 64.0.3282?)
       border-radius: 2px; // back to text-button radius
       &:active { // use chromium-style toggled backgrounds
@@ -3900,59 +3821,15 @@ window.background.chromium {
 
     // from nav_button_provider_gtk3.cc (> 62.0.3202?)
     button.titlebutton { // title-buttons
-      // define global titlebutton class sizing
+      @extend %browser_csd_titlebutton;
       min-width: $icon_size; // > 16px causes image blurring
       min-height: $icon_size;
-      margin: 0; // unset margins
-      padding: 0;
-      color: transparent; // hide stock icons
-
-      @each $_class, $_suffix1 in ('close', '-close'),
-                                  ('minimize', '-minimize'),
-                                  ('maximize', '-maximize') {
-        @each $_pseudo, $_suffix2 in ('', ''),
-                                     (':hover', '-active'),
-                                     (':active', '-active'),
-                                     (':backdrop', '-backdrop') {
-          &.#{$_class}#{$_pseudo} {
-            background-image:
-              -gtk-scaled(
-                url("assets/window#{$_suffix1}#{$_suffix2}.png"),
-                url("assets/window#{$_suffix1}#{$_suffix2}@2.png"));
-          }
-        }
-      }
-
-      &.close {
-        &:hover { background-color: $destructive_color; }
-        &:active { background-color: $selected_bg_color; }
-        &:backdrop:hover {
-          background-color: gtkopacity($destructive_color, 0.4);
-        }
-      }
-
-      &:not(.close) {
-        &:hover { background-color: gtkopacity($inverted_fg_color, 0.12); }
-        &:active { background-color: gtkopacity($inverted_fg_color, 0.25); }
-        &:backdrop:hover {
-          background-color: gtkopacity($inverted_fg_color, 0.12 * 0.4);
-        }
-      }
     }
   }
 
   // for unmaximize(restore) titlebutton
   &.maximized headerbar.titlebar button.titlebutton.maximize {
-    @each $_pseudo, $_suffix2 in ('', ''),
-                                 (':hover', '-active'),
-                                 (':active', '-active'),
-                                 (':backdrop', '-backdrop') {
-      &#{$_pseudo} {
-        background-image:
-          -gtk-scaled(url("assets/window-unmaximize#{$_suffix2}.png"),
-                      url("assets/window-unmaximize#{$_suffix2}@2.png"));
-      }
-    }
+    @extend %browser_maxd_csd_titlebutton;
   }
 
   // FIXME: not for actual button widgets but for toolbar's separators
@@ -3960,9 +3837,7 @@ window.background.chromium {
   button { // for active-tab borders
     border-width: 1px;
     border-style: solid;
-    border-color: if($variant == light,
-                     $solid_light_borders_color,
-                     mix($bg_color, $solid_dark_borders_color, 75%));
+    border-color: $solid_light_borders_color;
   }
 
   entry.chromium {
@@ -4182,7 +4057,7 @@ window#ValaPanel.background { // solid-mode
   background-color: $panel_bg_color;
   color: $inverted_fg_color;
 
-  decoration { all: unset; } // unset all decorations
+  > decoration { all: unset; } // unset root decoration
 
   widget.-vala-panel-background > separator { // separator applet
     background-color: $panel_separator_color;
@@ -4237,7 +4112,7 @@ button.flat.-panel-icon-button {
 
   > image {
     background-image: image($selected_bg_color);
-    background-size: 6px 2px;
+    background-size: (6px / 1.1) 2px; // 1:1.1 aspect deformation exists
     background-position: bottom center;
   }
 
@@ -4277,6 +4152,14 @@ dialog.background:not(.csd) {
     list {
       &:dir(ltr),
       &:dir(rtl) { box-shadow: none; }
+    }
+  }
+
+  // hide unndeeded animations (child radio node already has)
+  .dialog-vbox grid.horizontal > grid.horizontal > modelbutton.flat {
+    &:not(:disabled) {
+      background-image: none;
+      animation: none;
     }
   }
 }
@@ -4319,6 +4202,48 @@ window#live_installer {
 
     // 4px from <data>
     progressbar trough { border-radius: 4px; }
+  }
+}
+
+
+// /*********
+//  * Pamac *
+//  *********/
+
+// toggle buttons in the buttonbox!? non-sense at all...
+buttonbox.vertical > button.toggle {
+  @each $b_type, $b_color in (suggested, $selected_bg_color),
+                             (destructive, $destructive_color) {
+    &.#{$b_type}-action:checked {
+      background-image: none;
+      background-color: mix($selected_fg_color, $b_color, 20%);
+      color: $selected_fg_color;
+      &:hover {
+        background-image: none;
+        background-color: $b_color;
+        color: $selected_fg_color;
+      }
+    }
+  }
+}
+
+// left-pane
+box.vertical > stack > box > revealer > stack > scrolledwindow {
+  > viewport.frame > list {
+    @extend %sidebar_template;
+    &:dir(ltr) { border-right: 1px solid $borders_color; }
+    &:dir(rtl) { border-left: 1px solid $borders_color; }
+
+    > row.activatable {
+      &:selected {
+        background-color: transparent;
+        &:hover { background-image: image($track_color); }
+
+        &, label { color: $selected_bg_color; }
+      }
+
+      > label { font-weight: 500; }
+    }
   }
 }
 
