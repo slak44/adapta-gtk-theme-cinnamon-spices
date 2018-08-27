@@ -10,7 +10,7 @@ if [ ! -d "$THEMEDIR" ]; then
 	mkdir "$THEMEDIR";
 fi
 
-./autogen.sh --enable-gtk_legacy --enable-parallel --disable-gnome --disable-openbox --disable-mate --disable-xfce --disable-flashback;
+./autogen.sh --enable-gtk_legacy --enable-parallel --disable-gnome --disable-openbox --disable-mate --disable-tweetdeck --disable-xfce --disable-flashback;
 make;
 
 #Adapta
