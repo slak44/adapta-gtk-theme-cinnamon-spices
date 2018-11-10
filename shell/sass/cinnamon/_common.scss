@@ -307,67 +307,60 @@ StScrollBar {
 // .popup-menu-boxpointer and .popup-menu are kept for compatibility
 // with cinnamon version under 3.2. Use .menu in version 3.2 and above
 
-.menu {
-  padding: 0;
+.menu,
+.popup-menu, {
+  min-width: 0;
+  padding: 0.5em 0;
+  border-image: url("assets/menu/menu.svg") 9 9 9 9;
   background-color: $secondary_base_color;
   color: $secondary_fg_color;
 }
 
-.popup-menu,
-.menu {
+.popup-sub-menu {
   min-width: 0;
-  padding: 0;
-  border-image: url("assets/menu/menu.svg") 9 9 9 9;
-  color: $secondary_fg_color;
+  padding: 0.5em 0;
+  // 8 8 2 2 is the experimental values
+  border-image: url("assets/menu/submenu.svg") 8 8 2 2;
+  background-gradient-direction: none;
+  box-shadow: $empty_shadow;
 
-  &-arrow { icon-size: 16px; }
+StScrollBar {
+  padding: 4px;
 
-  .popup-sub-menu {
-    min-width: 0;
-    // 8 8 2 2 is the experimental values
-    border-image: url("assets/menu/submenu.svg") 8 8 2 2;
-    background-gradient-direction: none;
-    box-shadow: $empty_shadow;
-
-    StScrollBar {
-      padding: 4px;
-
-      StBin#trough,
-      StBin#vhandle { border-width: 0; }
-    }
+  StBin#trough,
+  StBin#vhandle { border-width: 0; }
   }
-
-  .popup-menu-content {
-    // embed parent border-image region as asymmetrical padding
-    padding: 0.3em * 2 2px 0.33em * 2;
-  }
-
-  .popup-menu-item {  // FIXME: do not set min-width affected to fav-box
-    padding: 0.4em 1.75em;
-    spacing: 1em;
-    border-width: 0 1px;
-    color: $secondary_fg_color;
-    &:active {
-      border-image: url("assets/menu/menu-hover.svg") 9 9 0 0;
-      color: $fg_color;
-      background-color: transparent;
-    }
-    &:insensitive {
-      color: $insensitive_fg_color;
-      background: none;
-    }
-
-    StLabel { max-width: 45em; } // set horizontal limit
-  }
-
-  // all icons and other graphical elements
-  .popup-inactive-menu-item {
-    color: $secondary_fg_color;
-    &:insensitive { color: $insensitive_fg_color; }
-  }
-
-  &-icon { icon-size: 16px; }
 }
+
+.popup-menu-content {
+  padding: 0 1em;
+  }
+
+.popup-menu-item {
+  padding: 0.4em 1.75em;
+  spacing: 1em;
+  border-width: 0 1px;
+  color: $secondary_fg_color;
+  &:active {
+  border-image: url("assets/menu/menu-hover.svg") 9 9 0 0;
+  color: $fg_color;
+  background-color: transparent;
+  }
+  &:insensitive {
+  color: $insensitive_fg_color;
+  background: none;
+  }
+
+   StLabel { max-width: 45em; } // set horizontal limit
+}
+
+// all icons and other graphical elements
+.popup-inactive-menu-item {
+  color: $secondary_fg_color;
+  &:insensitive { color: $insensitive_fg_color; }
+}
+
+.popup-menu-icon, .menu-icon, .popup-menu-arrow { icon-size: 16px; }
 
 .popup {
   &-menu-boxpointer {
@@ -1266,7 +1259,7 @@ $ws_thumb_spacing: 32px;
   }
 
   &-favorites-button {
-    padding: 10px;
+    padding: 0.9em 1em;
     &:hover { @include button(flat-hover); }
   }
 
@@ -1392,7 +1385,7 @@ $ws_thumb_spacing: 32px;
 
 #menu-search-entry {
   @extend %entry;
-  width: 24em;
+  width: 16em;
   caret-color: $fg_color;
   font-weight: 500;
 }
@@ -1404,6 +1397,7 @@ $ws_thumb_spacing: 32px;
 
 // Context menu (at the moment only for favorites)
 .menu-context-menu {
+padding: 0.5em;
 }
 
 
