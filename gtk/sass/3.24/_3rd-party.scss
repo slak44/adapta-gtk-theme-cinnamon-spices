@@ -2395,6 +2395,10 @@ widget box.horizontal > widget + box.horizontal {
         box-shadow: none;
       }
     }
+
+    &#xfce4-notification-plugin {
+      padding: 0 1px; // for 4.12.2
+    }
   }
 
   menu {
@@ -2404,6 +2408,19 @@ widget box.horizontal > widget + box.horizontal {
   }
 
   widget.tasklist > button.toggle { font-weight: 400; }
+}
+
+XfdesktopIconView.view {
+  border-radius: 2px;
+  background: transparent;
+  color: $selected_fg_color;
+  text-shadow: $z-depth-1-label; // non-sense for me
+  &:active {
+    background-color: $selected_bg_color;
+    text-shadow: none;
+  }
+
+  .rubberband { @extend rubberband; }
 }
 
 window#whiskermenu-window {
@@ -2418,8 +2435,11 @@ window#whiskermenu-window {
   // why wasn't .popup class implemented in this window node? :/
   > decoration { box-shadow: $z-depth-3; }
 
-  stack > box > box.horizontal:first-child { // ugly resize-grip
-    widget { color: $outline_track_color; }
+  stack > box > box.horizontal {
+    &:first-child widget,
+    &:last-child > widget:last-child { // ugly resize-grip
+      color: $outline_track_color;
+    }
   }
 
   scrolledwindow {
@@ -3699,10 +3719,13 @@ window.background.chromium {
   background-color: if($variant == light, $bg_color, $base_color);
   color: if($variant == light, $secondary_fg_color, $fg_color);
 
+  menubar,
   headerbar.titlebar {
     // foregrounds for inactive tabs and new-tab button in Refresh-mode
     color: mix($inverted_fg_color, $inverted_dark_color, 54%); // >= 69.0.3497
+  }
 
+  headerbar.titlebar {
     button.toggle { // account-button (> 64.0.3282?)
       border-radius: 2px; // back to text-button radius
       &:active { // use chromium-style toggled backgrounds
