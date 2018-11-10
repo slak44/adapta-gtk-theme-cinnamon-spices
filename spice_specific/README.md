@@ -21,7 +21,7 @@ This build is based on [Adapta version 3.95.0.11](https://github.com/adapta-proj
 * GTK3.18 & 3.22 - Cleaned out irrelevant third party styling related to non-Cinnamon desktop enviroments.
 * firefox_fix.sh script included to fix issues with firefox and dark themes
 * Cinnamon - fixed workspace-switcher applet on vertical panels
-* Cinnamon - fixes to menu themeing for Cinnamon 4.0 stock menu and Cinnamenu compatibility
+* Cinnamon - fixes to menu theming for Cinnamon 4.0 stock menu and Cinnamenu compatibility
 * Cinnamon - added Grouped Window Applet theming by @jaszhix 
 
 ## License
