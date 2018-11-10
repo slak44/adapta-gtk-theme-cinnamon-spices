@@ -1,6 +1,6 @@
 ## Adapta-Nokto-Eta
 
-A light theme based on Material Design Guidelines. Cinnamon, Metacity, GTK2, GTK3.18 and GTK3.20+ themes are included.
+A compact dark theme based on Material Design Guidelines. Cinnamon, Metacity, GTK2, GTK3.18 and GTK3.20+ themes are included.
 
 ## Credits
 
@@ -18,7 +18,7 @@ This build is based on [Adapta version 3.94.0.132](https://github.com/adapta-pro
 * Stylesheets distributed in deobfuscated .css format
 * Build includes Cinnamon, GTK 2.0, 3.18, 3.22 & Metacity-1 themes only
 * GTK3.18 & 3.22 - Added support for different colored backgrounds in Nemo dual pane view
-* GTK3.18 & 3.22 - Cleaned out irrelevant third party styling realted to Budgie and XFCE desktops
+* GTK3.18 & 3.22 - Cleaned out irrelevant third party styling related to non-Cinnamon desktop enviroments.
 * firefox_fix.sh script included to fix issues with firefox and dark themes
 
 ## License

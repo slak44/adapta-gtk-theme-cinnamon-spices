@@ -141,8 +141,8 @@ cp "$WORKDIR/gtk/index.theme-nokto-eta" "$BUILDDIR/Adapta-Nokto-Eta/index.theme"
 cd "$BUILDDIR/Adapta-Nokto-Eta";
 sed -i "s|#THEMENAME|Adapta-Nokto-Eta|g" info.json;
 sed -i "s|#THEMENAME|Adapta-Nokto-Eta|g" README.md;
-sed -i "s|#DESCRIPTION|A light theme based on Material Design Guidelines|g" info.json;
-sed -i "s|#DESCRIPTION|A light theme based on Material Design Guidelines|g" README.md;
+sed -i "s|#DESCRIPTION|A compact dark theme based on Material Design Guidelines|g" info.json;
+sed -i "s|#DESCRIPTION|A compact dark theme based on Material Design Guidelines|g" README.md;
 rsync -a -u "$BUILDDIR/Adapta-Nokto-Eta"/ "$THEMEDIR/Adapta-Nokto-Eta";
 
 #cleanup

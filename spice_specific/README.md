@@ -18,7 +18,7 @@ This build is based on [Adapta version 3.94.0.132](https://github.com/adapta-pro
 * Stylesheets distributed in deobfuscated .css format
 * Build includes Cinnamon, GTK 2.0, 3.18, 3.22 & Metacity-1 themes only
 * GTK3.18 & 3.22 - Added support for different colored backgrounds in Nemo dual pane view
-* GTK3.18 & 3.22 - Cleaned out irrelevant third party styling realted to Budgie and XFCE desktops
+* GTK3.18 & 3.22 - Cleaned out irrelevant third party styling related to non-Cinnamon desktop enviroments.
 * firefox_fix.sh script included to fix issues with firefox and dark themes
 
 ## License
@@ -64,6 +64,6 @@ This forces firefox to use the GTK default Adwaita theme for rendering all websi
 
 The theme includes a helper script that creates the file with this content in the correct location. To access the tool open a terminal window and use the following command to make the script executable and launch it.
 
-`chmod +x ~/.themes/#THEMENAME/firefox_fix.sh && ~/.themes/#THEMENAME/cinnamon/firefox_fix.sh`
+`chmod +x ~/.themes/#THEMENAME/firefox_fix.sh && ~/.themes/#THEMENAME/firefox_fix.sh`
 
 
