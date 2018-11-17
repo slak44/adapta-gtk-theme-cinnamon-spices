@@ -336,7 +336,6 @@ StScrollBar {
       StBin#vhandle { border-width: 0; }
     }
   }
-}
 
   .popup-menu-content {
     // embed parent border-image region as asymmetrical padding
@@ -1589,7 +1588,7 @@ padding: 0.5em;
     background: none;
   }
 }
-
+// GWL is a cinnamon v>4.0 stock applet
 // /*******************************
 //  * Grouped window list
 //  *******************************/
@@ -1606,6 +1605,9 @@ padding: 0.5em;
   &-badge {
     border-radius: 256px;
     background-color: #000000;
+    // to prevent overlap of badge and box-shadow in top and left panel in larger icon sizes.
+    .panel-top & { margin-top: 2px }
+    .panel-left & { margin-left: 2px }
   }
   &-button-label {
     padding-left: 4px;
@@ -1639,32 +1641,15 @@ padding: 0.5em;
         border: 0 none transparent;
         border-image: none;
         background-color: $hidden_fill_color;
-        box-shadow: inset #{$_indicator} $osd_outline_fill_color;
-        &:active {
+        box-shadow: $empty_shadow;
+        // emulate two state themeing as per current themeing for icing task manager and window-list.
+        &:active, &:hover, &active:hover {
           background-color: $hidden_fill_color;
           box-shadow: inset #{$_indicator} $osd_outline_fill_color;
         }
-        &:active:focus:hover {
-          background-color: $hidden_fill_color;
-          box-shadow: inset #{$_indicator} mix($osd_outline_fill_color, $osd_indicator_color, 75%);
-        }
-        &:active:hover {
-          background-color: $hidden_fill_color;
-          box-shadow: inset #{$_indicator} mix($osd_outline_fill_color, $osd_indicator_color, 50%);
-        }
-        &:active:focus {
+        &:focus, &:active:focus, &:focus:hover, &:active:focus:hover {
           background-color: $hidden_fill_color;
           box-shadow: inset #{$_indicator} $osd_indicator_color;
-        }
-        &:closed {
-          &,
-          &:hover,
-          &:focus,
-          &:active,
-          &:checked { // return to :normal state
-            background-color: $hidden_fill_color;
-            box-shadow: $empty_shadow;
-          }
         }
       }
     }
