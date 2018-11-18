@@ -369,13 +369,6 @@ StScrollBar {
   &-icon { icon-size: 16px; }
 }
 
-// all icons and other graphical elements
-.popup-inactive-menu-item {
-  color: $secondary_fg_color;
-  &:insensitive { color: $insensitive_fg_color; }
-}
-
-
 .popup {
   &-menu-boxpointer {
     -arrow-border-radius: 0;
@@ -1641,7 +1634,7 @@ padding: 0.5em;
         border-image: none;
         background-color: $hidden_fill_color;
         box-shadow: $empty_shadow;
-        // emulate two state themeing as per current theming for icing task manager and window-list.
+        // emulate two state theming as per current theming for icing task manager and window-list.
         &:active, &:checked {
           background-color: $hidden_fill_color;
           box-shadow: inset #{$_indicator} $osd_outline_fill_color;
