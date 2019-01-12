@@ -1422,9 +1422,9 @@ $ws_thumb_spacing: 32px;
   color: $fg_color;
 }
 
-// Context menu (at the moment only for favorites)
+// Context menu - used by Cinnamenu for right click context menu
 .menu-context-menu {
-padding: 0.5em;
+padding: 0.5em 1px;
 }
 
 
