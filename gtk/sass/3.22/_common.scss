@@ -2018,6 +2018,7 @@ actionbar {
 headerbar {
   background-color: $inverted_dark_color;
   background-clip: border-box;
+  min-height: 42px;
 
   // hide all outlines
   * {
