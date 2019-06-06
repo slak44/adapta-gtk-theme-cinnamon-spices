@@ -1615,6 +1615,7 @@ padding: 0.5em 1px;
     color: $osd_fg_color;
     box-shadow: $empty_shadow;
     font-weight: 400;
+    text-align: left;
     .panel-top &,
     .panel-bottom &,
     .panel-left &,
@@ -2014,6 +2015,7 @@ padding: 0.5em 1px;
   &-box {
     color: $osd_fg_color;
     text-shadow: none;
+    text-align: center;
     &:hover,
     &:checked {
       color: $selected_fg_color;
