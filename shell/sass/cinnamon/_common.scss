@@ -14,10 +14,12 @@
 
 $font-family: Roboto, Sans-Serif;
 
+// Cinnamon 4.6 - don't specify a font-size family so user can set from Font Selection GUI
+// Theme will ship with a interactive script to set theme font-size and family for oldr Cinnamon versions
 stage {
-  @include fontscaling($ref_size);
+  //@include fontscaling($ref_size);
   color: $fg_color;
-  font-family: $font-family;
+  //font-family: $font-family;
   font-weight: 400;
 }
 
