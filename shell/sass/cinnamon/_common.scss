@@ -1868,17 +1868,17 @@ padding: 0.5em 1px;
     }
 
     .windows {
-      -active-window-background: lighten($osd_bg_color, 15%);
+      -active-window-background: lighten($osd_bg_color, 10%);
       -active-window-border: rgba(0, 0, 0, 0.8);
-      -inactive-window-background: lighten($osd_bg_color, 15%);
+      -inactive-window-background: lighten($osd_bg_color, 10%);
       -inactive-window-border: rgba(0, 0, 0, 0.8);
     }
   }
 
   .workspace:active .windows {
-    -active-window-background: lighten($osd_bg_color, 20%);
+    -active-window-background: lighten($osd_bg_color, 30%);
     -active-window-border: rgba(0, 0, 0, 0.8);
-    -inactive-window-background: lighten($osd_bg_color, 5%);
+    -inactive-window-background: lighten($osd_bg_color, 10%);
     -inactive-window-border: rgba(0, 0, 0, 0.8);
   }
 }
