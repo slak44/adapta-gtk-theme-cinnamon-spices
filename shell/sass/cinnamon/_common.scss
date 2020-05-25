@@ -793,18 +793,18 @@ $ws_thumb_spacing: 32px;
 
   &-base {
     @include fontscaling($ref_size * 0.8);
-    width: 25px;
-    height: 25px;
+    width: (round($ref_size * 72 / 96) * 0.25 + em);
+    height: (round($ref_size * 72 / 96) * 0.25 + em);
     padding: 0;
     margin: 2px;
-    border-radius: 25px;
+    border-radius: 999px;
     text-align: center;
   }
 
   &-heading {
     @include fontscaling($ref_size * 0.7);
-    width: 25px;
-    height: 20px;
+    width: (round($ref_size * 72 / 96) * 0.25 + em);
+    height: (round($ref_size * 72 / 96) * 0.2 + em);
     margin-top: 2px;
     padding: 5px 0 0;
     background-color: transparent;
@@ -826,10 +826,10 @@ $ws_thumb_spacing: 32px;
 }
 
 .calendar-week-number {
-  width: 25px;
-  height: 20px;
+  width: (round($ref_size * 72 / 96) * 0.25 + em);
+  height: (round($ref_size * 72 / 96) * 0.2 + em);
   margin: 2px;
-  padding: 5px 0 0;
+  padding: (round($ref_size * 72 / 96) * 0.075 + em) 0 0;
   background-color: transparent;
   color: $tertiary_fg_color;
   font-weight: 700;
