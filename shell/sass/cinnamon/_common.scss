@@ -426,7 +426,7 @@ StScrollBar {
 //  * Panel *
 //  *********/
 
-$icon_size: 16px;
+$icon_size: 1em;
 
 #panel {
   @include fontscaling($ref_size * 1.0);
@@ -1741,13 +1741,13 @@ padding: 0.5em 1px;
 
   &-overlay {
     width: 290px;
-    height: 70px;
+    height: 4.2em;
     padding: 0.4em (1.75em - 0.75em) 0.4em * 3;
     spacing: 5px;
     border: 0 solid $osd_bg_color;
     border-bottom-width: 1px;
     color: $osd_fg_color;
-    background: shellopacity($osd_bg_color, 0.9);
+    background: shellopacity($osd_bg_color, 0.6);
 
     StButton {
       width: $icon_size * 2;
