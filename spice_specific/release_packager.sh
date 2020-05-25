@@ -4,7 +4,7 @@ echo "";
 read -p "Press enter to start the script.";
 SPICEDIR="$HOME/Github/other_projects/cinnamon-spices-themes";
 SOURCEDIR="$HOME/.themes";
-THEMES=("Adapta" "Adapta-Eta" "Adapta-Nokto" "Adapta-Nokto-Eta");
+THEMES=("Adapta" "Adapta-Nokto");
 for THEMENAME in "${THEMES[@]}"
 do
     echo "Copying $SOURCEDIR/$THEMENAME to $SPICEDIR/$THEMENAME/files/$THEMENAME";
