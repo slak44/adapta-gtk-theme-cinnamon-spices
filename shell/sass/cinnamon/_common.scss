@@ -1192,16 +1192,12 @@ $ws_thumb_spacing: 32px;
 }
 
 .keyboard {
-  &-layout {
-    spacing: $ref_size * 0.3;
-    padding: $ref_size * 0.3;
-  }
+  &-layout { spacing: 2px; }
 
-  &-row { spacing: $ref_size * 0.3; }
+  &-row { spacing: 2px; }
 
   &-key {
-    min-height: $ref_size * 2;
-    min-width: $ref_size * 2;
+    @include fontscaling($ref_size);
     border-radius: 2px;
     border: none;
     background-color: $osd_bg_color;
@@ -1209,7 +1205,6 @@ $ws_thumb_spacing: 32px;
     box-shadow: $empty_shadow;
     text-shadow: none;
     icon-shadow: none;
-    font-size: $ref_size * 2; // use unscalable unit
     font-weight: 700;
     transition-timing-function: $slope_slow;
     &:focus,
@@ -1232,18 +1227,17 @@ $ws_thumb_spacing: 32px;
   }
 
   &-subkeys { // long press on a key popup
-    padding: 0;
+    padding: 2px;
     border-radius: 2px;
     -arrow-border-radius: 0;
     -arrow-background-color: transparent;
     -arrow-border-width: 0;
-    -arrow-border-color: transparent;
+    -arrow-border-color: #000;
     -arrow-base: 0;
     -arrow-rise: 0;
-    -boxpointer-gap: $ref_size * 0.3;
+    -boxpointer-gap: 0;
     background-color: $suggested_color;
     color: $selected_fg_color;
-    box-shadow: $z-depth-2;
   }
 }
 
