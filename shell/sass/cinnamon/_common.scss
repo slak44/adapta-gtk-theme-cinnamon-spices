@@ -982,8 +982,7 @@ $ws_thumb_spacing: 32px;
   color: $osd_fg_color;
 }
 
-.switcher-preview-backdrop {
-}
+.switcher-preview-backdrop { background-color: rgba(0, 0, 0, 0.54); }
 
 .thumbnail-scroll-gradient {
   &-left {
