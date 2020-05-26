@@ -50,6 +50,7 @@ sed -i "s|#THEMENAME|Adapta|g" ./scripts/adapta_fontsize.sh;
 sed -i "s|#COLOR|#263238|g" ./scripts/adapta_fontsize.sh;
 sed -i "s|#THEMENAME|Adapta|g" ./cinnamon/cinnamon.css;
 sed -i "s|#FONTSIZE|System controlled|g" ./cinnamon/cinnamon.css;
+rm -r "$THEMEDIR/Adapta"
 rsync -a -u "$BUILDDIR/Adapta"/ "$THEMEDIR/Adapta";
 
 #Adapta-Nokto
@@ -89,6 +90,7 @@ sed -i "s|#THEMENAME|Adapta-Nokto|g" ./scripts/adapta_fontsize.sh;
 sed -i "s|#COLOR|#CFD8DC|g" ./scripts/adapta_fontsize.sh;
 sed -i "s|#THEMENAME|Adapta-Nokto|g" ./cinnamon/cinnamon.css;
 sed -i "s|#FONTSIZE|System controlled|g" ./cinnamon/cinnamon.css;
+rm -r "$THEMEDIR/Adapta-Nokto"
 rsync -a -u "$BUILDDIR/Adapta-Nokto"/ "$THEMEDIR/Adapta-Nokto";
 
 #cleanup
