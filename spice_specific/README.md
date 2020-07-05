@@ -58,9 +58,9 @@ Install via Cinnamon's Themes module in Cinnamon settings or download from [Cinn
 
 Select the theme as your Desktop, Controls and Window Borders in the Cinnamon Themes module.
 
-To allow the GTK2, GTK3 and Metacity1 themes to apply to GUI apps running as root run this command in your terminal after installation to create symlinks to user themes in the system theme directory.
+To allow the GTK2, GTK3 and Metacity1 themes to apply to GUI apps running as root run this command in your terminal after installation to create a symlink to the theme in the local system theme directory.
 
-`sudo ln -s ~/.themes/* /usr/share/themes/`
+`sudo mkdir -p /usr/local/share/themes; sudo ln -s ~/.themes/#THEMENAME /usr/local/share/themes/`
 
 ## Compatibility
 
