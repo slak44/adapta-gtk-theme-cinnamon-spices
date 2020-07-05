@@ -39,6 +39,8 @@ This build is based on [Adapta version 3.95.0.11](https://github.com/adapta-proj
 * Cinnamon - increased contrast to indicate active and inactive windows in workspace-switcher applet
 * Cinnamon - alt-tab window preview mode - shade backdrop so the previewed window pops
 * Cinnamon - virtual keyboard - usability tweaks
+* Cinnamon - 4.6.x stock menu - add a height declaration for the app description box, and reduce margins
+* Cinnamon - add a helper script to revert above change for users still on 4.4.x or earlier
 
 ## License
 
@@ -77,6 +79,18 @@ To access the tool open a terminal window (Ctrl-Alt-T) and use the following com
 `chmod +x ~/.themes/#THEMENAME/scripts/adapta_fontsize.sh && ~/.themes/#THEMENAME/scripts/adapta_fontsize.sh`
 
 If you are not happy with the end result simply run `~/.themes/#THEMENAME/scripts/adapta_fontsize.sh` again to chose another option including the default
+
+## Cinnamon Stock Menu applet in Cinnamon 4.4.x and older
+
+The app description area at the bottom of the stock cinnamon menu applet may not expand appropriately to fit the content in Cinnamon 4.4.x and older when text scaling factor is set > 1. 
+
+The theme includes an interactive bash script that allows end users toggle an adjustment of the cinnamon.css to mitigate this behaviour.
+
+To access the tool open a terminal window (Ctrl-Alt-T) and use the following command to make the script executable and launch it. 
+
+`chmod +x ~/.themes/#THEMENAME/scripts/adapta_toggle_menufix.sh && ~/.themes/#THEMENAME/scripts/adapta_toggle_menufix.sh`
+
+If you are not happy with the end result simply run `~/.themes/#THEMENAME/scripts/adapta_toggle_menufix.sh` again to revert.
 
 ## Firefox fix
 

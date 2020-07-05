@@ -40,6 +40,7 @@ cp "$WORKDIR/LICENSE_CC_BY_SA4" "$BUILDDIR/Adapta/LICENSE_CC_BY_SA4";
 cp "$WORKDIR/spice_specific/README.md" "$BUILDDIR/Adapta/README.md";
 cp "$WORKDIR/spice_specific/firefox_fix.sh" "$BUILDDIR/Adapta/scripts/firefox_fix.sh";
 cp "$WORKDIR/spice_specific/adapta_fontsize.sh" "$BUILDDIR/Adapta/scripts/adapta_fontsize.sh";
+cp "$WORKDIR/spice_specific/adapta_toggle_menufix.sh" "$BUILDDIR/Adapta/scripts/adapta_toggle_menufix.sh";
 cp "$WORKDIR/gtk/index.theme" "$BUILDDIR/Adapta/index.theme";
 cd "$BUILDDIR/Adapta";
 sed -i "s|#THEMENAME|Adapta|g" info.json;
@@ -47,9 +48,11 @@ sed -i "s|#THEMENAME|Adapta|g" README.md;
 sed -i "s|#DESCRIPTION|A light theme based on Material Design Guidelines|g" info.json;
 sed -i "s|#DESCRIPTION|A light theme based on Material Design Guidelines|g" README.md;
 sed -i "s|#THEMENAME|Adapta|g" ./scripts/adapta_fontsize.sh;
+sed -i "s|#THEMENAME|Adapta|g" ./scripts/adapta_toggle_menufix.sh;
 sed -i "s|#COLOR|#263238|g" ./scripts/adapta_fontsize.sh;
 sed -i "s|#THEMENAME|Adapta|g" ./cinnamon/cinnamon.css;
 sed -i "s|#FONTSIZE|System controlled|g" ./cinnamon/cinnamon.css;
+echo ".menu-selected-app-box {}" >> ./cinnamon/cinnamon.css;
 rm -r "$THEMEDIR/Adapta"
 rsync -a -u "$BUILDDIR/Adapta"/ "$THEMEDIR/Adapta";
 
@@ -80,6 +83,7 @@ cp "$WORKDIR/LICENSE_CC_BY_SA4" "$BUILDDIR/Adapta-Nokto/LICENSE_CC_BY_SA4";
 cp "$WORKDIR/spice_specific/README.md" "$BUILDDIR/Adapta-Nokto/README.md";
 cp "$WORKDIR/spice_specific/firefox_fix.sh" "$BUILDDIR/Adapta-Nokto/scripts/firefox_fix.sh";
 cp "$WORKDIR/spice_specific/adapta_fontsize.sh" "$BUILDDIR/Adapta-Nokto/scripts/adapta_fontsize.sh";
+cp "$WORKDIR/spice_specific/adapta_toggle_menufix.sh" "$BUILDDIR/Adapta-Nokto/scripts/adapta_toggle_menufix.sh";
 cp "$WORKDIR/gtk/index.theme-nokto" "$BUILDDIR/Adapta-Nokto/index.theme";
 cd "$BUILDDIR/Adapta-Nokto";
 sed -i "s|#THEMENAME|Adapta-Nokto|g" info.json;
@@ -87,9 +91,11 @@ sed -i "s|#THEMENAME|Adapta-Nokto|g" README.md;
 sed -i "s|#DESCRIPTION|A dark theme based on Material Design Guidelines|g" info.json;
 sed -i "s|#DESCRIPTION|A dark theme based on Material Design Guidelines|g" README.md;
 sed -i "s|#THEMENAME|Adapta-Nokto|g" ./scripts/adapta_fontsize.sh;
+sed -i "s|#THEMENAME|Adapta-Nokto|g" ./scripts/adapta_toggle_menufix.sh;
 sed -i "s|#COLOR|#CFD8DC|g" ./scripts/adapta_fontsize.sh;
 sed -i "s|#THEMENAME|Adapta-Nokto|g" ./cinnamon/cinnamon.css;
 sed -i "s|#FONTSIZE|System controlled|g" ./cinnamon/cinnamon.css;
+echo ".menu-selected-app-box {}" >> ./cinnamon/cinnamon.css;
 rm -r "$THEMEDIR/Adapta-Nokto"
 rsync -a -u "$BUILDDIR/Adapta-Nokto"/ "$THEMEDIR/Adapta-Nokto";
 
