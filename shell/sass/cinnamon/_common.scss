@@ -1381,7 +1381,8 @@ $ws_thumb_spacing: 32px;
   // This appears on the bottom right hand corner of the menu
   &-selected-app {
     &-box {
-      margin-bottom: 0.33em * 2 + 0.4em;
+      margin-bottom: 0.4em;
+      height: 2.2em;
       padding: 0 30px;
       text-align: right;
     }
