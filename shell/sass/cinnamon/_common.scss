@@ -318,7 +318,8 @@ StScrollBar {
 }
 
 .popup-menu,
-.menu {
+.menu,
+.popup-combo-menu {
   min-width: 0;
   padding: 0;
   border-image: url("assets/menu/menu.svg") 9 9 9 9;
@@ -389,18 +390,12 @@ StScrollBar {
     box-shadow: $z-depth-3;
   }
 
-  &-combo-menu {
-    padding: 1em;
-    border: 1px solid $borders_color;
-    border-radius: 2px;
-    color: $osd_fg_color;
-    background-color: shellopacity($osd_bg_color, 0.9);
-  }
+  &-combo-menu { padding: 1em;}
 
   &-image-menu-item {
   }
 
-  &-combobox-item { spacing: 1em; }
+  &-combobox-item { padding: 0.4em 1.75em; }
 
   &-separator-menu-item {
     height: 1px; // not really the whole box
