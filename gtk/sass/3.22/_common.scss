@@ -1050,8 +1050,8 @@ button {
 modelbutton.flat,
 menuitem button.flat {
   @extend %button_flat_normal;
-  min-height: rem(26.6px);
-  padding: rem(5.3px) rem(8px) rem(6.7px);
+  min-height: rem(16px);
+  padding: rem(5.3px) rem(8px);
   outline-offset: rem(-1px);
   background-color: transparent;
   color: $secondary_fg_color;
@@ -3066,9 +3066,9 @@ menu {
   font: initial; // decouple the font of context-menus from parent nodes
 
   menuitem {
-    min-height: rem(20px);
+    min-height: rem(16px);
     min-width: rem(40px);
-    padding: rem(5.3px) rem(8px) rem(6.7px);
+    padding: rem(5.3px) rem(8px);
     color: $secondary_fg_color;
     font: initial;
     text-shadow: none;
