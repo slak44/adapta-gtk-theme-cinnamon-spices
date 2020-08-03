@@ -1708,6 +1708,13 @@ padding: 0.5em 1px;
   }
 }
 
+// New spacer styling was added in Cinnamon 4.2
+.spacer-box {
+    border: 1px solid transparent;
+
+    &:highlight { background-color: $accent_fill_color; }
+    &.edit-mode { border: 1px symbolic; }
+}
 
 // /***********************************
 //  * Sound Applet (status/volume.js) *
