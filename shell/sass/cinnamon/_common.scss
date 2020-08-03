@@ -1809,22 +1809,21 @@ padding: 0.5em 1px;
 
 .workspace-button { // numeric buttons
   // in future, we will drop damned fixed width/height properties
-  width: 20px;
-  height: 10px;
-  // padding: 0 6px; // NEEDS_REVIEW
+  width: 1.2em;
+  height: 1em;
+  padding: 0 2px;
   color: $osd_fg_color;
   background-color: $hidden_fill_color;
   transition-duration: 0.2s;
 
 .vertical & {
-  width: 10px;
-  height: 20px;
-  // padding: 3px 0; // NEEDS_REVIEW
+  width: 1em;
+  height: 1.2em;
+  padding: 2px 0;
 }
 
   &:hover {
-    color: $selected_fg_color;
-
+  
     @each $position, $_indicator in (top, 0 2px),
                                     (bottom, 0 -2px),
                                     (left, 2px 0),
@@ -1834,19 +1833,8 @@ padding: 0.5em 1px;
       }
     }
   }
-  &:outlined {
-    color: $selected_bg_color;
-    &:hover {
-      @each $position, $_indicator in (top, 0 2px),
-                                      (bottom, 0 -2px),
-                                      (left, 2px 0),
-                                      (right, -2px 0) {
-        .panel-#{$position} & {
-          box-shadow: inset #{$_indicator} 0 $osd_indicator_color;
-        }
-      }
-    }
-  }
+  &:outlined, &:outlined:shaded { color: $selected_bg_color; }
+  &:shaded { color: $osd_tertiary_fg_color; }
 }
 
 // Controls the style when using the "Visual representation" option
