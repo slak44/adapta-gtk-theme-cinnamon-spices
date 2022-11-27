@@ -406,7 +406,6 @@ window.budgie-popover:not(.csd) {
 
     button.flat {
       border-radius: 0; // remove roundness
-      -gtk-outline-radius: 0;
 
       > box > label { // tweak base-line
         padding-bottom: rem(1.3px, $sw: 1.0);
@@ -687,7 +686,7 @@ $switcher_height: $widget_size - if($ref_weight < 1.0, 10.7px, 5.3px);
     box-shadow: none;
 
     button.flat.image-button {
-      min-width: rem($switcher_width, $sw: 1.0) * 2  / 3;
+      min-width: calc(rem($switcher_width, $sw: 1.0) * 2  / 3);
       min-height: rem($switcher_height + 1px, $sw: 1.0);
       margin: -($raven_box_spacing + 1px); // vertically gapless placement
       padding: 0;
@@ -703,7 +702,6 @@ $switcher_height: $widget_size - if($ref_weight < 1.0, 10.7px, 5.3px);
     min-height: $icon_size;
     padding: rem(8px);
     border-radius: 100px;
-    -gtk-outline-radius: 100px;
     color: $tertiary_fg_color;
     &:hover,
     &:active { color: $fg_color; }
@@ -945,7 +943,6 @@ popover.places-menu {
     > button.flat:not(.image-button) { // an actual child
       padding: rem(5.3px) rem(5.3px);
       border-radius: 0;
-      -gtk-outline-radius: 0;
       &:not(:active) {
         transition: opacity 0.2s $slope_medium,
                     border-color 0.2s $slope_medium,
@@ -1088,7 +1085,6 @@ popover.places-menu {
       margin: rem(1.3px) rem(5.3px);
       padding: rem(4px);
       border-radius: 2px; // revert to square button
-      -gtk-outline-radius: 2px;
     }
   }
 }
@@ -1205,7 +1201,6 @@ window.budgie-popover.workspace-popover {
       min-width: $requested_width;
       padding: rem(5.3px) rem(8px + 5.3px) rem(6.7px);
       border-radius: 0;
-      -gtk-outline-radius: 0;
       font-weight: 500;
 
       &:first-child { // draw an arrow
@@ -1242,8 +1237,8 @@ window.budgie-popover.workspace-popover {
     }
 
     image {
-      padding: ($requested_width - $icon_size * ($max_children_per_line + 1))
-               / ($max_children_per_line * 2)
+      padding: calc(($requested_width - $icon_size * ($max_children_per_line + 1))
+               / ($max_children_per_line * 2))
                0;
     }
   }
@@ -1371,7 +1366,6 @@ window.budgie-switcher-window {
   flowboxchild { // icon-tiles
     margin: $child_margin;
     border-radius: 2px;
-    -gtk-outline-radius: 2px;
     color: $inverted_secondary_accent_label_color;
     background-color: transparent;
     &:hover,
@@ -1713,7 +1707,7 @@ window.background.budgie-settings-window.csd {
 %greeter_entry {
   // prevent junmping when showing CapsLock warning
   min-height: rem($widget_size);
-  padding: 0 if($ref_weight < 1.0, 4px / 2, 8px / 2);
+  padding: 0 if($ref_weight < 1.0, calc(4px / 2), calc(8px / 2));
   font-family: monospace;
 
   &,
@@ -1870,8 +1864,8 @@ window.background.lightdm {
   // top-panel
   menubar {  // broken
     @extend %greeter_panel_menubar;
-    padding-top: ($greeter_panel_height - $greeter_panel_shadow - $icon_size)
-                 / 2;
+    padding-top: calc(($greeter_panel_height - $greeter_panel_shadow - $icon_size)
+                 / 2);
     font-weight: 700;
     text-shadow: none;
 
@@ -1898,13 +1892,11 @@ window.background.lightdm {
     &:not(.option-button):not(.toggle-button) {
       padding: rem(6.7px, $sw: 1.0);
       border-radius: 100px;
-      -gtk-outline-radius: 100px;
     }
 
     &.flat.option-button { // session logo button
       padding: rem(6.7px, $sw: 1.0);
       border-radius: 100px;
-      -gtk-outline-radius: 100px;
       color: $inverted_fg_color;
 
       image { opacity: 0.87; }
@@ -1922,7 +1914,6 @@ window.background.lightdm {
       @extend %button_flat_normal;
       padding: rem(10px) rem(13.3px);
       border-radius: 0;
-      -gtk-outline-radius: 0;
       background-color: transparent;
       color: $inverted_fg_color;
       font-size: 110%;
@@ -2048,7 +2039,6 @@ window.background.lightdm {
       min-width: rem(13.3px);
       min-height: rem(29.3px);
       border-radius: 2px;
-      -gtk-outline-radius: 2px;
       padding: 0 rem(10px) 0;
       border-image: radial-gradient(circle farthest-corner at center,
                                     $outline_track_color 0%,
@@ -2103,7 +2093,6 @@ paned.horizontal > paned.horizontal stack grid.vertical > grid.horizontal {
   button.image-button {
     &, &.toggle {
       border-radius: 2px;
-      -gtk-outline-radius: 2px;
     }
   }
 }
@@ -2117,7 +2106,6 @@ row.trackrow {
       &, &.toggle { // back to square button
         margin: 0;
         border-radius: 2px;
-        -gtk-outline-radius: 2px;
       }
     }
   }
@@ -2248,15 +2236,15 @@ widget box.horizontal > widget + box.horizontal {
   }
 
   .passwordentry {
-    @include entry(flat-normal, $c: $inverted_fg_color);
+    @include entry_next(flat-normal, $c: $inverted_fg_color);
     border-radius: 0;
     caret-color: inherit;
     font-family: monospace;
     &:focus {
-      @include entry(flat-focus, $c: $inverted_fg_color);
+      @include entry_next(flat-focus, $c: $inverted_fg_color);
       caret-color: inherit;
     }
-    &:disabled { @include entry(flat-insensitive, $c: $inverted_fg_color); }
+    &:disabled { @include entry_next(flat-insensitive, $c: $inverted_fg_color); }
     &:backdrop { // for alt-text keyboard layout?
       color: $selected_bg_color;
     }
@@ -2484,7 +2472,7 @@ window.background > paned.titlebar > headerbar.titlebar {
       min-width: $icon_size - 2px;
       min-height: $icon_size - 2px;
       margin: rem(5.3px + 2px) 0;
-      padding: 0 rem(($widget_size - $icon_size - 2px) / 2);
+      padding: 0 rem(calc(($widget_size - $icon_size - 2px) / 2));
     }
   }
 }
@@ -2494,7 +2482,6 @@ paned.headerbar_pane.titlebar > headerbar.header_right.titlebar {
   > box.linked.raised > button.toggle { // should be .text-button
     // back to square buttons
     border-radius: 2px;
-    -gtk-outline-radius: 2px;
   }
 }
 
@@ -2528,8 +2515,8 @@ revealer > widget > headerbar.imageOverlay.titlebar {
     min-width: $icon_size * 1.5;
     min-height: $icon_size * 1.5;
     padding: if($ref_weight < 1.0,
-             rem(($widget_size - $icon_size * 1.5 - 2px) / 2),
-             rem(($widget_size - $icon_size * 1.5) / 2));
+             rem(calc(($widget_size - $icon_size * 1.5 - 2px) / 2)),
+             rem(calc(($widget_size - $icon_size * 1.5) / 2)));
   }
 }
 
@@ -2573,7 +2560,6 @@ window.background:not(.solid-csd) > box.vertical {
       min-width: if($ref_weight < 1.0, $icon_size * 1.5, $icon_size * 1.75);
       margin: 2px 0;
       border-radius: 2px;
-      -gtk-outline-radius: 2px;
     }
 
     separator { margin: 2px 0; }
@@ -2682,8 +2668,8 @@ window.background:not(.solid-csd) > box.vertical {
 #MozillaGtkWidget.background {
   headerbar.titlebar { // >= nightly 60.0a1(2018-02-02)
     // FIXME: no backdrop state, no maximized state, bullshit...
-    padding: 0 if($ref_weight < 1.0, (28px - $icon_size * 1.25) / 2,
-                                     (28px - $icon_size * 1.5) / 2);
+    padding: 0 if($ref_weight < 1.0, calc((28px - $icon_size * 1.25) / 2),
+                                     calc((28px - $icon_size * 1.5) / 2));
 
     &.default-decoration button.titlebutton {
       @extend %browser_csd_titlebutton;
@@ -2848,7 +2834,6 @@ PanelToplevel.mate-panel-menu-bar > grid.horizontal > button {
   border-radius: 0;
   border-style: solid;
   border-color: $panel_separator_color;
-  -gtk-outline-radius: 0;
   background-color: transparent;
   color: $inverted_fg_color;
   &:hover {
@@ -2924,7 +2909,6 @@ PanelToplevel.mate-panel-menu-bar > grid.horizontal > button {
   &.brisk-button {
     padding: 0 rem(4px, $sw: 1.0);
     border-radius: 0;
-    -gtk-outline-radius: 0;
     background-image: none;
     background-color: transparent;
     color: $inverted_fg_color;
@@ -2968,7 +2952,6 @@ PanelToplevel.mate-panel-menu-bar > grid.horizontal > button {
       padding-top: unset;
       padding-bottom: unset;
       border-radius: 0; // remove roundness
-      -gtk-outline-radius: 0;
       font-weight: 500;
       transition-duration: 0.1s; // shorter duration
       // almost covers :hover pseudo-class
@@ -3001,7 +2984,6 @@ PanelToplevel.mate-panel-menu-bar > grid.horizontal > button {
         padding-top: unset;
         padding-bottom: unset;
         border-radius: 0; // remove roundness
-        -gtk-outline-radius: 0;
         font-weight: 400;
         transition-duration: 0s; // needs quicker response
 
@@ -3120,7 +3102,6 @@ PanelToplevel.mate-panel-menu-bar > grid.horizontal > button {
     @extend %toolitem_size;
     @include button(flat-normal);
     border-radius: 2px;
-    -gtk-outline-radius: 2px;
   }
 
   .caja-notebook { // remove lateral borders
@@ -3283,7 +3264,6 @@ window#MyControlCenter > frame > box.horizontal {
 
   toolbar > toolbutton button.flat.image-button { // back to square buttons
     border-radius: 2px;
-    -gtk-outline-radius: 2px;
   }
 
   // 'presentation' mode fullscreen?
@@ -3378,7 +3358,6 @@ window.background:not(.solid-csd) {
 #CommandsToolbar {
   button.flat.image-button {
     border-radius: 2px;
-    -gtk-outline-radius: 2px;
   }
 }
 
@@ -3393,7 +3372,6 @@ box#AuxToolbox {
 
     button.flat.image-button {
       border-radius: 2px;
-      -gtk-outline-radius: 2px;
     }
   }
 
@@ -3415,7 +3393,6 @@ box#AuxToolbox {
     margin: 0;
     padding: 0;
     border-radius: 2px;
-    -gtk-outline-radius: 2px;
     &:checked {
       @include button(flat-checked);
       border-image: none;
@@ -3445,7 +3422,6 @@ widget > box#DesktopMainTable {
   // since we can not keep the perfect square allocations
   spinbutton > button {
     border-radius: 2px;
-    -gtk-outline-radius: 2px;
     &:hover {
       background-color: $track_color;
       animation: none;
@@ -3480,7 +3456,6 @@ widget > box#DesktopMainTable {
         margin: 0;
         padding: 0;
         border-radius: 2px;
-        -gtk-outline-radius: 2px;
         &:checked {
           @include button(flat-checked);
           border-image: none;
@@ -3667,7 +3642,6 @@ window#wb_main_window {
   button.flat.image-button { // revert to square
     margin: rem(5.3px) 0; // add vertical spacing
     border-radius: 2px;
-    -gtk-outline-radius: 2px;
     &.toggle:checked {
       border-image: radial-gradient(circle farthest-corner at center,
                                     $selected_bg_color 100%,
@@ -3754,10 +3728,9 @@ window.background.chromium {
 headerbar > box.horizontal.linked {
   > button.toggle.session-sidebar-button { // left-most revealer button
     min-height: $icon_size;
-    padding-top: rem(($widget_size - $icon_size - 2.7px) / 2);
-    padding-bottom: rem(($widget_size - $icon_size - 2.7px) / 2);
+    padding-top: rem(calc(($widget_size - $icon_size - 2.7px) / 2));
+    padding-bottom: rem(calc(($widget_size - $icon_size - 2.7px) / 2));
     border-radius: 2px;
-    -gtk-outline-radius: 2px;
     font-weight: 700;
 
     > box { // reduce the gap between label and image
@@ -3785,8 +3758,8 @@ headerbar > box.horizontal.linked {
     > widget > box > image { // add actual lateral spacing
       min-width: $icon_size * 1.5 - 2px * 2;
       padding: if($ref_weight < 1.0,
-               0 rem(($widget_size - $icon_size * 1.5 - 2px) / 2),
-               0 rem(($widget_size - $icon_size * 1.5) / 2));
+               0 rem(calc(($widget_size - $icon_size * 1.5 - 2px) / 2)),
+               0 rem(calc(($widget_size - $icon_size * 1.5) / 2)));
     }
   }
 }
@@ -3872,7 +3845,6 @@ widget > box.terminal-titlebar {
       margin: rem(2.7px) 0;
       padding: rem(10px - 2.7px);
       border-radius: 2px;
-      -gtk-outline-radius: 2px;
     }
   }
 
@@ -4023,7 +3995,7 @@ button.flat.-panel-icon-button {
 
   > image {
     background-image: image($selected_bg_color);
-    background-size: (6px / 1.1) 2px; // 1:1.1 aspect deformation exists
+    background-size: (calc(6px / 1.1)) 2px; // 1:1.1 aspect deformation exists
     background-position: bottom center;
   }
 
@@ -4035,7 +4007,7 @@ button.flat.-panel-icon-button {
 
   box.vertical & {
     > image {
-      background-size: 2px (6px / 1.1);
+      background-size: 2px (calc(6px / 1.1));
       background-position: left center;
     }
 

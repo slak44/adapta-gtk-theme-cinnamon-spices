@@ -149,7 +149,7 @@ box.pinned { // drop-target
     }
 
     &:hover {
-      -gtk-icon-effect: highlight;
+      -gtk-icon-filter: brightness(1.2);
 
       > image { opacity: 1.0; }
     }
@@ -162,7 +162,7 @@ box.pinned { // drop-target
     }
     &:checked {
       background-color: transparent;
-      &:hover { -gtk-icon-effect: highlight; }
+      &:hover { -gtk-icon-filter: brightness(1.2); }
 
       > image { opacity: 1.0; }
     }
@@ -171,7 +171,7 @@ box.pinned { // drop-target
   @at-root %running_budgie_icon_tasklist_button,
   .unpinned button.flat.launcher,
   .pinned button.flat.launcher.running {
-    &:hover { -gtk-icon-effect: highlight; }
+    &:hover { -gtk-icon-filter: brightness(1.2); }
 
     > image {
       background-repeat: no-repeat;
@@ -278,7 +278,7 @@ box:not(.unpinned):not(.pinned) > revealer > button.flat.launcher {
     }
 
     > widget > widget > box.horizontal > image,
-    box.battery-icon.horizontal > image { // 'battery'
+      box.battery-icon.horizontal > image { // 'battery'
       min-width: $icon_size + 6px;
     }
   }
@@ -299,18 +299,6 @@ box:not(.unpinned):not(.pinned) > revealer > button.flat.launcher {
   > image { // 'Notification' and 'User Indicator'
     min-width: $icon_size + 4px;
   }
-
-  // > widget > box { // NaTray box container
-  //   'mobile_helper_get_status_pixbuf' calls 22px * 22px * 8bit/ch
-  //   pixbuf area for icons.
-  //   FXIME: introduces these allocations
-  //    * 22 x 18 @ > 36px hrz
-  //    * 22 x 16 @ < 37px hrz
-  //    * 18 x 24 @ > 36px vrt
-  //    * 16 x 24 @ < 37px vrt
-  //   &.horizontal { margin: -(22px - $icon_size) / 2 -1px; }
-  //   &.vertical { margin: 0 -(22px - $icon_size) / 2; }
-  // }
 }
 
 // budgie specific popover widgets
@@ -324,6 +312,8 @@ window.budgie-popover:not(.csd) {
 
   > frame.container {
     margin: 0 -1px -1px; // remove gap
+
+    .bottom & { padding: 2px 0 2px; } // revive bottom padding
 
     &,
     > border {
@@ -416,7 +406,6 @@ window.budgie-popover:not(.csd) {
 
     button.flat {
       border-radius: 0; // remove roundness
-      -gtk-outline-radius: 0;
 
       > box > label { // tweak base-line
         padding-bottom: rem(1.3px, $sw: 1.0);
@@ -429,7 +418,7 @@ window.budgie-popover:not(.csd) {
     &:dir(ltr) { border-right: 1px solid $borders_color; }
     &:dir(rtl) { border-left: 1px solid $borders_color; }
 
-    .bottom & { border-bottom: 1px solid $borders_color; }
+    .bottom.budgie-container & { border-bottom: 1px solid $borders_color; }
 
     button.flat.radio.category-button {
       border-radius: 0; // remove roundness
@@ -471,8 +460,8 @@ window.budgie-popover:not(.csd) {
   }
 
   row {
-    &.activatable {
-      &, .indicator-item { // stop weird and unhandled ripple-effect
+    &.activatable { // stop weird and unhandled ripple-effect
+      &, .indicator-item {
         &:active,
         &:selected { animation: none; }
       }
@@ -524,8 +513,6 @@ window.budgie-popover:not(.csd) {
   // top-row (user-name and avatar)
   > frame.container > box.vertical row.activatable:first-child {
     margin-bottom: rem(10.7px); // fix truncated drop-shadow
-    outline-offset: 0;
-    outline-width: 0;
 
     .indicator-item {
       background-image: image($borders_color);
@@ -715,7 +702,6 @@ $switcher_height: $widget_size - if($ref_weight < 1.0, 10.7px, 5.3px);
     min-height: $icon_size;
     padding: rem(8px);
     border-radius: 100px;
-    -gtk-outline-radius: 100px;
     color: $tertiary_fg_color;
     &:hover,
     &:active { color: $fg_color; }
@@ -946,7 +932,7 @@ window.sound-popover.background box.horizontal {
 }
 
 // places-indicator styling
-.places-menu {
+popover.places-menu {
   &.background {
     .container { padding: (6px + 2px) 6px 6px; }
   }
@@ -957,7 +943,6 @@ window.sound-popover.background box.horizontal {
     > button.flat:not(.image-button) { // an actual child
       padding: rem(5.3px) rem(5.3px);
       border-radius: 0;
-      -gtk-outline-radius: 0;
       &:not(:active) {
         transition: opacity 0.2s $slope_medium,
                     border-color 0.2s $slope_medium,
@@ -1100,7 +1085,6 @@ window.sound-popover.background box.horizontal {
       margin: rem(1.3px) rem(5.3px);
       padding: rem(4px);
       border-radius: 2px; // revert to square button
-      -gtk-outline-radius: 2px;
     }
   }
 }
@@ -1160,7 +1144,7 @@ widget > box.workspace-switcher {
 
         &:hover,
         &:active {
-          -gtk-icon-effect: highlight;
+          -gtk-icon-filter: brightness(1.2);
 
           > image { opacity: 0.87; }
         }
@@ -1177,7 +1161,7 @@ widget > box.workspace-switcher {
           > image { opacity: 1.0; }
 
           &:hover,
-          &:active { -gtk-icon-effect: highlight; }
+          &:active { -gtk-icon-filter: brightness(1.2); }
         }
 
         label.workspace-more-label { opacity: 1.0; }
@@ -1217,7 +1201,6 @@ window.budgie-popover.workspace-popover {
       min-width: $requested_width;
       padding: rem(5.3px) rem(8px + 5.3px) rem(6.7px);
       border-radius: 0;
-      -gtk-outline-radius: 0;
       font-weight: 500;
 
       &:first-child { // draw an arrow
@@ -1383,7 +1366,6 @@ window.budgie-switcher-window {
   flowboxchild { // icon-tiles
     margin: $child_margin;
     border-radius: 2px;
-    -gtk-outline-radius: 2px;
     color: $inverted_secondary_accent_label_color;
     background-color: transparent;
     &:hover,
@@ -1394,10 +1376,10 @@ window.budgie-switcher-window {
     &:selected { // use the same values with Gnome-Shell
       background-color: gtkopacity($accent_color, 0.25);
       color: $inverted_accent_label_color;
-      -gtk-icon-effect: highlight;
+      -gtk-icon-filter: brightness(1.2);
       &:disabled {
         background-color: gtkopacity($inverted_fg_color, 0.12);
-        -gtk-icon-effect: dim;
+        -gtk-icon-filter: opacity(0.5);
 
         &, label { color: $insensitive_inverted_fg_color; }
       }
@@ -1596,7 +1578,7 @@ window.background.budgie-settings-window.csd {
       }
     }
 
-    frame > box.vertical > list > row {
+    frame > box.vertical list > row {
       &:dir(ltr) { padding-right: 12px; }
       &:dir(rtl) { padding-left: 12px; }
 
@@ -1606,6 +1588,7 @@ window.background.budgie-settings-window.csd {
     }
   }
 }
+
 
 // pixel-saver(?) applet
 .budgie-panel box.titlebar {
@@ -1826,32 +1809,26 @@ window.background.budgie-settings-window.csd {
     button.combo {
       min-height: rem($widget_size);
       padding: 0 if($ref_weight < 1.0, 4px, 8px);
-      border-image: -gtk-gradient(radial,
-                                  center bottom, 0,
-                                  center bottom, 0.5,
-                                  to($outline_track_color),
-                                  to(transparent))
-                                  0 0 1 / 0 0 1px;
+      border-image: radial-gradient(circle farthest-corner at center,
+                                    $outline_track_color 100%,
+                                    transparent)
+                                    0 0 1 / 0 0 1px;
       color: $inverted_fg_color;
       font-weight: 500;
       &:hover,
       &:active {
-        border-image: -gtk-gradient(radial,
-                                    center bottom, 0,
-                                    center bottom, 0.5,
-                                    to($selected_bg_color),
-                                    to(transparent))
-                                    0 0 2 / 0 0 2px;
+        border-image: radial-gradient(circle farthest-corner at center,
+                                      $selected_bg_color 100%,
+                                      transparent)
+                                      0 0 2 / 0 0 2px;
         color: $selected_fg_color;
       }
       &:disabled,
       &:checked:disabled {
-        border-image: -gtk-gradient(radial,
-                                    center bottom, 0,
-                                    center bottom, 0.5,
-                                    to($outline_track_color),
-                                    to(transparent))
-                                    0 0 1 / 0 0 1px;
+        border-image: radial-gradient(circle farthest-corner at center,
+                                      $outline_track_color 100%,
+                                      transparent)
+                                      0 0 1 / 0 0 1px;
         color: $insensitive_inverted_fg_color;
       }
     }
@@ -1915,13 +1892,11 @@ window.background.lightdm {
     &:not(.option-button):not(.toggle-button) {
       padding: rem(6.7px, $sw: 1.0);
       border-radius: 100px;
-      -gtk-outline-radius: 100px;
     }
 
     &.flat.option-button { // session logo button
       padding: rem(6.7px, $sw: 1.0);
       border-radius: 100px;
-      -gtk-outline-radius: 100px;
       color: $inverted_fg_color;
 
       image { opacity: 0.87; }
@@ -1939,7 +1914,6 @@ window.background.lightdm {
       @extend %button_flat_normal;
       padding: rem(10px) rem(13.3px);
       border-radius: 0;
-      -gtk-outline-radius: 0;
       background-color: transparent;
       color: $inverted_fg_color;
       font-size: 110%;
@@ -2036,7 +2010,7 @@ window.background.lightdm {
 
   // tweak notebook colour
   grid > paned > box > paned > box > notebook {
-    &, > stack:not(:only-child) {
+    &, > box > stack:not(:only-child) {
       background-color: $base_color;
     }
   }
@@ -2061,14 +2035,11 @@ window.background.lightdm {
       min-width: rem(13.3px);
       min-height: rem(29.3px);
       border-radius: 2px;
-      -gtk-outline-radius: 2px;
       padding: 0 rem(10px) 0;
-      border-image: -gtk-gradient(radial,
-                                  center bottom, 0,
-                                  center bottom, 0.001,
-                                  to($outline_track_color),
-                                  to(transparent))
-                                  0 0 0 / 0 0 0px;
+      border-image: radial-gradient(circle farthest-corner at center,
+                                    $outline_track_color 0%,
+                                    transparent)
+                                    0 0 0 / 0 0 0px;
       background-color: transparent;
       color: $secondary_fg_color;
       &:hover {
@@ -2079,12 +2050,10 @@ window.background.lightdm {
       }
       &:checked {
         @extend %button_flat_checked;
-        border-image: -gtk-gradient(radial,
-                                    center bottom, 0,
-                                    center bottom, 0.5,
-                                    to($selected_bg_color),
-                                    to(transparent))
-                                    0 0 2 / 0 0 2px;
+        border-image: radial-gradient(circle farthest-corner at center,
+                                      $selected_bg_color 100%,
+                                      transparent)
+                                      0 0 2 / 0 0 2px;
         background-color: transparent;
         color: $fg_color;
         &:disabled {
@@ -2120,7 +2089,6 @@ paned.horizontal > paned.horizontal stack grid.vertical > grid.horizontal {
   button.image-button {
     &, &.toggle {
       border-radius: 2px;
-      -gtk-outline-radius: 2px;
     }
   }
 }
@@ -2134,7 +2102,6 @@ row.trackrow {
       &, &.toggle { // back to square button
         margin: 0;
         border-radius: 2px;
-        -gtk-outline-radius: 2px;
       }
     }
   }
@@ -2265,15 +2232,15 @@ widget box.horizontal > widget + box.horizontal {
   }
 
   .passwordentry {
-    @include entry(flat-normal, $c: $inverted_fg_color);
+    @include entry_next(flat-normal, $c: $inverted_fg_color);
     border-radius: 0;
     caret-color: inherit;
     font-family: monospace;
     &:focus {
-      @include entry(flat-focus, $c: $inverted_fg_color);
+      @include entry_next(flat-focus, $c: $inverted_fg_color);
       caret-color: inherit;
     }
-    &:disabled { @include entry(flat-insensitive, $c: $inverted_fg_color); }
+    &:disabled { @include entry_next(flat-insensitive, $c: $inverted_fg_color); }
     &:backdrop { // for alt-text keyboard layout?
       color: $selected_bg_color;
     }
@@ -2404,7 +2371,7 @@ widget box.horizontal > widget + box.horizontal {
   menu {
     font-weight: 400; // for enforcing regular weight
     text-shadow: none;
-    -gtk-icon-effect: none;
+    -gtk-icon-filter: none;
   }
 
   widget.tasklist > button.toggle { font-weight: 400; }
@@ -2511,7 +2478,6 @@ paned.headerbar_pane.titlebar > headerbar.header_right.titlebar {
   > box.linked.raised > button.toggle { // should be .text-button
     // back to square buttons
     border-radius: 2px;
-    -gtk-outline-radius: 2px;
   }
 }
 
@@ -2590,7 +2556,6 @@ window.background:not(.solid-csd) > box.vertical {
       min-width: if($ref_weight < 1.0, $icon_size * 1.5, $icon_size * 1.75);
       margin: 2px 0;
       border-radius: 2px;
-      -gtk-outline-radius: 2px;
     }
 
     separator { margin: 2px 0; }
@@ -2801,7 +2766,7 @@ window.background {
     box-shadow: none; // hide fake-shadows
   }
 
-  paned > notebook > stack > scrolledwindow.frame > widget.view {
+  paned > notebook > box > stack > scrolledwindow.frame > widget.view {
     // transition causes missing 'selected-items'
     background-image: none;
     transition: none;
@@ -2865,7 +2830,6 @@ PanelToplevel.mate-panel-menu-bar > grid.horizontal > button {
   border-radius: 0;
   border-style: solid;
   border-color: $panel_separator_color;
-  -gtk-outline-radius: 0;
   background-color: transparent;
   color: $inverted_fg_color;
   &:hover {
@@ -2941,7 +2905,6 @@ PanelToplevel.mate-panel-menu-bar > grid.horizontal > button {
   &.brisk-button {
     padding: 0 rem(4px, $sw: 1.0);
     border-radius: 0;
-    -gtk-outline-radius: 0;
     background-image: none;
     background-color: transparent;
     color: $inverted_fg_color;
@@ -2985,7 +2948,6 @@ PanelToplevel.mate-panel-menu-bar > grid.horizontal > button {
       padding-top: unset;
       padding-bottom: unset;
       border-radius: 0; // remove roundness
-      -gtk-outline-radius: 0;
       font-weight: 500;
       transition-duration: 0.1s; // shorter duration
       // almost covers :hover pseudo-class
@@ -3018,7 +2980,6 @@ PanelToplevel.mate-panel-menu-bar > grid.horizontal > button {
         padding-top: unset;
         padding-bottom: unset;
         border-radius: 0; // remove roundness
-        -gtk-outline-radius: 0;
         font-weight: 400;
         transition-duration: 0s; // needs quicker response
 
@@ -3051,7 +3012,7 @@ PanelToplevel.mate-panel-menu-bar > grid.horizontal > button {
 //  *****************/
 
 .mate-terminal {
-  notebook > header.top { // show drop-shadows
+  notebook > box > header.top { // show drop-shadows
     @extend %ssd_notebook_shadow;
   }
 }
@@ -3089,7 +3050,6 @@ PanelToplevel.mate-panel-menu-bar > grid.horizontal > button {
 
       treeview.view {
         background-color: transparent;
-        // font-weight: 500;
         &:selected { @extend %selected_items; }
       }
     }
@@ -3136,8 +3096,8 @@ PanelToplevel.mate-panel-menu-bar > grid.horizontal > button {
 
   button.image-button.toggle { // most-left toggle button in path-bar pane
     @extend %toolitem_size;
+    @include button(flat-normal);
     border-radius: 2px;
-    -gtk-outline-radius: 2px;
   }
 
   .caja-notebook { // remove lateral borders
@@ -3145,7 +3105,7 @@ PanelToplevel.mate-panel-menu-bar > grid.horizontal > button {
       border-width: 1px 0 1px;
     }
 
-    > header.top { // revive top-border when tabs are shown
+    > box > header.top { // revive top-border when tabs are shown
       border-top: 1px solid $borders_color;
       background-color: $secondary_dark_color;
       box-shadow: if($variant == light, $inline-shadow-light,
@@ -3212,7 +3172,7 @@ window#MyControlCenter > frame > box.horizontal {
     &.frame {
       border: none;
 
-      > stack {
+      > box > stack {
         border-width: 1px;
         border-style: solid;
         border-color: $bg_color;
@@ -3246,7 +3206,7 @@ window#MyControlCenter > frame > box.horizontal {
 
 .pluma-window {
   paned.horizontal notebook {
-    > header.top { // revive top-border when tabs are shown
+    > box > header.top { // revive top-border when tabs are shown
       border-top: 1px solid $borders_color;
       background-color: $secondary_dark_color;
       box-shadow: if($variant == light, $inline-shadow-light,
@@ -3300,7 +3260,6 @@ window#MyControlCenter > frame > box.horizontal {
 
   toolbar > toolbutton button.flat.image-button { // back to square buttons
     border-radius: 2px;
-    -gtk-outline-radius: 2px;
   }
 
   // 'presentation' mode fullscreen?
@@ -3379,7 +3338,7 @@ window.background:not(.solid-csd) {
     border: 0 none transparent; // unset borders
     background-color: $base_color;
 
-    > stack {
+    > box > stack {
       border: none;
       box-shadow: none;
     }
@@ -3395,7 +3354,6 @@ window.background:not(.solid-csd) {
 #CommandsToolbar {
   button.flat.image-button {
     border-radius: 2px;
-    -gtk-outline-radius: 2px;
   }
 }
 
@@ -3410,7 +3368,6 @@ box#AuxToolbox {
 
     button.flat.image-button {
       border-radius: 2px;
-      -gtk-outline-radius: 2px;
     }
   }
 
@@ -3432,7 +3389,6 @@ box#AuxToolbox {
     margin: 0;
     padding: 0;
     border-radius: 2px;
-    -gtk-outline-radius: 2px;
     &:checked {
       @include button(flat-checked);
       border-image: none;
@@ -3462,7 +3418,6 @@ widget > box#DesktopMainTable {
   // since we can not keep the perfect square allocations
   spinbutton > button {
     border-radius: 2px;
-    -gtk-outline-radius: 2px;
     &:hover {
       background-color: $track_color;
       animation: none;
@@ -3483,7 +3438,7 @@ widget > box#DesktopMainTable {
   padding: 0;
 
   // re-fit to the parent entry node spacing
-  > progress { margin: 0; }
+  > progress > trough > progress { margin: 0; }
 }
 
 #InkscapePanel {
@@ -3497,7 +3452,6 @@ widget > box#DesktopMainTable {
         margin: 0;
         padding: 0;
         border-radius: 2px;
-        -gtk-outline-radius: 2px;
         &:checked {
           @include button(flat-checked);
           border-image: none;
@@ -3630,7 +3584,7 @@ window.background:not(.solid-csd) > box.vertical {
 
 window#wb_main_window {
   notebook#model_tabs {
-    > header.top {
+    > box > header.top {
       background-color: $inverted_dark_color;
 
       tabs {
@@ -3677,21 +3631,18 @@ window#wb_main_window {
   box#dbquery,
   box#db.query.QueryBuffer,
   paned.vertical > box.horizontal > box.vertical > box.horizontal,
-  notebook#model_tabs > stack > box.vertical > box.horizontal {
+  notebook#model_tabs > box > stack > box.vertical > box.horizontal {
     border-bottom: 1px solid $borders_color;
   }
 
   button.flat.image-button { // revert to square
     margin: rem(5.3px) 0; // add vertical spacing
     border-radius: 2px;
-    -gtk-outline-radius: 2px;
     &.toggle:checked {
-      border-image: -gtk-gradient(radial,
-                                  center bottom, 0,
-                                  center bottom, 0.5,
-                                  to($selected_bg_color),
-                                  to(transparent))
-                                  0 0 2 / 0 0 2px;
+      border-image: radial-gradient(circle farthest-corner at center,
+                                    $selected_bg_color 100%,
+                                    transparent)
+                                    0 0 2 / 0 0 2px;
       background-color: transparent;
     }
   }
@@ -3776,7 +3727,6 @@ headerbar > box.horizontal.linked {
     padding-top: rem(calc(($widget_size - $icon_size - 2.7px) / 2));
     padding-bottom: rem(calc(($widget_size - $icon_size - 2.7px) / 2));
     border-radius: 2px;
-    -gtk-outline-radius: 2px;
     font-weight: 700;
 
     > box { // reduce the gap between label and image
@@ -3856,12 +3806,10 @@ widget > box.terminal-titlebar {
     &:dir(rtl) { padding: 0 0 0 rem(13.3px); }
 
     &:checked {
-      border-image: -gtk-gradient(radial,
-                                  center bottom, 0,
-                                  center bottom, 0.5,
-                                  to($selected_bg_color),
-                                  to(transparent))
-                                  0 0 2 / 0 0 2px;
+      border-image: radial-gradient(circle farthest-corner at center,
+                                    $selected_bg_color 100%,
+                                    transparent)
+                                    0 0 2 / 0 0 2px;
       background-color: transparent;
     }
 
@@ -3872,12 +3820,10 @@ widget > box.terminal-titlebar {
       font-weight: 700;
       &:disabled { color: $insensitive_fg_color; }
       &:not(:disabled) {
-        border-image: -gtk-gradient(radial,
-                                    center bottom, 0,
-                                    center bottom, 0.5,
-                                    to($selected_bg_color),
-                                    to(transparent))
-                                    0 0 2 / 0 0 2px;
+        border-image: radial-gradient(circle farthest-corner at center,
+                                      $selected_bg_color 100%,
+                                      transparent)
+                                      0 0 2 / 0 0 2px;
       }
     }
 
@@ -3895,7 +3841,6 @@ widget > box.terminal-titlebar {
       margin: rem(2.7px) 0;
       padding: rem(10px - 2.7px);
       border-radius: 2px;
-      -gtk-outline-radius: 2px;
     }
   }
 
@@ -4020,6 +3965,7 @@ button.flat.-panel-button { // generic panel buttons
 
 button.flat.-panel-icon-button {
   @extend %budgie_icon_tasklist_button;
+
   &:hover {
     box-shadow: inset 0 -2px gtkopacity($inverted_fg_color, 0.4);
   }
