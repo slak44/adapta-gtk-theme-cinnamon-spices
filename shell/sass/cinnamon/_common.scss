@@ -191,7 +191,8 @@ StScrollBar {
 //  * Check Boxes *
 //  ***************/
 
-.check-box {
+.check-box,
+.check-box-2 {
   CinnamonGenericContainer {
     spacing: 0.2em;
     min-height: 30px;
@@ -348,7 +349,7 @@ StScrollBar {
   }
 
   .popup-menu-item {  // FIXME: do not set min-width affected to fav-box
-    padding: 0.4em 1.75em;
+    padding: 0.5em 1.75em;
     spacing: 1em;
     border-width: 0 1px;
     color: $secondary_fg_color;
@@ -1015,7 +1016,8 @@ $ws_thumb_spacing: 32px;
 //  * Modal Dialogs *
 //  *****************/
 
-.modal-dialog {
+.modal-dialog, // cinnamon<6.4
+.dialog { // cinnamon>=6.4
   padding: 0 5px 6px 5px;
   border: none;
   border-radius: 2px;
@@ -1023,15 +1025,76 @@ $ws_thumb_spacing: 32px;
   background-color: shellopacity($osd_bg_color, 0.9);
   box-shadow: $z-depth-4;
 
-  > StBoxLayout:first-child { padding: 20px 10px 10px 10px; }
+  > StBoxLayout:first-child, // cinnamon<6.4
+  > .dialog-content-box { // cinnamon>=6.4
+    padding: 20px 10px 10px 10px;
+  }
 
-  &-button-box {
+  // cinnamon>=6.4
+  .message-dialog-title {
+    @include fontscaling($ref_size * 2.0);
+    margin-top: 0.4em;
+    color: $secondary_fg_color;
+    font-weight: 700;
+    text-align: center;
+  }
+
+  // cinnamon>=6.4
+  .message-dialog-caption {
+    @include fontscaling($ref_size * 0.9);
+    padding-top: 15px;
+    spacing: 5px;
+    padding-bottom: 0;
+    color: $osd_tertiary_fg_color;
+    font-weight: 400;
+    text-align: center;
+
+    &.error {
+      color: $error_color;
+    }
+  }
+
+  &-button-box, // cinnamon<6.4
+  .dialog-button-box { // cinnamon>=6.4
     spacing: 0;
     margin: 0;
     padding: 14px 10px;
     border: none;
     background: none;
 
+    // cinnamon>=6.4
+    .dialog-button {
+      @extend %osd_button;
+      height: 30px;
+      padding-top: 0;
+      padding-bottom: 0;
+      font-weight: 700;
+      color: $inverted_secondary_accent_label_color;
+
+      &:default {
+        &:hover {
+          color: $inverted_accent_label_color;
+          background-color: $accent_semi_fill_color;
+        }
+        &:focus { color: $inverted_accent_label_color; }
+        &:active {
+          color: $inverted_accent_label_color;
+          background-color: $accent_fill_color;
+          box-shadow: $empty_shadow;
+        }
+        &:disabled { color: $osd_tertiary_fg_color; }
+      }
+
+      &:destructive-action {
+        color: $inverted_secondary_accent_label_color;
+        @include button(normal, $c: shellopacity($error_color, 0.06), $tc: $inverted_secondary_accent_label_color);
+        &:focus { @include button(focus, $c: shellopacity($error_color, 0.06), $tc: $inverted_secondary_accent_label_color); }
+        &:hover { @include button(hover, $c: shellopacity($error_color, 0.6), $tc: $fg_color); }
+        &:active { @include button(active, $c: shellopacity($error_color, 0.6), $tc: $inverted_accent_label_color); }
+      }
+    }
+
+    // cinnamon<6.4
     .modal-dialog-button {
       @extend %osd_button;
       height: 30px;
@@ -1060,11 +1123,12 @@ $ws_thumb_spacing: 32px;
 //  ***************/
 
 .run-dialog {
-  padding: 0 15px 10px 15px;
+  padding: 0 15px 0 15px;
   border-image: url("assets/misc/osd.svg") 9 9 9 9;
 
   > * { padding: 0; }
 
+  // cinnamon<6.4
   &-label {
     @include fontscaling($ref_size * 0.9);
     padding-bottom: 0;
@@ -1072,8 +1136,25 @@ $ws_thumb_spacing: 32px;
     font-weight: 400;
   }
 
+  // cinnamon>=6.4
+  &-description {
+    @include fontscaling($ref_size * 0.9);
+    padding-top: 15px;
+    spacing: 5px;
+    padding-bottom: 0;
+    color: $osd_tertiary_fg_color;
+    font-weight: 400;
+    text-align: center;
+
+    &.error {
+      color: $error_color;
+    }
+  }
+
+  // cinnamon<6.4
   &-error-label { color: $error_color; }
 
+  // cinnamon<6.4
   &-error-box {
     @include fontscaling($ref_size * 0.9);
     padding-top: 15px;
@@ -1098,7 +1179,8 @@ $ws_thumb_spacing: 32px;
     &:focus { @include entry(osd-focus); }
   }
 
-  .modal-dialog-button-box {
+  .modal-dialog-button-box, // cinnamon<6.4
+  .dialog-button-box { // cinnamon>=6.4
     border: none;
     background: none;
     background-gradient-direction: none;
@@ -1107,6 +1189,81 @@ $ws_thumb_spacing: 32px;
 }
 
 .lightbox {
+}
+
+// /**********************
+//  * End Session Dialog *
+//  **********************/
+
+// cinnamon>=6.4
+.end-session-dialog {
+  .message-dialog-title {
+  }
+}
+
+// /*****************
+//  * Polkit Dialog *
+//  *****************/
+
+// cinnamon>=6.4
+.prompt-dialog {
+  &-password-entry {
+    @include entry(osd-normal);
+    width: 28em;
+    padding: 7px;
+    border-radius: 0;
+    color: $osd_fg_color;
+    caret-color: $osd_fg_color;
+    selected-color: $selected_fg_color;
+    selection-background-color: $selected_bg_color;
+
+    &:focus {
+      @include entry(osd-focus);
+    }
+
+    StIcon.peek-password {
+      icon-size: 16px;
+      padding: 0 2px;
+      warning-color: $warning_color;
+    }
+  }
+}
+
+// /*********************************
+//  * Audio Device Selection Dialog *
+//  *********************************/
+
+// cinnamon>=6.4
+.audio-device-selection-dialog {
+  .message-dialog-title {
+    margin-bottom: 0.4em;
+  }
+
+  .audio-selection-box {
+    .audio-selection-device {
+      @extend %osd_button;
+      padding-top: 0;
+      padding-bottom: 0;
+
+      &:hover {
+        background-color: $accent_semi_fill_color;
+      }
+
+      &:active {
+        color: $inverted_accent_label_color;
+        background-color: $accent_fill_color;
+        box-shadow: $empty_shadow;
+      }
+
+      &-box {
+        padding: 15px;
+      }
+
+      &-icon {
+        margin-bottom: 10px;
+      }
+    }
+  }
 }
 
 
@@ -1125,7 +1282,7 @@ $ws_thumb_spacing: 32px;
   &-subject {
     padding-top: 10px;
     padding-bottom: 6px;
-    
+
     &:ltr { padding-left: 17px; }
     &:rtl { padding-right: 17px; }
   }
@@ -1417,7 +1574,7 @@ $ws_thumb_spacing: 32px;
 
 // Context menu - used by Cinnamenu for right click context menu
 .menu-context-menu {
-padding: 0.5em 1px;
+  padding: 0.5em 1px;
 }
 
 
@@ -1434,6 +1591,7 @@ padding: 0.5em 1px;
   font-weight: 700;
 }
 
+// cinnamon<6.4
 .osd-window {
   min-width: 64px;
   min-height: 64px;
@@ -1455,6 +1613,36 @@ padding: 0.5em 1px;
     border-radius: 0;
     background-color: $osd_outline_fill_color;
     color: $success_color;
+  }
+
+  .level-bar {
+    border-radius: 0;
+    background-color: $success_color;
+  }
+}
+
+// cinnamon>=6.4
+.media-keys-osd {
+  min-height: 64px;
+  spacing: 1em;
+  padding: 20px;
+  border: none;
+  border-radius: 5px;
+  border-image: url("assets/misc/osd.svg") 9 9 9 9;
+  color: $osd_fg_color;
+  background: none;
+  font-weight: 700;
+  text-align: center;
+
+  .osd-monitor-label { @include fontscaling($ref_size * 3.0); }
+
+  .level {
+    min-width: 200px;
+    -barlevel-height: 3px;
+    -barlevel-background-color: $osd_outline_fill_color;
+    -barlevel-active-background-color: $success_color;
+    -barlevel-amplify-color: $warning_color;
+    -barlevel-amplify-separator-width: 16px;
   }
 
   .level-bar {
@@ -1823,7 +2011,7 @@ padding: 0.5em 1px;
 }
 
   &:hover {
-  
+
     @each $position, $_indicator in (top, 0 2px),
                                     (bottom, 0 -2px),
                                     (left, 2px 0),
@@ -1841,11 +2029,11 @@ padding: 0.5em 1px;
 .workspace-graph {
   padding: 3px;
   spacing: 3px;
-  
+
   .vertical & {
-    padding: 0; 
+    padding: 0;
   }
-  
+
   .workspace {
     border: 1px solid shellopacity(black, 0.4);
     background-gradient-direction: none;
@@ -2086,7 +2274,7 @@ padding: 0.5em 1px;
     color: $osd_fg_color;
   }
 
-  &-drag-placeholder { 
+  &-drag-placeholder {
     border: 2px solid $accent_color;
     background-color: shellopacity($accent_color, 0.8);
   }
@@ -2165,7 +2353,8 @@ padding: 0.5em 1px;
 //  * Workspace OSD *
 //  *****************/
 
-.workspace-osd { // workspace name
+.workspace-osd, // cinnamon<6.4
+.workspace-switch-osd { // cinnamon>=6.4
   @include fontscaling($ref_size * 3.0);
   padding: 0.2em 0.8em;
   border-radius: 2px;
@@ -2174,6 +2363,32 @@ padding: 0.5em 1px;
   box-shadow: $z-depth-4;
   font-weight: 400;
   text-shadow: none;
+}
+
+// cinnamon>=6.4
+.workspace-switch-osd {
+  margin-bottom: 1em;
+
+  &-indicator-box {
+    spacing: 0.4em;
+  }
+
+  $ws_indicator_height: 32px;
+  $ws_dot_active: $ws_indicator_height / 3;
+  $ws_dot_inactive: $ws_indicator_height / 6;
+
+  &-indicator {
+    background-color: $osd_fg_color;
+    padding: $ws_dot_inactive / 2;
+    margin: ($ws_indicator_height - $ws_dot_inactive) / 2;
+    border-radius: $ws_indicator_height;
+
+    &:active {
+      background-color: $accent_color;
+      padding: $ws_dot_active / 2;
+      margin: ($ws_indicator_height - $ws_dot_active) / 2;
+    }
+  }
 }
 
 $top_gap: 2px;
@@ -2446,3 +2661,23 @@ StBin.menu {
   }
 }
 
+// /********************
+//  * Cornerbar Applet *
+//  ********************/
+
+.applet-cornerbar {
+  width: 8px;
+  background-color: $accent_fill_color;
+
+  .vertical {
+    height: 8px;
+  }
+
+  &-box {
+    padding: 3px 3px;
+
+    &:hover {
+      background-color: $inverted_accent_label_color;
+    }
+  }
+}
