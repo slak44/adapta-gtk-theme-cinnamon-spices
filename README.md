@@ -3,6 +3,11 @@
 
 An adaptive Gtk+ theme based on Material Design Guidelines.
 
+27 Mar 2020
+-----------
+ * Development of the Adapta GTK theme has completely ended.
+ * Turn to Archived state.
+
 Before using Adapta
 -------------------
 
@@ -167,14 +172,14 @@ Installation from Git Source
 3. Build and install system-wide:
 
  ```
- ./autogen.sh
+ ./autogen.sh --prefix=/usr
  make
  sudo make install
  ```
 
  > **Note:**
  >
- >   * Default prefix is `/usr`.
+ >   * Default prefix is `/usr/local`.
  >   * All 4 variants are installed by default.
  >   * `make` generates proper CSSs and PNGs to be installed.
  >     It will take about 5min to 15min to build.
@@ -249,7 +254,8 @@ GtkSourceView/Gedit Color Scheme Support
 
  > **Note:**
  >
- >   * The color-scheme can be used in Gnome-Builder, Gnome-Sushi, Meld and Gedit if installed to `~/.local/share/gtksourceview-3.0/styles` directory.
+ >   * The color-scheme can be used in Gnome-Builder, Gnome-Sushi, Meld and Gedit if installed to 
+ >     `~/.local/share/gtksourceview-3.0/styles` or `~/.local/share/gtksourceview-4/styles` directory.
  >   * Currently only dark-variant is supported.
 
 Visual Studio Code (VS Code) Theme Support
@@ -356,13 +362,9 @@ This is a list of community projects, related to Adapta:
 
 Work in Progress
 ----------------
-* Performance tuning
-* Conversion to Gtk+ 4.0
 
 TODO
 ----
-* Prepare for Meson build system (priority: high)
-* Prepare for x3 scaling (priority: mid or low)
 
 Public License
 --------------
@@ -376,8 +378,9 @@ Public License
 
 Donations
 ---------
- [**My Patreon Page**](https://www.patreon.com/tista500)
 
 Special Thanks to
 --------------
  Nana-4, the developer of Materia (formerly Flat-Plat).
+
+ And all supporters, thank you.
