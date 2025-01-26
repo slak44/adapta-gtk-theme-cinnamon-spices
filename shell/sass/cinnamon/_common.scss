@@ -81,8 +81,7 @@ stage {
   transition: none;
   selection-background-color: $selected_bg_color;
   selected-color: $selected_fg_color;
-  &:focus,
-  &:focus:hover { @include entry(focus); }
+  &:focus { @include entry(focus); }
   &:hover { @include entry(hover); }
   &:insensitive { @include entry(insensitive); }
 
@@ -796,7 +795,7 @@ $ws_thumb_spacing: 32px;
     width: (round($ref_size * 72 / 96) * 0.25 + em);
     height: (round($ref_size * 72 / 96) * 0.25 + em);
     padding: 0;
-    margin: 2px;
+    margin: 0.3em 0.15em;
     border-radius: 999px;
     text-align: center;
   }
@@ -845,14 +844,134 @@ $ws_thumb_spacing: 32px;
 .calendar {
   &-today {
     border-width: 0;
-    color: $selected_fg_color;
-    background-color: $selected_bg_color;
-    font-weight: 700;
+    background-color: rgba(0, 188, 212, 0.12); // ?
+
+    &:hover {
+      @include button(flat-hover, $tc: $selected_bg_color);
+      color: $selected_bg_color;
+    }
+
+    &:selected {
+      color: $selected_bg_color;
+      font-weight: 700;
+    }
+
+    &-not-today {
+      &:selected {
+        border-width: 0;
+        background-color: rgba(0, 188, 212, 0.12);
+        color: $selected_bg_color;
+        font-weight: 700;
+      }
+
+      &:hover {
+        background-color: $semi_fill_color;
+        border-color: transparent;
+        box-shadow: $empty_shadow;
+        text-shadow: none;
+        icon-shadow: none;
+      }
+    }
   }
 
   &-other-month-day { color: shellopacity($tertiary_fg_color, 0.55); }
 }
 
+.calendar-event {
+  &-button {
+    @include fontscaling($ref_size);
+    @include button(flat-normal);
+    padding: 5px 10px;
+    text-align: left;
+    border-width: 0;
+
+    &:hover {
+      color: $fg_color;
+      background-color: $semi_fill_color;
+    }
+  }
+
+  &-summary {
+    @include fontscaling($ref_size * 0.8);
+    text-align: left;
+    width: 200px;
+  }
+
+  &-countdown {
+    @include fontscaling($ref_size * 0.8);
+    text-align: right;
+    color: $warning_color;
+  }
+
+  &-color-strip {
+    width: 2px;
+    margin-right: 7px;
+  }
+}
+
+.calendar-events {
+  &-main-box {
+    min-width: 300px;
+    height: 300px;
+    padding: 0.4em 1.75em;
+  }
+
+  &-no-events-button {
+    padding: 10px;
+
+    &:hover {
+      @include button(flat-normal);
+    }
+  }
+
+  &-no-events-icon, &-no-events-label {
+    font-weight: 700;
+    text-align: center;
+  }
+
+  &-date-label {
+    @include fontscaling($ref_size);
+    padding: 0.4em 0.4em 1.75em;
+    color: $fg_color;
+    font-weight: 700;
+    text-align: center;
+  }
+
+  &-event-container {
+    padding: 0;
+  }
+}
+
+.calendar-today-home-button {
+  padding: 10px;
+}
+
+.calendar-today-home-button-enabled {
+  padding: 10px;
+
+  &:hover {
+    @include button(flat-normal);
+  }
+}
+
+.calendar-today-day-label, .calendar-today-date-label {
+  @include fontscaling($ref_size);
+  color: $fg_color;
+  font-weight: 700;
+  text-align: center;
+}
+
+.calendar-day-event-dot-box {
+  margin: 2.25em 0 0.3em;
+  max-rows: 1;
+}
+
+.calendar-day-event-dot {
+  margin: 1px;
+  border-radius: 256px;
+  width: 0.2em;
+  height: 0.2em;
+}
 
 // /*****************
 //  * Notifications *
@@ -1472,8 +1591,8 @@ $ws_thumb_spacing: 32px;
     }
 
     &-label { // embed vertical padding directly
-      &:ltr { padding: 0.4em 0 0.4em 5px; }
-      &:rtl { padding: 0.4em 5px 0.4em 0; }
+      &:ltr { padding: 0.5em 0 0.5em 5px; }
+      &:rtl { padding: 0.5em 5px 0.5em 0; }
     }
   }
 
@@ -1497,8 +1616,8 @@ $ws_thumb_spacing: 32px;
       StIcon { min-width: 22px; } // indentation
 
       StLabel {
-        &:ltr { padding: 0.4em 0 0.4em 5px; }
-        &:rtl { padding: 0.4em 5px 0.4em 0; }
+        &:ltr { padding: 0.5em 0 0.5em 5px; }
+        &:rtl { padding: 0.5em 5px 0.5em 0; }
       }
     }
   }
@@ -1524,8 +1643,8 @@ $ws_thumb_spacing: 32px;
     }
 
     &-label { // embed vertical padding directly
-      &:ltr { padding: 0.4em 0 0.4em 5px; }
-      &:rtl { padding: 0.4em 5px 0.4em 0; }
+      &:ltr { padding: 0.5em 0 0.5em 5px; }
+      &:rtl { padding: 0.5em 5px 0.5em 0; }
     }
   }
 
@@ -2005,11 +2124,11 @@ $ws_thumb_spacing: 32px;
   background-color: $hidden_fill_color;
   transition-duration: 0.2s;
 
-.vertical & {
-  width: 1em;
-  height: 1.2em;
-  padding: 2px 0;
-}
+  .vertical & {
+    width: 1em;
+    height: 1.2em;
+    padding: 2px 0;
+  }
 
   &:hover {
 
@@ -2022,8 +2141,15 @@ $ws_thumb_spacing: 32px;
       }
     }
   }
-  &:outlined, &:outlined:shaded { color: $selected_bg_color; }
-  &:shaded { color: $osd_tertiary_fg_color; }
+
+  &:outlined,
+  &:outlined:shaded {
+    color: $selected_bg_color;
+  }
+
+  &:shaded {
+    color: $osd_tertiary_fg_color;
+  }
 }
 
 // Controls the style when using the "Visual representation" option

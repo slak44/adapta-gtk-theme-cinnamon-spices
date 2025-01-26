@@ -24,6 +24,14 @@ Changes in this fork:
 [cornerbar]: https://github.com/linuxmint/cinnamon-spices-themes/commit/1acded2135d31218834fb0d716d45d1866878629
 [sound_padding]: https://github.com/linuxmint/cinnamon-spices-themes/commit/e160215c3a7f5e4cec78b9eaa6d129cdba7e3968
 
+Changes made by smurphos directly to the spices repo (converted back to SCSS):
+* Cinnamon - support for Spacer applet theming added in Cinnamon 4.2
+* Cinnamon - workspace switcher applet - better distinguish empty workspaces in simple button mode.
+* Cinnamon - minor tweak to pop-up menu sizes to better match GTK menus
+* Cinnamon - incorporate @fredcw patach to menu category hover color for Cinnamenu
+* Cinnamon - add support for calendar with events in Cinnamon 5.2
+* Cinnamon - support for new Run Dialog theming in Cinnamon 5.2
+
 Changes retained from smurphos' fork:
 * Stylesheets distributed in deobfuscated .css format
 * Build includes Cinnamon, GTK 2.0, 3.22 & Metacity-1 themes only

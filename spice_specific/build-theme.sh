@@ -14,10 +14,10 @@ if [ ! -d "$THEMEDIR" ]; then
 	mkdir "$THEMEDIR"
 fi
 
-if [ -z "$1" ]; then
-  # Workaround for https://gitlab.com/inkscape/inkscape/-/issues/4716
-  export SELF_CALL=xxx
+# Workaround for https://gitlab.com/inkscape/inkscape/-/issues/4716
+export SELF_CALL=xxx
 
+if [ -z "$1" ]; then
   ./autogen.sh --enable-parallel --enable-cinnamon --disable-gnome --disable-openbox --disable-mate --disable-tweetdeck --disable-xfce --disable-flashback
 fi
 
