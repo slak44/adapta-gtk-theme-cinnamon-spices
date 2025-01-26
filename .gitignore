@@ -24,7 +24,10 @@ shell/cinnamon/assets
 shell/cinnamon-nokto/assets
 xfce-notify-4.0/*.svg
 unity/*.svg
-metacity-1/*.svg
+wm/metacity-1/*.svg
+wm/metacity-1/thumbnail.png
+wm/asset/assets-metacity/*.svg
+shell/asset/assets-cinnamon/**/*.svg
 xfwm4/*.png
 openbox-3/*.xbm
 aclocal.m4
