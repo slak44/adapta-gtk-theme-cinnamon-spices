@@ -16,10 +16,13 @@ repo's `master` branch merged in ([Tista's original repo][tista_adapta]).
 ## Version / Modifications
 
 Changes in this fork:
-* Cinnamon - converted a [manual fix][cornerbar] in the spices theme to SCSS
+* Cinnamon - converted a [manual fix for cornerbar applets][cornerbar] in the spices theme to SCSS
+* Cinnamon - converted a [manual fix for the sound applet][sound_padding] in the spices theme to SCSS
+* Cinnamon - fix width of some text in sound applet
 * Cinnamon - support and fixes for versions 6.0, 6.2, 6.4
 
 [cornerbar]: https://github.com/linuxmint/cinnamon-spices-themes/commit/1acded2135d31218834fb0d716d45d1866878629
+[sound_padding]: https://github.com/linuxmint/cinnamon-spices-themes/commit/e160215c3a7f5e4cec78b9eaa6d129cdba7e3968
 
 Changes retained from smurphos' fork:
 * Stylesheets distributed in deobfuscated .css format
@@ -80,6 +83,9 @@ This theme should be compatible with Cinnamon versions:
 - `4.2.x`
 - `4.4.x`
 - `4.6.x`
+- `4.8.x`
+- `5.0.x`
+- `5.2.x`
 - `6.0.x`
 - `6.2.x`
 - `6.4.x`

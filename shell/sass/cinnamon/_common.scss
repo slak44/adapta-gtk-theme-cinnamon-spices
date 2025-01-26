@@ -1914,7 +1914,10 @@ $ws_thumb_spacing: 32px;
   > StBoxLayout:first-child {
     padding: 0.4em (1.75em - 0.75em) 0.4em * 2;
 
-    StLabel { padding: 0 0.4em 1px; }
+    StLabel {
+      min-width: 200px;
+      padding: 0 0.4em 1px;
+    }
 
     StButton:small {
       width: $icon_size;
@@ -1929,9 +1932,7 @@ $ws_thumb_spacing: 32px;
 
   &-overlay {
     width: 290px;
-    height: 4.2em;
-    padding: 0.4em (1.75em - 0.75em) 0.4em * 3;
-    spacing: 5px;
+    padding: 0.4em 1em;
     border: 0 solid $osd_bg_color;
     border-bottom-width: 1px;
     color: $osd_fg_color;

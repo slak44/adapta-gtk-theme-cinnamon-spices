@@ -32,6 +32,7 @@ autom4te.cache
 config.log
 config.status
 configure
+configure~
 install-sh
 Makefile
 Makefile.in
