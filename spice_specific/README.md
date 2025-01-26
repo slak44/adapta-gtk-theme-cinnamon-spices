@@ -1,24 +1,31 @@
 ## #THEMENAME
 
-#DESCRIPTION. Cinnamon, Metacity, GTK2, GTK3.18 and GTK3.22+ themes are included.
+#DESCRIPTION.
+Cinnamon, Metacity, GTK2 and GTK3.22+ themes are included.
 
 ## Credits
 
-This is a build of [Tista's](https://github.com/tista500) [Adapta theme](https://github.com/adapta-project/adapta-gtk-theme) made for Cinnamon Spices.
+[This fork][this_adapta] is based on the latest version of the `spice-build`
+branch from [smurphos' fork of Adapta][smurphos_adapta], with the original
+repo's `master` branch merged in ([Tista's original repo][tista_adapta]).
+
+[this_adapta]: https://github.com/slak44/adapta-gtk-theme-cinnamon-spices
+[smurphos_adapta]: https://github.com/smurphos/adapta-gtk-theme-cinnamon-spices/tree/spice-build
+[tista_adapta]: https://github.com/adapta-project/adapta-gtk-theme
 
 ## Version / Modifications
 
-[Original Source Code](https://github.com/adapta-project/adapta-gtk-theme)
+Changes in this fork:
+* Cinnamon - converted a [manual fix][cornerbar] in the spices theme to SCSS
+* Cinnamon - support and fixes for versions 6.0, 6.2, 6.4
 
-[Fork for this build](https://github.com/smurphos/adapta-gtk-theme-cinnamon-spices/tree/spice-build)
+[cornerbar]: https://github.com/linuxmint/cinnamon-spices-themes/commit/1acded2135d31218834fb0d716d45d1866878629
 
-This build is based on [Adapta version 3.95.0.11](https://github.com/adapta-project/adapta-gtk-theme/releases/tag/3.95.0.11) with the following modifications.
-
-* Retain support for GTK 3.18
+Changes retained from smurphos' fork:
 * Stylesheets distributed in deobfuscated .css format
-* Build includes Cinnamon, GTK 2.0, 3.18, 3.22 & Metacity-1 themes only
-* GTK3.18 & 3.22 - added support for different colored backgrounds in Nemo dual pane view
-* GTK3.18 & 3.22 - cleaned out irrelevant third party styling related to non-Cinnamon desktop enviroments.
+* Build includes Cinnamon, GTK 2.0, 3.22 & Metacity-1 themes only
+* GTK 3.22 - added support for different colored backgrounds in Nemo dual pane view
+* GTK 3.22 - cleaned out irrelevant third party styling related to non-Cinnamon desktop enviroments.
 * Scripts - firefox_fix.sh script included to fix issues with firefox and dark themes
 * Cinnamon - fixed workspace-switcher applet on vertical panels
 * Cinnamon - fixed to menu theming for cinnamenu compatibility
@@ -64,13 +71,24 @@ To allow the GTK2, GTK3 and Metacity1 themes to apply to GUI apps running as roo
 
 ## Compatibility
 
-This theme is compatible with Cinnamon versions `3.2.x`, `3.4.x`, `3.6.x`, `3.8.x`, `4.0.x`, `4.2.x`, `4.4.x` & `4.6.x`
+This theme should be compatible with Cinnamon versions:
+- `3.2.x`
+- `3.4.x`
+- `3.6.x`
+- `3.8.x`
+- `4.0.x`
+- `4.2.x`
+- `4.4.x`
+- `4.6.x`
+- `6.0.x`
+- `6.2.x`
+- `6.4.x`
 
-The GTK3 themes require GTK `3.18.x` or `3.20.x`+
+The GTK3 themes require GTK `3.20.x`+
 
 ## Cinnamon Theme Font-Size
 
-For Cinnamon version 4.6.x and later the Cinnamon theme's font characteristics van be set via changing the default font in Font Selection settings module available from the menu.
+For Cinnamon version 4.6.x and later the Cinnamon theme's font characteristics can be set via changing the default font in Font Selection settings module available from the menu.
 
 For users of older Cinnamon versions the theme includes an interactive bash script that allows end users to adjust the base font-size in the Cinnamon theme. This can be useful for users running Cinnamon on relatively high resolution displays with relatively small screen dimensions where the hard-coded theme default font-sizes are too small.
 
