@@ -2977,6 +2977,8 @@ menubar {
 .menu,
 .context-menu,
 menu {
+  font: initial; // decouple the font of context-menus from parent nodes
+
   &,
   .solid-csd.popup & {
     padding: rem(4px) 1px;
@@ -2996,8 +2998,6 @@ menu {
     border-style: solid none none;
     border-color: $menu_highlight_color transparent transparent;
   }
-
-  font: initial; // decouple the font of context-menus from parent nodes
 
   menuitem {
     min-height: rem(20px);
@@ -4698,7 +4698,7 @@ scrolledwindow {
 
   junction { // the small square between two scrollbars
     border-color: transparent;
-    // the border image is used to add the missing dot 
+    // the border image is used to add the missing dot
     // between the borders, details, details, details...
     border-image: linear-gradient(to bottom,
                                   $borders_color 1px,

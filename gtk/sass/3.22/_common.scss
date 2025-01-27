@@ -1105,12 +1105,12 @@ button.color {
   > colorswatch:first-child:last-child { // :first-child:last-child for
                                          // a specificity bump, it gets
                                          // overridden by the colorpicker style
+    box-shadow: $z-depth-1;
+
     &, overlay {
       border-radius: 0;
       -gtk-outline-radius: 0;
     }
-
-    box-shadow: $z-depth-1;
   }
 
   &,
@@ -1294,6 +1294,9 @@ spinbutton {
     &:disabled { color: $insensitive_fg_color; }
 
     entry {
+      padding-top: rem(9.3px - 2.7px);
+      padding-bottom: rem(10.7px - 2.7px);
+
       &, // unset all of fallback mode
       &:focus,
       &:disabled {
@@ -1303,9 +1306,6 @@ spinbutton {
         border-image: none;
         box-shadow: none;
       }
-
-      padding-top: rem(9.3px - 2.7px);
-      padding-bottom: rem(10.7px - 2.7px);
 
       > progress { margin: rem(-9.3px + 2.7px) 0 rem(-10.7px + 2.7px); }
     }
@@ -2020,15 +2020,15 @@ headerbar {
   background-clip: border-box;
   min-height: 42px;
 
+  // text colours
+  color: $inverted_secondary_fg_color;
+
   // hide all outlines
   * {
     outline-style: none;
     outline-width: 0;
     outline-color: transparent;
   }
-
-  // text colours
-  color: $inverted_secondary_fg_color;
 
   label,
   image {
@@ -3044,6 +3044,8 @@ menubar {
 .menu,
 .context-menu,
 menu {
+  font: initial; // decouple the font of context-menus from parent nodes
+
   &,
   .solid-csd.popup & {
     padding: rem(4px) 1px;
@@ -3062,8 +3064,6 @@ menu {
     border-style: solid none none;
     border-color: $menu_highlight_color transparent transparent;
   }
-
-  font: initial; // decouple the font of context-menus from parent nodes
 
   menuitem {
     min-height: rem(16px);
@@ -4787,7 +4787,7 @@ scrolledwindow {
 
   junction { // the small square between two scrollbars
     border-color: transparent;
-    // the border image is used to add the missing dot 
+    // the border image is used to add the missing dot
     // between the borders, details, details, details...
     border-image: linear-gradient(to bottom,
                                   $borders_color 1px,
