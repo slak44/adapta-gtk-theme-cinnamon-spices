@@ -18,7 +18,7 @@ fi
 export SELF_CALL=xxx
 
 if [ -z "$1" ]; then
-  ./autogen.sh --enable-parallel --enable-cinnamon --disable-gnome --disable-openbox --disable-mate --disable-tweetdeck --disable-xfce --disable-flashback
+  ./autogen.sh --enable-gtk_next --enable-parallel --enable-cinnamon --disable-gnome --disable-openbox --disable-mate --disable-tweetdeck --disable-xfce --disable-flashback
 fi
 
 make
@@ -39,6 +39,8 @@ ln -srfn "$BUILDDIR/Adapta/assets/thumbnail.png" "$BUILDDIR/Adapta/gtk-3.0/thumb
 cp "$WORKDIR/gtk/gtk-3.22/gtk-contained.css" "$BUILDDIR/Adapta/gtk-3.22/gtk.css"
 ln -srfn "$BUILDDIR/Adapta/assets" "$BUILDDIR/Adapta/gtk-3.22/assets"
 ln -srfn "$BUILDDIR/Adapta/assets/thumbnail.png" "$BUILDDIR/Adapta/gtk-3.22/thumbnail.png"
+cp "$WORKDIR/gtk/gtk-4.0/gtk-contained.css" "$BUILDDIR/Adapta/gtk-4.0/gtk.css"
+ln -srfn "$BUILDDIR/Adapta/assets" "$BUILDDIR/Adapta/gtk-4.0/assets"
 ln -srfn "$BUILDDIR/Adapta/assets/thumbnail.png" "$BUILDDIR/Adapta/gtk-4.0/thumbnail.png"
 cp "$WORKDIR/gtk/gtk-2.0/gtkrc" "$BUILDDIR/Adapta/gtk-2.0/gtkrc"
 cp "$WORKDIR/gtk/gtk-2.0/colors.rc" "$BUILDDIR/Adapta/gtk-2.0/colors.rc"
@@ -83,6 +85,8 @@ ln -srfn "$BUILDDIR/Adapta-Nokto/assets/thumbnail-dark.png" "$BUILDDIR/Adapta-No
 cp "$WORKDIR/gtk/gtk-3.22/gtk-contained-dark.css" "$BUILDDIR/Adapta-Nokto/gtk-3.22/gtk.css"
 ln -srfn "$BUILDDIR/Adapta-Nokto/assets" "$BUILDDIR/Adapta-Nokto/gtk-3.22/assets"
 ln -srfn "$BUILDDIR/Adapta-Nokto/assets/thumbnail-dark.png" "$BUILDDIR/Adapta-Nokto/gtk-3.22/thumbnail.png"
+cp "$WORKDIR/gtk/gtk-4.0/gtk-contained-dark.css" "$BUILDDIR/Adapta-Nokto/gtk-4.0/gtk.css"
+ln -srfn "$BUILDDIR/Adapta-Nokto/assets" "$BUILDDIR/Adapta-Nokto/gtk-4.0/assets"
 ln -srfn "$BUILDDIR/Adapta-Nokto/assets/thumbnail-dark.png" "$BUILDDIR/Adapta-Nokto/gtk-4.0/thumbnail.png"
 cp "$WORKDIR/gtk/gtk-2.0/gtkrc-dark" "$BUILDDIR/Adapta-Nokto/gtk-2.0/gtkrc"
 cp "$WORKDIR/gtk/gtk-2.0/colors-dark.rc" "$BUILDDIR/Adapta-Nokto/gtk-2.0/colors-dark.rc"
