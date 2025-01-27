@@ -1759,14 +1759,14 @@ $ws_thumb_spacing: 32px;
     min-width: 200px;
     -barlevel-height: 3px;
     -barlevel-background-color: $osd_outline_fill_color;
-    -barlevel-active-background-color: $success_color;
+    -barlevel-active-background-color: $accent_color;
     -barlevel-amplify-color: $warning_color;
     -barlevel-amplify-separator-width: 16px;
   }
 
   .level-bar {
     border-radius: 0;
-    background-color: $success_color;
+    background-color: $accent_color;
   }
 }
 
