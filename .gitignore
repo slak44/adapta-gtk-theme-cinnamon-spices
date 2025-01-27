@@ -45,3 +45,5 @@ ColorDeck-adapta.cdk
 ColorDeck-adapta-nokto.cdk
 spice_builds/
 .idea/
+*.css.map
+node_modules/

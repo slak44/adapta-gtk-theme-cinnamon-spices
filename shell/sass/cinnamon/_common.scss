@@ -792,8 +792,8 @@ $ws_thumb_spacing: 32px;
 
   &-base {
     @include fontscaling($ref_size * 0.8);
-    width: (round($ref_size * 72 / 96) * 0.25 + em);
-    height: (round($ref_size * 72 / 96) * 0.25 + em);
+    width: (calc(round(calc($ref_size * 72 / 96)) * 0.25) + em);
+    height: (calc(round(calc($ref_size * 72 / 96)) * 0.25) + em);
     padding: 0;
     margin: 0.3em 0.15em;
     border-radius: 999px;
@@ -802,8 +802,8 @@ $ws_thumb_spacing: 32px;
 
   &-heading {
     @include fontscaling($ref_size * 0.7);
-    width: (round($ref_size * 72 / 96) * 0.25 + em);
-    height: (round($ref_size * 72 / 96) * 0.2 + em);
+    width: (calc(round(calc($ref_size * 72 / 96)) * 0.25) + em);
+    height: (calc(round(calc($ref_size * 72 / 96)) * 0.2) + em);
     margin-top: 2px;
     padding: 5px 0 0;
     background-color: transparent;
@@ -825,10 +825,10 @@ $ws_thumb_spacing: 32px;
 }
 
 .calendar-week-number {
-  width: (round($ref_size * 72 / 96) * 0.25 + em);
-  height: (round($ref_size * 72 / 96) * 0.2 + em);
+  width: (calc(round(calc($ref_size * 72 / 96)) * 0.25) + em);
+  height: (calc(round(calc($ref_size * 72 / 96)) * 0.2) + em);
   margin: 2px;
-  padding: (round($ref_size * 72 / 96) * 0.075 + em) 0 0;
+  padding: (calc(round(calc($ref_size * 72 / 96)) * 0.075) + em) 0 0;
   background-color: transparent;
   color: $tertiary_fg_color;
   font-weight: 700;
@@ -2501,19 +2501,19 @@ $ws_thumb_spacing: 32px;
   }
 
   $ws_indicator_height: 32px;
-  $ws_dot_active: $ws_indicator_height / 3;
-  $ws_dot_inactive: $ws_indicator_height / 6;
+  $ws_dot_active: calc($ws_indicator_height / 3);
+  $ws_dot_inactive: calc($ws_indicator_height / 6);
 
   &-indicator {
     background-color: $osd_fg_color;
-    padding: $ws_dot_inactive / 2;
-    margin: ($ws_indicator_height - $ws_dot_inactive) / 2;
+    padding: calc($ws_dot_inactive / 2);
+    margin: calc(($ws_indicator_height - $ws_dot_inactive) / 2);
     border-radius: $ws_indicator_height;
 
     &:active {
       background-color: $accent_color;
-      padding: $ws_dot_active / 2;
-      margin: ($ws_indicator_height - $ws_dot_active) / 2;
+      padding: calc($ws_dot_active / 2);
+      margin: calc(($ws_indicator_height - $ws_dot_active) / 2);
     }
   }
 }
