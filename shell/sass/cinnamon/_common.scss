@@ -855,22 +855,22 @@ $ws_thumb_spacing: 32px;
       color: $selected_bg_color;
       font-weight: 700;
     }
+  }
 
-    &-not-today {
-      &:selected {
-        border-width: 0;
-        background-color: rgba(0, 188, 212, 0.12);
-        color: $selected_bg_color;
-        font-weight: 700;
-      }
+  &-not-today {
+    &:selected {
+      border-width: 0;
+      background-color: rgba(0, 188, 212, 0.12);
+      color: $selected_bg_color;
+      font-weight: 700;
+    }
 
-      &:hover {
-        background-color: $semi_fill_color;
-        border-color: transparent;
-        box-shadow: $empty_shadow;
-        text-shadow: none;
-        icon-shadow: none;
-      }
+    &:hover {
+      background-color: $semi_fill_color;
+      border-color: transparent;
+      box-shadow: $empty_shadow;
+      text-shadow: none;
+      icon-shadow: none;
     }
   }
 
