@@ -1,7 +1,7 @@
 ## #THEMENAME
 
 #DESCRIPTION.
-Cinnamon, Metacity, GTK2 and GTK3.22+ themes are included.
+Cinnamon, Metacity, GTK2, GTK3.22 and GTK4 themes are included.
 
 ## Credits
 
@@ -94,11 +94,11 @@ The theme includes a helper script that creates the file with this content in th
 
 ## Version / Modifications
 
-Changes in this fork:
+Changes in [this fork][this_adapta]:
 * Cinnamon - converted a [manual fix for cornerbar applets][cornerbar] in the spices theme to SCSS
 * Cinnamon - converted a [manual fix for the sound applet][sound_padding] in the spices theme to SCSS
 * Cinnamon - fix width of some text in sound applet
-* Cinnamon - support and fixes for versions 6.0, 6.2, 6.4
+* Cinnamon - support and fixes for style changes in version 6.4
 
 [cornerbar]: https://github.com/linuxmint/cinnamon-spices-themes/commit/1acded2135d31218834fb0d716d45d1866878629
 [sound_padding]: https://github.com/linuxmint/cinnamon-spices-themes/commit/e160215c3a7f5e4cec78b9eaa6d129cdba7e3968
