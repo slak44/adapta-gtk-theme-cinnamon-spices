@@ -64,7 +64,7 @@ echo \
 "// Selection (Primary) color
 \$key_selection_color: `echo $SELECTION`;
 
-// Accent (Seondary) color
+// Accent (Secondary) color
 \$key_accent_color: `echo $ACCENT`;
 
 // Suggestion color
