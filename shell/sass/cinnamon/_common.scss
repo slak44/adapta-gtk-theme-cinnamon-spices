@@ -1153,7 +1153,7 @@ $ws_thumb_spacing: 32px;
   .message-dialog-title {
     @include fontscaling($ref_size * 2.0);
     margin-top: 0.4em;
-    color: $secondary_fg_color;
+    color: $osd_secondary_fg_color;
     font-weight: 700;
     text-align: center;
   }
@@ -1205,11 +1205,23 @@ $ws_thumb_spacing: 32px;
       }
 
       &:destructive-action {
-        color: $inverted_secondary_accent_label_color;
-        @include button(normal, $c: shellopacity($error_color, 0.06), $tc: $inverted_secondary_accent_label_color);
-        &:focus { @include button(focus, $c: shellopacity($error_color, 0.06), $tc: $inverted_secondary_accent_label_color); }
-        &:hover { @include button(hover, $c: shellopacity($error_color, 0.6), $tc: $fg_color); }
-        &:active { @include button(active, $c: shellopacity($error_color, 0.6), $tc: $inverted_accent_label_color); }
+        @include button(osd-normal);
+        color: $osd_fg_color;
+        background-color: shellopacity($error_color, 0.06);
+
+        &:focus {
+          background-color: shellopacity($error_color, 0.6);
+        }
+
+        &:hover {
+          @include button(osd-hover, $tc: $osd_fg_color);
+          background-color: shellopacity($error_color, 0.6);
+        }
+
+        &:active {
+          @include button(osd-active, $tc: $inverted_accent_label_color);
+          background-color: shellopacity($error_color, 0.6);
+        }
       }
     }
 
