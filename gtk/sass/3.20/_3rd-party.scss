@@ -1903,7 +1903,7 @@ window.background.lightdm {
 //  ********/
 
 .nemo-desktop.nemo-canvas-item {
-  @extend .nautilus-desktop, .nautilus-canvas-item;
+  @extend %nautilus_canvas_item;
 }
 
 .nemo {
@@ -1923,7 +1923,7 @@ window.background.lightdm {
       }
     }
   }
-  
+
   .nemo-inactive-pane .view {
     background-color: $bg_color;
     color: $insensitive_fg_color;
@@ -3066,7 +3066,7 @@ PanelToplevel.mate-panel-menu-bar > grid.horizontal > button {
 }
 
 .caja-desktop { // desktop icon-grid styling
-  &.caja-canvas-item { @extend .nautilus-desktop, .nautilus-canvas-item; }
+  &.caja-canvas-item { @extend %nautilus_canvas_item; }
 
   > widget.entry { // = EelEditableLabel.entry
     &, &:focus {

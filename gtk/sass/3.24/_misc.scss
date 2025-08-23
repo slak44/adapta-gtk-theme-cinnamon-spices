@@ -466,7 +466,7 @@ dialog.background.csd > box.dialog-vbox.vertical {
   notebook > stack { background: transparent; }
 }
 
-.nautilus-desktop.nautilus-canvas-item {
+.nautilus-desktop.nautilus-canvas-item, %nautilus_canvas_item {
   color: $selected_fg_color;
   text-shadow: $z-depth-1-label; // non-sense for me
   &:selected { text-shadow: none; }
@@ -490,6 +490,11 @@ dialog.background.csd > box.dialog-vbox.vertical {
       }
     }
   }
+}
+
+%nautilus_canvas_item {
+  border-radius: 2px;
+  outline-width: 0;
 }
 
 .nautilus { // hide outlines
