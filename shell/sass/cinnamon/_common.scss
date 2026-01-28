@@ -1534,7 +1534,8 @@ $ws_thumb_spacing: 32px;
 //  * Menu (menu.js) *
 //  ******************/
 
-.menu {
+.menu, // cinnamon <6.6
+.appmenu { // cinnamon >=6.6
   // menu-background class allows the menu applet to be themed separately
   // from other applet menus
   &-background {
@@ -1543,13 +1544,58 @@ $ws_thumb_spacing: 32px;
   &-top-box {
     spacing: 10px;
   }
+
   &-systembuttons-box {
-     padding: 5px 0;
-     }
-    .menu-favorites-button {
-    padding: 5px;
-    &:hover { @include button(flat-hover); }
+    padding: 5px 0;
   }
+
+  .menu-favorites-button {
+    padding: 5px;
+
+    &:hover {
+      @include button(flat-hover);
+    }
+  }
+
+  // cinnamon >=6.6
+  &-system-box {
+    spacing: 10px;
+  }
+  &-system-button {
+    @extend %button;
+
+    border-width: 0;
+    color: $fg_color;
+    @include fontscaling($ref_size * 0.8);
+    $circle-size: #{(calc(round(calc($ref_size * 72 / 96)) * 0.25) + em)};
+    width: $circle-size;
+    height: $circle-size;
+    padding: 0;
+    border-radius: 999px;
+    text-align: center;
+
+    &:hover {
+      background-color: $semi_fill_color;
+      border-color: transparent;
+      box-shadow: $empty_shadow;
+      text-shadow: none;
+      icon-shadow: none;
+    }
+
+    &-shutdown {
+      background-color: shellopacity($error_color, 0.16);
+    }
+
+    &-shutdown:hover {
+      background-color: shellopacity($error_color, 0.6);
+    }
+
+    StIcon {
+      margin-left: 10px;
+    }
+  }
+
+  &-favs-box,
   &-favorites-box {
     padding: 7px;
     spacing: 20px;
@@ -1565,6 +1611,10 @@ $ws_thumb_spacing: 32px;
     .popup-menu-item { padding: 10px; }
   }
 
+  &-favs-box {
+    spacing: 0;
+  }
+
   &-favorites-button {
     padding: 10px;
     &:hover { @include button(flat-hover); }
@@ -1576,13 +1626,15 @@ $ws_thumb_spacing: 32px;
     &-button { padding: 10px; }
   }
 
-  &-categories-box {
+  &-categories-applications-box, // cinnamon >=6.6
+  &-categories-box { // cinnamon <6.6
     padding: 7px 7px 0 7px;
     border: 0 solid $borders_color;
     &:ltr { border-right-width: 1px; }
     &:rtl { border-left-width: 1px; }
   }
 
+  &-applications-box,
   &-applications-inner-box,
   &-applications-outer-box { padding: 7px 7px 0 7px; }
 
@@ -1595,6 +1647,7 @@ $ws_thumb_spacing: 32px;
     // for applications which were newly installed
     &:highlighted { font-weight: 700; }
 
+    &:selected,
     &-selected {
       @include button(flat-hover);
       padding: 0 7px;
@@ -1634,11 +1687,14 @@ $ws_thumb_spacing: 32px;
     }
   }
 
+  &-sidebar-button,
   &-category-button {
     padding: 0 7px;
     border: 1px solid transparent;
     color: $secondary_fg_color;
 
+    &:hover,
+    &:selected,
     &-hover,
     &-selected {
       padding: 0 7px;
@@ -1689,6 +1745,48 @@ $ws_thumb_spacing: 32px;
     &:ltr { padding-left: 30px; }
     &:rtl { padding-right: 30px; }
   }
+
+  &-search-entry-icon {
+    icon-size: $icon_size;
+    color: $fg_color;
+  }
+}
+
+.appmenu {
+  &-search-box {
+    spacing: 10px;
+  }
+
+  &-sidebar-user-box {
+    .user-icon {
+      margin-bottom: 5px;
+    }
+  }
+
+  &-application-button {
+    spacing: 10px;
+
+    &-selected {
+      spacing: 10px !important;
+
+      :last-child:last-child {
+        padding: 0;
+        margin: 0;
+      }
+    }
+
+    &-label {
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+
+    &-description {
+      @include fontscaling($ref_size * 0.8);
+      color: $tertiary_fg_color;
+      padding-left: 5px;
+      padding-bottom: 0.5em
+    }
+  }
 }
 
 #menu-search-entry {
@@ -1698,9 +1796,18 @@ $ws_thumb_spacing: 32px;
   font-weight: 500;
 }
 
-.menu-search-entry-icon {
-  icon-size: $icon_size;
-  color: $fg_color;
+#appmenu-search-entry {
+  @extend %entry;
+
+  width: 100%;
+  padding-right: 16px;
+  margin-right: 16px;
+
+  @include entry(normal);
+
+  &:hover {
+    @include entry(focus);
+  }
 }
 
 // Context menu - used by Cinnamenu for right click context menu
@@ -1708,6 +1815,12 @@ $ws_thumb_spacing: 32px;
   padding: 0.5em 1px;
 }
 
+.user-widget-label {
+  @include fontscaling($ref_size * 1.2);
+  color: $osd_fg_color;
+  font-weight: 700;
+  text-align: center;
+}
 
 // /*******
 //  * OSD *
